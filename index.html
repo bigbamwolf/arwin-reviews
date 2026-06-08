@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ARWIN REVIEWS · Film Reviews and Ratings</title>
+<meta name="description" content="Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. 1,348 films logged, 433 reviews, 125,957 words. Theatrical, festival, and opening week verdicts." />
+<link rel="canonical" href="https://arwinreviews.com/" />
+<meta name="author" content="Arwin Edward Bagaslao" />
+<meta name="theme-color" content="#0a0c0e" />
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="ARWIN REVIEWS" />
+<meta property="og:title" content="ARWIN REVIEWS · Film Reviews and Ratings" />
+<meta property="og:description" content="1,348 films, 433 reviews, 125,957 words. Philippine film critic Arwin Bagaslao on theatrical, festival, and opening week reactions." />
+<meta property="og:url" content="https://arwinreviews.com/" />
+<meta property="og:image" content="https://arwinreviews.com/img/avatar.jpg" />
+<meta property="og:image:alt" content="Arwin Edward Bagaslao, film critic and cinephile" />
+<meta property="og:locale" content="en_PH" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="ARWIN REVIEWS · Film Reviews and Ratings" />
+<meta name="twitter:description" content="1,348 films, 433 reviews. Philippine film ratings from opening week to festival highlights." />
+<meta name="twitter:image" content="https://arwinreviews.com/img/avatar.jpg" />
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Arwin Edward Bagaslao","jobTitle":["Chief Financial Officer","Film Critic"],"knowsAbout":["Film","Cinema","Film Criticism"],"email":"arwinbagaslao@gmail.com","nationality":"Filipino","url":"https://arwinreviews.com/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"ARWIN REVIEWS","url":"https://arwinreviews.com/","description":"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao.","inLanguage":"en","publisher":{"@type":"Person","name":"Arwin Edward Bagaslao"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://arwinreviews.com/#/films?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Blog","name":"ARWIN REVIEWS","url":"https://arwinreviews.com/#/reviews","description":"Film review archive and cinema commentary by Arwin Edward Bagaslao.","author":{"@type":"Person","name":"Arwin Edward Bagaslao"},"publisher":{"@type":"Person","name":"Arwin Edward Bagaslao"},"mainEntity":{"@type":"ItemList","name":"Film Reviews","numberOfItems":433}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=25" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#/">ARWIN<span>REVIEWS</span></a>
+  <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav-links" id="navLinks">
+    <a href="#/" data-route="home">Home</a>
+    <a href="#/reviews" data-route="reviews">Reviews</a>
+    <a href="#/films" data-route="films">Films</a>
+    <a href="#/predict" data-route="predict">Predict</a>
+    <a href="#/lists" data-route="lists">Lists</a>
+    <a class="nav-join-mobile" href="#/join" data-route="join">Join the Crew</a>
+  </nav>
+  <a class="btn btn-join nav-join" href="#/join" data-route="join">Join the Crew</a>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <img class="avatar" src="img/avatar.jpg" alt="Arwin Edward Bagaslao" />
+      <p class="kicker" id="heroKicker">A FILM DESK</p>
+      <h1 class="hero-name">ARWIN REVIEWS</h1>
+      <p class="hero-line" id="heroLine">CFO by day, cinephile by night.</p>
+      <p class="hero-sub" id="heroSub"></p>
+      <div class="stat-band" id="statBand"></div>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#/reviews">Read the reviews</a>
+        <a class="btn btn-join" href="#/join">Join the Crew</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMOTED SLOT (money 1) -->
+  <section class="wrap promo-wrap">
+    <a class="promo" id="promo" href="#promote"></a>
+  </section>
+
+  <!-- FAVORITES -->
+  <section class="section wrap" id="favorites">
+    <div class="section-head reveal">
+      <span class="eyebrow">The cornerstones</span>
+      <h2>Five Films That Made Me</h2>
+    </div>
+    <div class="fav-grid" id="favGrid"></div>
+  </section>
+
+  <!-- LATEST REVIEWS (home teaser) -->
+  <section class="section wrap" id="reviews">
+    <div class="section-head reveal">
+      <h2>Latest Reviews</h2>
+      <p class="lede" id="reviewsLede">The desk runs long. Click any card for the full verdict.</p>
+    </div>
+    <div class="feature-grid" id="featuredReviews"></div>
+    <div class="more-row"><a class="btn btn-ghost" id="allReviewsBtn" href="#/reviews">Open the full review archive</a></div>
+  </section>
+
+  <!-- REVIEWS LANDING (full archive, its own view) -->
+  <section class="section wrap" id="reviewsLanding">
+    <div class="section-head reveal">
+      <span class="eyebrow">The desk archive</span>
+      <h2>Every Review on the Desk</h2>
+      <p class="lede">All <span id="rlTotal">433</span> verdicts, searchable and sortable. Click any card for the full take.</p>
+    </div>
+    <div class="controls reveal">
+      <input type="search" id="rlSearch" placeholder="Search a title..." autocomplete="off" />
+      <div class="chips" id="rlChips"></div>
+      <select id="rlSort" aria-label="Sort reviews">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="high">Highest rated</option>
+        <option value="low">Lowest rated</option>
+        <option value="long">Longest read</option>
+      </select>
+    </div>
+    <p class="result-count" id="rlResult"></p>
+    <div class="rl-grid" id="rlGrid"></div>
+    <div class="more-row"><button class="btn btn-ghost" id="rlMore" hidden>Load more reviews</button></div>
+  </section>
+
+  <!-- PREDICTOR (member benefit, rebuilt in-house) -->
+  <section class="section wrap" id="predictor">
+    <div class="section-head center reveal">
+      <span class="eyebrow" id="predBadge">Member benefit</span>
+      <h2 id="predTitle">What Arwin Might Think</h2>
+      <p class="lede" id="predBlurb"></p>
+    </div>
+    <div class="predictor-frame reveal">
+      <iframe id="predIframe" title="What Arwin Might Think" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="section panel" id="numbers">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>The Numbers</h2>
+        <p class="lede">Every film logged, every star, counted from the full library.</p>
+      </div>
+      <div class="bigstats" id="bigStats"></div>
+      <div class="numbers-grid">
+        <div class="num-card reveal"><h3>How the stars fall</h3><div class="dist" id="distChart"></div></div>
+        <div class="num-card reveal"><h3>Which eras get watched</h3><div class="decades" id="decadeChart"></div></div>
+        <div class="num-card reveal"><h3>Genres on heavy rotation</h3><div class="genrebars" id="tagCloud"></div></div>
+      </div>
+      <div class="auteur-strip reveal" id="auteurStrip"></div>
+    </div>
+  </section>
+
+  <!-- THE VAULT (all films) -->
+  <section class="section wrap" id="vault">
+    <div class="section-head reveal">
+      <h2>All <span id="vaultCount">1,343</span> Films</h2>
+      <p class="lede">The complete library. Search it, sort it.</p>
+    </div>
+    <div class="controls reveal">
+      <input type="search" id="vaultSearch" placeholder="Search a title..." autocomplete="off" />
+      <div class="chips" id="vaultChips"></div>
+      <select id="vaultSort" aria-label="Sort films">
+        <option value="rating">Highest rated</option>
+        <option value="ratingLow">Lowest rated</option>
+        <option value="yearNew">Newest film</option>
+        <option value="yearOld">Oldest film</option>
+        <option value="az">A to Z</option>
+      </select>
+    </div>
+    <p class="result-count" id="vaultResult"></p>
+    <div class="vault-list" id="vaultList"></div>
+    <div class="more-row"><button class="btn btn-ghost" id="vaultMore" hidden>Load more</button></div>
+  </section>
+
+  <!-- LISTS -->
+  <section class="section panel" id="lists">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">The ranked files</span>
+        <h2><span id="listsCount">139</span> Lists, Filed by Obsession</h2>
+        <p class="lede">Directors, cinematographers, decades, studios, genres, and moods. Click a list to see the order.</p>
+      </div>
+      <div class="cat-tabs" id="catTabs"></div>
+      <div class="list-grid" id="listGrid"></div>
+      <div class="more-row"><button class="btn btn-ghost" id="listsMore" hidden>See all the lists</button></div>
+    </div>
+  </section>
+
+  <!-- THIS WEEK'S WATCHLIST (member perk) -->
+  <section class="section wrap" id="weekwatch">
+    <div class="weekwatch reveal" id="weekWatch"></div>
+  </section>
+
+  <!-- JOIN THE CREW (membership) -->
+  <section class="section panel" id="join">
+    <div class="wrap">
+      <div class="section-head reveal center">
+        <span class="eyebrow">Membership</span>
+        <h2>Join the Crew</h2>
+        <p class="lede" id="joinLede">Back the desk. Get the watchlist first, the archive early, and a vote on what gets reviewed next.</p>
+      </div>
+      <div class="tier-grid" id="tierGrid"></div>
+      <p class="tier-note" id="tierNote"></p>
+    </div>
+  </section>
+
+  <!-- MERCH -->
+  <section class="section wrap" id="merch">
+    <div class="section-head reveal">
+      <span class="eyebrow">The shop</span>
+      <h2>Wear the Reviews</h2>
+      <p class="lede" id="merchLede"></p>
+    </div>
+    <div class="merch-grid" id="merchGrid"></div>
+  </section>
+
+  <!-- PARTNER (work with the desk) -->
+  <section class="section wrap" id="partner">
+    <div class="section-head reveal">
+      <h2 id="partnerHeading">Work with me</h2>
+      <p class="lede" id="partnerSub"></p>
+    </div>
+    <div class="partner-grid" id="partnerGrid"></div>
+    <div class="yir reveal" id="yirCard"></div>
+  </section>
+
+  <!-- SUPPORT / NEWSLETTER / REQUEST -->
+  <section class="section panel" id="support">
+    <div class="wrap support-grid">
+      <div class="support-card reveal" id="newsletterCard">
+        <span class="eyebrow">The dispatch</span>
+        <h3>Get the weekly dispatch</h3>
+        <p>New reviews, the week's watchlist, and one buried gem. No spam, just film.</p>
+        <form class="nl-form" id="nlForm">
+          <input type="email" id="nlEmail" placeholder="you@email.com" required />
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+        <p class="nl-ok" id="nlOk" hidden>You are on the list. Talk soon.</p>
+      </div>
+      <div class="support-card reveal" id="tipCard">
+        <span class="eyebrow">Tip jar</span>
+        <h3>Buy me a ticket</h3>
+        <p>One review is on the house. If it saved you two hours or sold you a seat, drop a ticket via GCash.</p>
+        <button class="btn btn-ghost" id="tipBtn" type="button">Send via GCash</button>
+        <div class="gcash-box" id="gcashBox" hidden></div>
+      </div>
+      <div class="support-card reveal" id="requestCard">
+        <span class="eyebrow" id="rrTag">Skip the queue</span>
+        <h3 id="rrTitle">Request a Review</h3>
+        <p id="rrBody">Want my take on a specific film fast? Jump the queue. Crew members get free votes on what gets reviewed next.</p>
+        <a class="btn btn-ghost" id="rrBtn" href="#join">Request a film</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p class="foot-brand">ARWIN<span>REVIEWS</span></p>
+  <p class="foot-line" id="footLine"></p>
+  <div class="foot-links">
+    <a href="#/reviews">Reviews</a>
+    <a href="#/predict">What Arwin Might Think</a>
+    <a href="#/lists">Lists</a>
+    <a href="#/join">Join the Crew</a>
+  </div>
+</footer>
+
+<!-- FILM / REVIEW MODAL -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="Close">&times;</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- LIST MODAL -->
+<div class="modal" id="listModal" hidden>
+  <div class="modal-backdrop" data-close-list></div>
+  <div class="modal-card modal-list" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close-list aria-label="Close">&times;</button>
+    <div class="modal-body" id="listModalBody"></div>
+  </div>
+</div>
+
+<!-- ALL REVIEWS DRAWER -->
+<div class="modal" id="archiveModal" hidden>
+  <div class="modal-backdrop" data-close-archive></div>
+  <div class="modal-card modal-archive" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close-archive aria-label="Close">&times;</button>
+    <div class="archive-head">
+      <h3>The Review Archive</h3>
+      <input type="search" id="archiveSearch" placeholder="Search 413 reviews..." autocomplete="off" />
+    </div>
+    <div class="archive-list" id="archiveList"></div>
+  </div>
+</div>
+
+<script src="site_config.js?v=25"></script>
+<script src="data.js?v=202606081106"></script>
+<script src="reviews.js?v=202606081106"></script>
+<script src="app.js?v=25"></script>
+</body>
+</html>

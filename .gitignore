@@ -1,0 +1,21 @@
+# dev tooling and build scratch, never served to the public site
+*.py
+*.bak
+*.prebuild_bak
+*.preaudit
+*.jsonl
+*.out
+*.tsv
+*.log
+_*.json
+omdb_cache.json
+posters_map.json
+posters_map.json.preaudit
+covers_map.json
+posters_needed.json
+posters_needed*.json
+rescue_report.json
+audit_report.json
+verify_results.json
+.github/
+.DS_Store

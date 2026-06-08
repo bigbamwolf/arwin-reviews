@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arwinreviews.com/sitemap.xml
