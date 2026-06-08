@@ -24,8 +24,7 @@ window.LBC = {
   /* MONEY 3 — membership. The Crew. Prices are placeholders. */
   membership: {
     note: "Cancel anytime. Founding members keep their rate for life.",
-    // TODO Boss: replace YOURNAME with your Buy Me a Coffee handle once you create it.
-    checkout: "https://buymeacoffee.com/YOURNAME/membership",
+    checkout: "https://buymeacoffee.com/arwinbagaslao",
     tiers: [
       { name: "Fan", price: "Free", period: "", highlight: false,
         perks: ["Every public review", "Browse all 139 lists", "Watchlist preview",
