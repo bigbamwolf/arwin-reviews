@@ -23,8 +23,8 @@ window.LBC = {
 
   /* MONEY 3 — membership. The Crew. Prices are placeholders. */
   membership: {
-    note: "Cancel anytime. Founding members keep their rate for life.",
-    checkout: "https://buymeacoffee.com/arwinbagaslao",
+    note: "Support runs on GCash for now. Pick a tier and send it through the GCash details below. Overseas PayPal is coming.",
+    checkout: "#support",
     tiers: [
       { name: "Fan", price: "Free", period: "", highlight: false,
         perks: ["Every public review", "Browse all 139 lists", "Watchlist preview",

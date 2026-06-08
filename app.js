@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=25";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=26";
   })();
 
   /* NUMBERS */
@@ -346,6 +346,16 @@
         '<div class="t-period">'+per+'</div><ul class="t-perks">'+perks+'</ul>'+
         '<a class="btn '+(t.highlight?"btn-join":"btn-ghost")+'" href="'+href+'"'+blank+'>'+esc(t.cta)+'</a>';
       $("#tierGrid").appendChild(d);
+      if (href === "#support") {
+        var cbtn = $(".btn", d);
+        if (cbtn) cbtn.addEventListener("click", function(e){
+          e.preventDefault();
+          var card = document.querySelector("#tipCard") || document.querySelector("#support");
+          if (card) card.scrollIntoView({ behavior:"smooth", block:"center" });
+          var box = $("#gcashBox"), tip = $("#tipBtn");
+          if (box && box.hidden && tip) tip.click();
+        });
+      }
     });
     $("#tierNote").textContent = m.note||"";
   })();
