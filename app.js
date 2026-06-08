@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=26";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=27";
   })();
 
   /* NUMBERS */
@@ -424,6 +424,7 @@
         (s.gcash.qr ? '<img class="gc-qr" src="'+s.gcash.qr+'" alt="GCash QR" />' : '<div class="gc-note">Scan or send to the number above, any amount, thank you.</div>');
       $("#tipBtn").addEventListener("click", function(){ box.hidden = !box.hidden; $("#tipBtn").textContent = box.hidden ? (s.tipLabel||"Send via GCash") : "Hide"; });
     }
+    if (s.paypal) { var pb = $("#paypalBtn"); if (pb) { pb.href = s.paypal; pb.hidden = false; } }
     $("#nlForm").addEventListener("submit", function (e) { e.preventDefault(); $("#nlForm").style.display="none"; $("#nlOk").hidden=false; });
   })();
 

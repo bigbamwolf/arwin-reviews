@@ -126,6 +126,7 @@ window.LBC = {
   support: {
     tipLabel: "Send a tip via GCash",
     gcash: { name: "Arwin Edward M. Bagaslao", number: "09356708680", qr: "img/gcash-qr.png" },
+    paypal: "https://paypal.me/arwinbagaslao",
     newsletterAction: "#newsletter", // TODO: mailing list endpoint
     sponsorEmail: "arwinbagaslao@gmail.com"
   }
