@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=27";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=28";
   })();
 
   /* NUMBERS */
@@ -547,6 +547,7 @@
       if (LBC.merch && LBC.merch.archived){ var m=document.querySelector("#merch"); if(m) m.style.display="none"; }
       $$(".nav-links a").forEach(function(a){ a.classList.toggle("active", a.getAttribute("data-route")===view); });
       updateSEO(view);
+      if (window.gtag) gtag("event", "page_view", { page_path: location.hash || "#/", page_title: document.title });
       nav.classList.remove("open"); document.body.classList.remove("nav-open");
       var bg=$("#navBurger"); if(bg) bg.setAttribute("aria-expanded","false");
       window.scrollTo(0,0);
