@@ -23,7 +23,7 @@ window.LBC = {
 
   /* MONEY 3 — membership. The Crew. Prices are placeholders. */
   membership: {
-    note: "Support runs on GCash for now. Pick a tier and send it through the GCash details below. Overseas PayPal is coming.",
+    note: "Pick a tier and pay through one secure checkout. GCash, Maya, GrabPay, Visa or Mastercard, all handled by Xendit. Your unique VIP code lands in your email the moment it clears.",
     checkout: "#support",
     tiers: [
       { name: "Fan", price: "Free", period: "", highlight: false,
@@ -39,6 +39,7 @@ window.LBC = {
                 "Annual Year in Review card, yours first",
                 "Full review archive, early access before public",
                 "Vote on the next review and the next ranking",
+                "Your Year on the Desk, personalized to your activity, yours first every December",
                 "Ad free reading", "10 percent off all merch"],
         cta: "Join the Crew", url: "#join" },
       { name: "Producer", price: "499", period: "per month", highlight: false,
@@ -101,9 +102,9 @@ window.LBC = {
     price: "299", cta: "Request a film", url: "#join"
   },
   yearInReview: {
-    tag: "Every December", title: "Your Year in Review",
-    body: "A shareable, personalized card of your film year, your stars, your standouts. Crew members get theirs first.",
-    cta: "Members get it first", url: "#join"
+    tag: "The personal one", title: "Your Year on the Desk",
+    body: "Not just my year on Letterboxd. Yours. Every film you predicted, every Find Your Next Watch pick you took, every tip you sent, every review you requested. A shareable card of how you spent your film year with me. Members get the first build, every December.",
+    cta: "Members get it first", url: "#join", highlight: true
   },
 
   /* MONEY 4 — merch. Slogans pulled from Boss's own bio and list titles.
@@ -136,6 +137,8 @@ window.LBC = {
   /* MONEY 5, 6, 7 — support, newsletter, ad sales. */
   support: {
     tipLabel: "Send a tip via GCash",
+    xenditLabel: "Send a tip via Xendit",
+    xenditTipUrl: "#tip-xendit",
     gcash: { name: "Arwin Edward M. Bagaslao", number: "09356708680", qr: "img/gcash-qr.png" },
     paypal: "https://paypal.me/arwinbagaslao",
     newsletterAction: "#newsletter", // TODO: mailing list endpoint

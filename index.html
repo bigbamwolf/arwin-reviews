@@ -54,7 +54,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=39" />
+<link rel="stylesheet" href="styles.css?v=40" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -275,10 +275,22 @@
       <div class="support-card reveal" id="tipCard">
         <span class="eyebrow">Tip jar</span>
         <h3>Buy me a ticket</h3>
-        <p>One review is on the house. If it saved you two hours or sold you a seat, drop a ticket via GCash, or PayPal if you are overseas.</p>
-        <button class="btn btn-ghost" id="tipBtn" type="button">Send via GCash</button>
-        <a class="btn btn-ghost" id="paypalBtn" href="#" target="_blank" rel="noopener" style="margin-left:8px" hidden>Send via PayPal</a>
+        <p>One review is on the house. If it saved you two hours or sold you a seat, drop a ticket. Any amount through Xendit covers GCash, Maya, GrabPay, and cards. GCash direct and PayPal still work too.</p>
+        <div class="tip-buttons">
+          <button class="btn btn-primary" id="xenditTipBtn" type="button">Send via Xendit</button>
+          <button class="btn btn-ghost" id="tipBtn" type="button">Send via GCash</button>
+          <a class="btn btn-ghost" id="paypalBtn" href="#" target="_blank" rel="noopener" hidden>Send via PayPal</a>
+        </div>
         <div class="gcash-box" id="gcashBox" hidden></div>
+        <div class="xendit-tip-box" id="xenditTipBox" hidden>
+          <label for="xenditTipAmt">Amount in PHP</label>
+          <div class="xendit-row">
+            <input type="number" id="xenditTipAmt" placeholder="100" min="50" max="50000" />
+            <input type="email" id="xenditTipEmail" placeholder="your@email.com" />
+            <button class="btn btn-primary" id="xenditTipGo" type="button">Pay</button>
+          </div>
+          <div class="xendit-msg" id="xenditTipMsg"></div>
+        </div>
       </div>
       <div class="support-card reveal" id="requestCard">
         <span class="eyebrow" id="rrTag">Skip the queue</span>
@@ -333,9 +345,9 @@
   </div>
 </div>
 
-<script src="site_config.js?v=39"></script>
+<script src="site_config.js?v=40"></script>
 <script src="data.js?v=202606120227"></script>
 <script src="reviews.js?v=202606120227"></script>
-<script src="app.js?v=39"></script>
+<script src="app.js?v=40"></script>
 </body>
 </html>

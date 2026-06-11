@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=38";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=40";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +189,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=38";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=40";
   })();
 
   /* Auto height iframe matching: children postMessage their scrollHeight, parent resizes
@@ -377,7 +377,10 @@
     var m = LBC.membership; if (!m) return;
     m.tiers.forEach(function (t) {
       var price = (/^\d/.test(t.price)) ? '<span class="cur">&#8369;</span>'+t.price : t.price;
-      var perks = t.perks.map(function(p){ return '<li>'+esc(p)+'</li>'; }).join("");
+      var perks = t.perks.map(function(p){
+        var hl = /Year on the Desk|personalized to your activity/i.test(p);
+        return '<li'+(hl?' class="perk-hl"':'')+'>'+esc(p)+(hl?' <span class="perk-new">NEW</span>':'')+'</li>';
+      }).join("");
       var per = t.period ? esc(t.period) : "&nbsp;";
       var href = (/^\d/.test(t.price) && m.checkout) ? m.checkout : (t.url || "#");
       var blank = href.indexOf("http") === 0 ? ' target="_blank" rel="noopener"' : "";
@@ -465,6 +468,29 @@
       $("#tipBtn").addEventListener("click", function(){ box.hidden = !box.hidden; $("#tipBtn").textContent = box.hidden ? (s.tipLabel||"Send via GCash") : "Hide"; });
     }
     if (s.paypal) { var pb = $("#paypalBtn"); if (pb) { pb.href = s.paypal; pb.hidden = false; } }
+    var xBtn = $("#xenditTipBtn"), xBox = $("#xenditTipBox"), xGo = $("#xenditTipGo"), xMsg = $("#xenditTipMsg");
+    if (xBtn && xBox) {
+      xBtn.addEventListener("click", function(){
+        xBox.hidden = !xBox.hidden;
+        xBtn.textContent = xBox.hidden ? (s.xenditLabel || "Send via Xendit") : "Hide";
+      });
+    }
+    if (xGo) {
+      xGo.addEventListener("click", function(){
+        var api = (window.ARWIN_PAYMENTS_API || "").trim();
+        if (!api) { xMsg.style.color = "var(--muted)"; xMsg.textContent = "Xendit checkout coming online with Phase 2 deploy. GCash + PayPal work now."; return; }
+        var amt = parseInt(($("#xenditTipAmt").value||"0"),10);
+        var email = ($("#xenditTipEmail").value||"").trim();
+        if (!amt || amt < 50) { xMsg.style.color = "var(--red)"; xMsg.textContent = "Amount must be at least P50."; return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { xMsg.style.color = "var(--red)"; xMsg.textContent = "Email needed for the receipt."; return; }
+        xMsg.style.color = "var(--muted)"; xMsg.textContent = "Opening checkout...";
+        xGo.disabled = true;
+        fetch(api, { method: "POST", body: JSON.stringify({route:"create_tip_invoice", amount: amt, email: email}), headers: {"Content-Type":"text/plain"} })
+          .then(function(r){return r.json()})
+          .then(function(r){ if (r.ok && r.invoice_url) window.location.href = r.invoice_url; else { xMsg.style.color = "var(--red)"; xMsg.textContent = r.error || "Could not start checkout."; xGo.disabled = false; } })
+          .catch(function(){ xMsg.style.color = "var(--red)"; xMsg.textContent = "Connection failed."; xGo.disabled = false; });
+      });
+    }
     $("#nlForm").addEventListener("submit", function (e) { e.preventDefault(); $("#nlForm").style.display="none"; $("#nlOk").hidden=false; });
   })();
 
