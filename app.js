@@ -99,7 +99,7 @@
                     : '<div class="feature-mini">'+esc(r.name)+'</div>';
   }
   $("#reviewsLede").textContent = LB.stats.reviews + " reviews on the desk. The latest cut below, the full archive one click away.";
-  LBR.filter(function(r){return r.words>50;}).slice(0,6).forEach(function (r) {
+  LBR.slice().sort(function(a,b){return (b.watched||"").localeCompare(a.watched||"") || (b.year||0)-(a.year||0);}).slice(0,6).forEach(function (r) {
     var ex = strip(r.review); if (ex.length>180) ex = ex.slice(0,180).replace(/\s+\S*$/,"")+"…";
     var c = document.createElement("div"); c.className = "feature reveal";
     c.innerHTML = '<div class="feature-top">'+miniPoster(r)+'<div class="feature-meta">'+
@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=28";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=29";
   })();
 
   /* NUMBERS */
