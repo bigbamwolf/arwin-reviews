@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=40";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=41";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +189,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=40";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=41";
   })();
 
   /* Auto height iframe matching: children postMessage their scrollHeight, parent resizes
@@ -445,9 +445,63 @@
       });
     }
     var y = LBC.yearInReview;
-    if (y) $("#yirCard").innerHTML = '<div class="yir-l"><span class="yir-tag">'+esc(y.tag)+'</span><h3>'+esc(y.title)+'</h3><p>'+esc(y.body)+'</p></div>'+
-      '<a class="btn btn-join" href="'+(y.url||"#join")+'">'+esc(y.cta)+'</a>';
+    if (y) {
+      $("#yirCard").innerHTML = '<div class="yir-l"><span class="yir-tag">'+esc(y.tag)+'</span><h3>'+esc(y.title)+'</h3><p>'+esc(y.body)+'</p></div>'+
+        '<button class="btn btn-join" id="yirPreviewBtn" type="button">See a sample</button>';
+      var yirBtn = $("#yirPreviewBtn");
+      if (yirBtn) yirBtn.addEventListener("click", openYirSample);
+    }
   })();
+
+  /* YIR Sample modal, opens a preview card so visitors see the product before joining */
+  function openYirSample() {
+    var modal = document.getElementById("yirSampleModal");
+    if (modal) { modal.hidden = false; document.body.style.overflow = "hidden"; return; }
+    modal = document.createElement("div");
+    modal.id = "yirSampleModal";
+    modal.className = "yir-modal";
+    var samp = {
+      year: 2026,
+      predictions: 47,
+      pick_landed: 18,
+      tips_sent: 3,
+      reviews_requested: 1,
+      best_match: "Past Lives, 4 stars",
+      mood: "Burned out -> Comforted",
+      fave_decade: "2010s",
+      streak: "9 picks in a row this November",
+      top_director_explored: "Bong Joon-ho"
+    };
+    modal.innerHTML =
+      '<div class="yir-modal-bg" data-close></div>' +
+      '<div class="yir-modal-card">' +
+        '<button class="yir-close" data-close aria-label="Close">&times;</button>' +
+        '<div class="yir-eyebrow">Sample, illustrative only</div>' +
+        '<div class="yir-title">Your Year on the Desk, '+samp.year+'</div>' +
+        '<div class="yir-grid">' +
+          yirStat(samp.predictions, "Predicts you ran") +
+          yirStat(samp.pick_landed, "FYNW picks you watched") +
+          yirStat(samp.tips_sent, "Tickets you sent") +
+          yirStat(samp.reviews_requested, "Reviews you commissioned") +
+        '</div>' +
+        '<div class="yir-line"><span class="yir-k">Best match</span><span class="yir-v">'+samp.best_match+'</span></div>' +
+        '<div class="yir-line"><span class="yir-k">Mood you arrived in most</span><span class="yir-v">'+samp.mood+'</span></div>' +
+        '<div class="yir-line"><span class="yir-k">Decade you leaned on</span><span class="yir-v">'+samp.fave_decade+'</span></div>' +
+        '<div class="yir-line"><span class="yir-k">Streak</span><span class="yir-v">'+samp.streak+'</span></div>' +
+        '<div class="yir-line"><span class="yir-k">Director you explored most</span><span class="yir-v">'+samp.top_director_explored+'</span></div>' +
+        '<div class="yir-note">These numbers are illustrative. The real card uses YOUR activity, tracked from the moment you take the VIP pass. Sent every December as a shareable image.</div>' +
+        '<a class="btn btn-join yir-cta" href="#/join">Take the VIP pass</a>' +
+      '</div>';
+    document.body.appendChild(modal);
+    document.body.style.overflow = "hidden";
+    modal.querySelectorAll("[data-close]").forEach(function(el){ el.addEventListener("click", closeYirSample); });
+    document.addEventListener("keydown", function esc(e){ if (e.key === "Escape") { closeYirSample(); document.removeEventListener("keydown", esc); }});
+  }
+  function yirStat(v, l){ return '<div class="yir-stat"><div class="yir-v">'+v+'</div><div class="yir-l">'+l+'</div></div>'; }
+  function closeYirSample() {
+    var modal = document.getElementById("yirSampleModal");
+    if (modal) { modal.hidden = true; document.body.style.overflow = ""; }
+  }
 
   /* REQUEST A REVIEW + SUPPORT */
   (function () {
