@@ -76,6 +76,23 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
 </head>
 <body>
 <div class="pred">
+  <div class="pred-quota" id="predQuotaBar" style="display:flex;justify-content:space-between;align-items:center;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;padding:10px 16px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.02)">
+    <span id="predQuotaText">Loading...</span>
+    <span id="predQuotaTag"></span>
+  </div>
+  <div class="pred-gate" id="predGate" style="display:none;padding:24px;border:1px solid var(--line);border-radius:14px;background:rgba(231,181,74,.05);text-align:center;margin-bottom:22px">
+    <h3 style="font-family:var(--serif);font-size:1.5rem;color:var(--gold);margin-bottom:8px">Tonight's predictions are spent</h3>
+    <p style="color:var(--muted);margin-bottom:14px;font-size:.92rem">Free tier gives you 3 predictions a day. The Crew gets unlimited.</p>
+    <a class="pred-join" href="../#/join" target="_top" style="display:inline-block;padding:11px 22px;border-radius:24px;background:var(--green);color:#06140a;font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none">Join the Crew, P199</a>
+    <div style="margin-top:14px">
+      <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Already a member? Paste your Crew code</div>
+      <div style="display:flex;gap:8px;justify-content:center;max-width:360px;margin:0 auto;flex-wrap:wrap">
+        <input type="text" id="predCrewInput" placeholder="Crew code" autocomplete="off" style="flex:1;min-width:160px;background:#0c1014;border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:24px;font-size:.85rem;outline:none;font-family:var(--sans)" />
+        <button id="predUnlockBtn" style="padding:10px 18px;border:0;border-radius:24px;background:var(--gold);color:#1a1306;font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer">Unlock</button>
+      </div>
+      <div id="predUnlockMsg" style="margin-top:8px;font-size:.78rem;color:var(--red);min-height:18px"></div>
+    </div>
+  </div>
   <div class="pred-search">
     <input id="movieTitle" type="text" placeholder="Type any film, like Oppenheimer or Past Lives 2023" autocomplete="off" />
     <button id="checkBtn" type="button">Predict</button>
@@ -206,7 +223,41 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
     }
   }
 
+  /* ============ free-tier gate ============ */
+  const PRED_FREE_LIMIT = 3;
+  const PRED_CREW_CODES = ["CREW2026","ARWIN","INSIDER"];
+  function predToday(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+  function predIsCrew(){return localStorage.getItem("pred_crew")==="1"}
+  function predGetUses(){return parseInt(localStorage.getItem("pred_uses_"+predToday())||"0",10)||0}
+  function predBump(){var n=predGetUses()+1;localStorage.setItem("pred_uses_"+predToday(),String(n));return n}
+  function predUpdateQuota(){
+    var q=document.getElementById("predQuotaText"),t=document.getElementById("predQuotaTag");
+    if(!q) return;
+    if(predIsCrew()){q.textContent="The Crew · unlimited predictions";t.innerHTML='<span style="color:var(--gold);font-weight:700">★ CREW MEMBER</span>'}
+    else{var u=predGetUses();q.textContent="Tonight: "+Math.min(u,PRED_FREE_LIMIT)+" of "+PRED_FREE_LIMIT+" predictions used";t.textContent=u>=PRED_FREE_LIMIT?"Free tier exhausted":"Free tier"}
+  }
+  function predBlocked(){return !predIsCrew() && predGetUses()>=PRED_FREE_LIMIT}
+  document.getElementById("predUnlockBtn").addEventListener("click",function(){
+    var code=(document.getElementById("predCrewInput").value||"").trim().toUpperCase();
+    var msg=document.getElementById("predUnlockMsg");
+    if(PRED_CREW_CODES.indexOf(code)>=0){
+      localStorage.setItem("pred_crew","1");
+      msg.style.color="var(--green)"; msg.textContent="Unlocked. Welcome to The Crew.";
+      predUpdateQuota();
+      setTimeout(function(){document.getElementById("predGate").style.display="none"},700);
+    } else {
+      msg.style.color="var(--red)"; msg.textContent="That code did not match. Check your welcome email or join below.";
+    }
+  });
+  predUpdateQuota();
+  if(predBlocked()){document.getElementById("predGate").style.display="block"}
+
   async function analyzeMovie(){
+    if(predBlocked()){
+      document.getElementById("predGate").style.display="block";
+      document.getElementById("predGate").scrollIntoView({behavior:"smooth",block:"center"});
+      return;
+    }
     const raw = input.value.trim();
     if(!raw){ resEl.innerHTML='<div class="pred-msg">Type a film first.</div>'; return; }
     // optional trailing year
@@ -235,6 +286,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
     // 1. locked override
     if(ov){
       render(film, ov.rating, 100, {html:'<b>Locked verdict</b> &middot; Arwin has a fixed take on this one'}, ov.reason, null);
+      predBump(); predUpdateQuota();
       return;
     }
     // 2. exact archive (his real rating)
@@ -245,6 +297,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
       render(film, arch.rating, 100,
         {archive:true, html:'<b>From Arwin’s archive</b> &middot; this is his actual rating'},
         null, nearby, nearby?("More "+dirA.name):null);
+      predBump(); predUpdateQuota();
       return;
     }
     // 3. predict
@@ -268,6 +321,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
       nearby = nearbyArchive(snapped); nbHead = "Arwin films he rated "+snapped;
     }
     render(film, pred, conf, prov, why, nearby, nbHead);
+    predBump(); predUpdateQuota();
   }
 
   btn.addEventListener("click", analyzeMovie);

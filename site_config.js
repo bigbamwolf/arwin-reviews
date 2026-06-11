@@ -29,13 +29,13 @@ window.LBC = {
       { name: "Fan", price: "Free", period: "", highlight: false,
         perks: ["Every public review", "Browse all 158 lists", "Watchlist preview",
                 "Try the predictor, 3 films a day",
-                "Movie Mode, 3 picks a day"],
+                "Find Your Next Watch, 3 picks a day"],
         cta: "Start reading", url: "#reviews" },
       { name: "The Crew", price: "199", period: "per month", highlight: true,
         perks: ["This week's watchlist, what I review next",
                 "VIP group chat, talk to me directly",
                 "What Arwin Might Think, unlimited predictions",
-                "Movie Mode, unlimited picks plus Past You review snippets",
+                "Find Your Next Watch, unlimited picks plus Past You review snippets",
                 "Annual Year in Review card, yours first",
                 "Full review archive, early access before public",
                 "Vote on the next review and the next ranking",
@@ -67,13 +67,13 @@ window.LBC = {
     cta: "Open the predictor"
   },
 
-  /* MEMBER BENEFIT — Movie Mode AI, mood to film matcher from the 1,351 archive. */
+  /* MEMBER BENEFIT — Find Your Next Watch, mood to film matcher from the 1,351 archive. */
   moviemode: {
-    title: "Movie Mode",
+    title: "Find Your Next Watch",
     badge: "Member benefit",
     blurb: "Tell me how you feel and how you want to land. I match you to a film from the desk, with a reason, and pull what past you wrote about it when you watched. Free members get three picks a day. The Crew gets unlimited and a deeper rationale.",
     file: "moviemode.html",
-    cta: "Open Movie Mode"
+    cta: "Open Find Your Next Watch"
   },
 
   /* MONEY — work with the desk (sponsored reviews, gear testing, cinema/brand partners) */
