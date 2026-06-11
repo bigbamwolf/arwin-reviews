@@ -326,6 +326,18 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
 
   btn.addEventListener("click", analyzeMovie);
   input.addEventListener("keydown", e=>{ if(e.key==="Enter") analyzeMovie(); });
+
+  /* tell parent how tall I really am so the iframe matches content (no inner scrollbar) */
+  function reportPredSize(){
+    try{ parent.postMessage({frame:"pred", h: document.documentElement.scrollHeight}, "*"); }catch(e){}
+  }
+  if(typeof ResizeObserver !== "undefined"){
+    new ResizeObserver(reportPredSize).observe(document.body);
+  } else {
+    window.addEventListener("resize", reportPredSize);
+    setInterval(reportPredSize, 800);
+  }
+  setTimeout(reportPredSize, 50);
 </script>
 </body>
 </html>

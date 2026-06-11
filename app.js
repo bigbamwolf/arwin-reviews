@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=36";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=37";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,8 +189,19 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=36";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=37";
   })();
+
+  /* Auto height iframe matching: children postMessage their scrollHeight, parent resizes
+     so the embedded section reads as part of the page, no inner scrollbar */
+  window.addEventListener("message", function (e) {
+    if (!e.data || typeof e.data.h !== "number") return;
+    var id = e.data.frame === "mm" ? "mmIframe" : (e.data.frame === "pred" ? "predIframe" : null);
+    if (!id) return;
+    var f = document.getElementById(id); if (!f) return;
+    var h = Math.max(240, e.data.h + 8);
+    if (f.style.height !== h + "px") f.style.height = h + "px";
+  });
 
   /* NUMBERS */
   [
