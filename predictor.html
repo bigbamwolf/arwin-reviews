@@ -225,7 +225,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
 
   /* ============ free-tier gate ============ */
   const PRED_FREE_LIMIT = 3;
-  const PRED_CREW_CODES = ["CREW2026","ARWIN","INSIDER"];
+  const ARWIN_PAYMENTS_API = "https://script.google.com/macros/s/AKfycbzvfiPw3pIlPAbVY9syj8Lt3Bi2vbM-G8WIGCWxt9u9Z_MG8yGcy8He1I_sQCb-kw-dzg/exec";
   function predToday(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
   function predIsCrew(){return localStorage.getItem("pred_crew")==="1"}
   function predGetUses(){return parseInt(localStorage.getItem("pred_uses_"+predToday())||"0",10)||0}
@@ -240,14 +240,24 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
   document.getElementById("predUnlockBtn").addEventListener("click",function(){
     var code=(document.getElementById("predCrewInput").value||"").trim().toUpperCase();
     var msg=document.getElementById("predUnlockMsg");
-    if(PRED_CREW_CODES.indexOf(code)>=0){
-      localStorage.setItem("pred_crew","1");
-      msg.style.color="var(--green)"; msg.textContent="Unlocked. Welcome to The Crew.";
-      predUpdateQuota();
-      setTimeout(function(){document.getElementById("predGate").style.display="none"},700);
-    } else {
-      msg.style.color="var(--red)"; msg.textContent="That code did not match. Check your welcome email or join below.";
-    }
+    if(!code){return}
+    msg.style.color="var(--muted)"; msg.textContent="Checking...";
+    fetch(ARWIN_PAYMENTS_API, {
+      method: "POST",
+      body: JSON.stringify({route:"validate_code", code: code}),
+      headers: {"Content-Type":"text/plain"}
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.ok){
+        localStorage.setItem("pred_crew","1");
+        msg.style.color="var(--green)"; msg.textContent="Unlocked. Welcome to The Crew.";
+        predUpdateQuota();
+        setTimeout(function(){document.getElementById("predGate").style.display="none"},700);
+      } else {
+        msg.style.color="var(--red)"; msg.textContent=r.error||"That code did not match. Check your welcome email or join below.";
+      }
+    }).catch(function(){
+      msg.style.color="var(--red)"; msg.textContent="Connection failed. Try again.";
+    });
   });
   predUpdateQuota();
   // Paywall stays hidden on entry. It only fires when the visitor tries a 4th prediction.

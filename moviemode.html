@@ -117,7 +117,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
 
   /* ============ daily quota + crew gate ============ */
   var FREE_LIMIT = 3;
-  var CREW_CODES = ["CREW2026","ARWIN","INSIDER"];
+  var ARWIN_PAYMENTS_API = "https://script.google.com/macros/s/AKfycbzvfiPw3pIlPAbVY9syj8Lt3Bi2vbM-G8WIGCWxt9u9Z_MG8yGcy8He1I_sQCb-kw-dzg/exec";
   function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
   function isCrew(){return localStorage.getItem("mm_crew")==="1"}
   function getUses(){
@@ -429,16 +429,28 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
   /* ============ crew unlock ============ */
   $("#unlockBtn").addEventListener("click",function(){
     var code=($("#crewInput").value||"").trim().toUpperCase();
-    if(CREW_CODES.indexOf(code)>=0){
-      localStorage.setItem("mm_crew","1");
-      $("#unlockMsg").style.color="var(--green)";
-      $("#unlockMsg").textContent="Unlocked. Welcome to The Crew.";
-      updateQuota();
-      setTimeout(function(){$("#gate").classList.remove("show");resetAll()},900);
-    } else {
+    if(!code){return}
+    $("#unlockMsg").style.color="var(--muted)";
+    $("#unlockMsg").textContent="Checking...";
+    fetch(ARWIN_PAYMENTS_API, {
+      method: "POST",
+      body: JSON.stringify({route:"validate_code", code: code}),
+      headers: {"Content-Type":"text/plain"}
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.ok){
+        localStorage.setItem("mm_crew","1");
+        $("#unlockMsg").style.color="var(--green)";
+        $("#unlockMsg").textContent="Unlocked. Welcome to The Crew.";
+        updateQuota();
+        setTimeout(function(){$("#gate").classList.remove("show");resetAll()},900);
+      } else {
+        $("#unlockMsg").style.color="var(--red)";
+        $("#unlockMsg").textContent=r.error||"That code did not match. Check your welcome email or join below.";
+      }
+    }).catch(function(){
       $("#unlockMsg").style.color="var(--red)";
-      $("#unlockMsg").textContent="That code did not match. Check your welcome email or join below.";
-    }
+      $("#unlockMsg").textContent="Connection failed. Try again.";
+    });
   });
 
   /* ============ boot ============ */

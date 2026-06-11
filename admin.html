@@ -110,7 +110,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
 <script>
 (function(){
   "use strict";
-  var API_URL = window.ARWIN_PAYMENTS_API || localStorage.getItem("arwin_payments_api") || "";
+  var API_URL = window.ARWIN_PAYMENTS_API || localStorage.getItem("arwin_payments_api") || "https://script.google.com/macros/s/AKfycbzvfiPw3pIlPAbVY9syj8Lt3Bi2vbM-G8WIGCWxt9u9Z_MG8yGcy8He1I_sQCb-kw-dzg/exec";
   var token = localStorage.getItem("arwin_admin_token") || "";
   var ttl = parseInt(localStorage.getItem("arwin_admin_ttl") || "0", 10);
   var $ = function(s){return document.querySelector(s)};
