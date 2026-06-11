@@ -39,7 +39,7 @@ window.LBC = {
                 "Annual Year in Review card, yours first",
                 "Full review archive, early access before public",
                 "Vote on the next review and the next ranking",
-                "Your Year on the Desk, personalized to your activity, yours first every December",
+                "Your Year on the Desk, personalized to your activity, yours every December",
                 "Ad free reading", "10 percent off all merch"],
         cta: "Join the Crew", url: "#join" },
       { name: "Producer", price: "499", period: "per month", highlight: false,
