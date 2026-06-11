@@ -163,7 +163,7 @@ body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;back
 .bigstat .v{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:600;color:var(--gold-soft);line-height:1;font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
 .bigstat .l{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:8px}
 .bigstat .bigstat-prefix{font-family:var(--sans);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);vertical-align:.55em;margin-right:2px}
-.num-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.num-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
 .num-foot-meta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .numbers-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px}
 @media(max-width:900px){.numbers-grid{grid-template-columns:1fr}}
