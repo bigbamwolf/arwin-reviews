@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Movie Mode · ARWIN REVIEWS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0a0c0e; --panel:#12171c; --panel-2:#161c22; --line:rgba(255,255,255,.08);
+  --ink:#ece9e2; --muted:#9aa1aa; --faint:#6b727b; --gold:#e7b54a; --gold-soft:#f1cd7e;
+  --green:#00e054; --red:#ff6b6b; --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:transparent;color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+.mm{padding:clamp(18px,3vw,28px);max-width:860px;margin:0 auto}
+.mm-gate{padding:24px;border:1px solid var(--line);border-radius:14px;background:rgba(231,181,74,.05);text-align:center;margin-bottom:22px;display:none}
+.mm-gate.show{display:block}
+.mm-gate h3{font-family:var(--serif);font-size:1.5rem;color:var(--gold);margin-bottom:8px}
+.mm-gate p{color:var(--muted);margin-bottom:14px;font-size:.92rem}
+.mm-gate .crew-row{display:flex;gap:8px;justify-content:center;max-width:360px;margin:0 auto;flex-wrap:wrap}
+.mm-gate input{flex:1;min-width:160px;background:#0c1014;border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:24px;font-size:.85rem;outline:none;font-family:var(--sans)}
+.mm-gate input:focus{border-color:var(--gold)}
+.mm-gate .btn-unlock{padding:10px 18px;border:0;border-radius:24px;background:var(--gold);color:#1a1306;font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.mm-gate .btn-unlock:hover{background:var(--gold-soft)}
+.mm-gate .join{display:inline-block;margin-top:6px;padding:11px 22px;border-radius:24px;background:var(--green);color:#06140a;font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+.mm-gate .join:hover{filter:brightness(1.1)}
+.mm-quota{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;padding:10px 16px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.02)}
+.mm-quota .crew-tag{color:var(--gold);font-weight:700}
+.q{opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease;margin-bottom:22px}
+.q.live{opacity:1;transform:translateY(0)}
+.q.done{opacity:.5}
+.q-step{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.q-prompt{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,1.85rem);font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.25}
+.q-opts{display:flex;flex-wrap:wrap;gap:8px}
+.q-opt{padding:9px 16px;border-radius:22px;background:#0c1014;border:1px solid var(--line);color:var(--ink);font-size:.82rem;cursor:pointer;font-family:var(--sans);transition:border-color .2s,background .2s,color .2s}
+.q-opt:hover{border-color:var(--gold);color:var(--gold)}
+.q-opt.pick{background:var(--gold);border-color:var(--gold);color:#1a1306;font-weight:600}
+.mm-shortcut{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.mm-shortcut-lab{flex-basis:100%;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.mm-shortcut .sc{padding:8px 14px;border-radius:20px;background:rgba(231,181,74,.08);border:1px solid rgba(231,181,74,.3);color:var(--gold);font-size:.78rem;cursor:pointer;font-family:var(--sans)}
+.mm-shortcut .sc:hover{background:rgba(231,181,74,.18)}
+.mm-thinking{padding:32px 18px;text-align:center;color:var(--muted);font-size:.92rem}
+.mm-thinking .dots::after{content:"";animation:dots 1.4s infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}100%{content:""}}
+.result{display:none}
+.result.show{display:block}
+.result-eyebrow{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.result-head{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;color:var(--ink);margin-bottom:20px}
+.pick-card{display:grid;grid-template-columns:160px 1fr;gap:22px;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-bottom:24px}
+@media(max-width:560px){.pick-card{grid-template-columns:120px 1fr;padding:16px;gap:14px}}
+.pick-poster{width:100%;border-radius:8px;aspect-ratio:2/3;background:#1a2128 center/cover no-repeat}
+.pick-meta .ptitle{font-family:var(--serif);font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:600;color:var(--ink);line-height:1.18;margin-bottom:4px}
+.pick-meta .pyear{color:var(--muted);font-size:.85rem;margin-bottom:10px}
+.pick-meta .pstars{color:var(--gold);font-size:1rem;margin-bottom:14px;letter-spacing:.1em}
+.pick-reasons{display:grid;gap:10px;margin-bottom:14px}
+.pick-reason{padding:10px 12px;background:rgba(255,255,255,.03);border-left:2px solid var(--gold);border-radius:6px;font-size:.84rem;color:var(--ink);line-height:1.5}
+.pick-reason b{color:var(--gold-soft);font-weight:600;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:4px}
+.pick-past{margin-top:14px;padding:12px 14px;background:rgba(0,224,84,.05);border:1px solid rgba(0,224,84,.16);border-radius:8px;font-size:.85rem;color:var(--ink);font-style:italic;line-height:1.55}
+.pick-past .past-lab{font-style:normal;font-weight:600;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px}
+.alts-head{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--ink);margin:24px 0 14px}
+.alts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.alt{padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:50px 1fr;gap:12px;align-items:start}
+.alt-poster{width:50px;aspect-ratio:2/3;border-radius:5px;background:#1a2128 center/cover no-repeat}
+.alt-meta .at{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:2px}
+.alt-meta .ay{color:var(--muted);font-size:.74rem;margin-bottom:4px}
+.alt-meta .ar{color:var(--gold);font-size:.78rem;margin-bottom:6px}
+.alt-meta .ax{font-size:.74rem;color:var(--muted);line-height:1.45}
+.reflect{padding:18px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);margin-bottom:18px}
+.reflect h4{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:10px}
+.reflect ul{list-style:none;padding:0}
+.reflect li{padding:6px 0;font-size:.84rem;color:var(--muted)}
+.again-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.again{padding:10px 18px;border:1px solid var(--line);border-radius:22px;background:transparent;color:var(--ink);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:var(--sans)}
+.again:hover{border-color:var(--gold);color:var(--gold)}
+.again.primary{background:var(--gold);border-color:var(--gold);color:#1a1306;font-weight:700}
+</style>
+</head>
+<body>
+<div class="mm">
+
+  <div class="mm-quota" id="quotaBar">
+    <span id="quotaText">Loading...</span>
+    <span id="quotaTag"></span>
+  </div>
+
+  <div class="mm-gate" id="gate">
+    <h3>Tonight's picks are spent</h3>
+    <p>Free tier gives you 3 picks a day. The Crew gets unlimited Movie Mode, every day.</p>
+    <a class="join" href="../#/join" target="_top">Join the Crew, P199</a>
+    <div style="margin-top:14px">
+      <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Already a member? Paste your Crew code</div>
+      <div class="crew-row">
+        <input type="text" id="crewInput" placeholder="Crew code" autocomplete="off" />
+        <button class="btn-unlock" id="unlockBtn">Unlock</button>
+      </div>
+      <div id="unlockMsg" style="margin-top:8px;font-size:.78rem;color:var(--red);min-height:18px"></div>
+    </div>
+  </div>
+
+  <div class="mm-shortcut" id="shortcuts">
+    <div class="mm-shortcut-lab">Skip the funnel, jump to a vibe</div>
+    <button class="sc" data-sc="surprise">Surprise me</button>
+    <button class="sc" data-sc="heal">Heal me</button>
+    <button class="sc" data-sc="cry">Make me cry</button>
+    <button class="sc" data-sc="hope">Give me hope</button>
+    <button class="sc" data-sc="kid">Feel like a kid</button>
+    <button class="sc" data-sc="spielberg">Spielberg magic</button>
+    <button class="sc" data-sc="tired">Too tired to choose</button>
+  </div>
+
+  <div id="questions"></div>
+
+  <div class="mm-thinking" id="thinking" style="display:none"><span class="dots">Reading your mood, scanning the desk</span></div>
+
+  <div class="result" id="result"></div>
+
+</div>
+
+<script src="data.js"></script>
+<script src="reviews.js"></script>
+<script>
+(function(){
+  "use strict";
+  var LB = window.LB || {films:[],lists:[],stats:{}};
+  var LBR = window.LBR || [];
+  var $ = function(s){return document.querySelector(s)};
+  var $$ = function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+
+  /* ============ daily quota + crew gate ============ */
+  var FREE_LIMIT = 3;
+  var CREW_CODES = ["CREW2026","ARWIN","INSIDER"];
+  function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+  function isCrew(){return localStorage.getItem("mm_crew")==="1"}
+  function getUses(){
+    var raw=localStorage.getItem("mm_uses_"+today())||"0";
+    return parseInt(raw,10)||0;
+  }
+  function bumpUses(){
+    var n=getUses()+1;
+    localStorage.setItem("mm_uses_"+today(),String(n));
+    return n;
+  }
+  function updateQuota(){
+    var q=$("#quotaText"),t=$("#quotaTag");
+    if(isCrew()){
+      q.textContent="The Crew · unlimited picks";
+      t.innerHTML='<span class="crew-tag">★ CREW MEMBER</span>';
+    } else {
+      var u=getUses();
+      q.textContent="Tonight: "+Math.min(u,FREE_LIMIT)+" of "+FREE_LIMIT+" picks used";
+      t.innerHTML=u>=FREE_LIMIT?'Free tier exhausted':'Free tier';
+    }
+  }
+  function quotaBlocked(){return !isCrew() && getUses()>=FREE_LIMIT}
+
+  /* ============ data prep: list membership index ============ */
+  var byKey={};
+  LB.films.forEach(function(f){byKey[(f.name+"|"+f.year).toLowerCase()]=f});
+  var filmTags={}; // film key -> [tags from lists]
+  LB.films.forEach(function(f){filmTags[(f.name+"|"+f.year).toLowerCase()]=[]});
+  (LB.lists||[]).forEach(function(L){
+    var slug=L.slug||"", cat=L.cat||"", title=L.title||"";
+    var tagSrc=(slug+" "+title+" "+cat).toLowerCase();
+    (L.films||[]).forEach(function(lf){
+      var k=((lf.n||"")+"|"+(lf.y||"")).toLowerCase();
+      if(filmTags[k]) filmTags[k].push(tagSrc);
+    });
+  });
+  function tagsFor(f){
+    var k=(f.name+"|"+f.year).toLowerCase();
+    var src=(filmTags[k]||[]).join(" ");
+    return src;
+  }
+
+  /* ============ review snippet lookup ============ */
+  var reviewByKey={};
+  LBR.forEach(function(r){reviewByKey[(r.name+"|"+r.year).toLowerCase()]=r});
+  function pastYouSnippet(f){
+    var r=reviewByKey[(f.name+"|"+f.year).toLowerCase()];
+    if(!r||!r.review) return null;
+    var t=(r.review||"").replace(/\s+/g," ").trim();
+    var sents=t.split(/(?<=[.!?])\s+/);
+    var pick=sents.slice(0,2).join(" ");
+    if(pick.length>240) pick=pick.slice(0,240).replace(/\s+\S*$/,"")+"...";
+    return {snip:pick, date:r.watched||""};
+  }
+
+  /* ============ questions ============ */
+  var QUESTIONS = [
+    {key:"current", step:"01 · State of mind", prompt:"How are you feeling right now?",
+     opts:["Happy","Bored","Burned out","Empty","Lonely","Stressed","Anxious","Sad","Depressed","Curious","Nostalgic","Angry","Sleepy","Need stimulation"]},
+    {key:"energy", step:"02 · Energy level", prompt:"What is your energy right now?",
+     opts:["Extremely low","Low","Normal","High"]},
+    {key:"time", step:"03 · Time you have", prompt:"How much time do you have tonight?",
+     opts:["Under 90 min","90 to 120 min","2 to 3 hours","Any length"]},
+    {key:"desired", step:"04 · Where you want to land", prompt:"After the credits roll, how do you want to feel?",
+     opts:["Inspired","Hopeful","Comforted","Emotionally destroyed","Cry and release","Amazed","Mind blown","Scared","Motivated","Appreciative of life","Existential","Peaceful","Energized","Happy"]},
+    {key:"exp", step:"05 · The experience", prompt:"What kind of experience do you want?",
+     opts:["Human drama","Character study","Action","Mystery","Thriller","Horror","Romance","Comedy","Epic filmmaking","Visual spectacle","Philosophical","Slow cinema","Pure entertainment"]},
+    {key:"complexity", step:"06 · How much brainpower", prompt:"How much do you want to think?",
+     opts:["Easy watch","Medium attention","Full concentration"]}
+  ];
+  var answers={};
+
+  function renderQuestion(i){
+    if(i>=QUESTIONS.length){return runEngine()}
+    var Q=QUESTIONS[i];
+    var c=document.createElement("div");
+    c.className="q"; c.id="q"+i;
+    var html='<div class="q-step">'+Q.step+'</div>'+
+             '<div class="q-prompt">'+Q.prompt+'</div>'+
+             '<div class="q-opts">';
+    Q.opts.forEach(function(o,j){
+      html+='<button class="q-opt" data-v="'+o+'">'+o+'</button>';
+    });
+    html+='</div>';
+    c.innerHTML=html;
+    $("#questions").appendChild(c);
+    requestAnimationFrame(function(){c.classList.add("live")});
+    Array.prototype.forEach.call(c.querySelectorAll(".q-opt"),function(b){
+      b.addEventListener("click",function(){
+        Array.prototype.forEach.call(c.querySelectorAll(".q-opt"),function(x){x.classList.remove("pick")});
+        b.classList.add("pick");
+        answers[Q.key]=b.dataset.v;
+        c.classList.add("done");
+        setTimeout(function(){
+          renderQuestion(i+1);
+          var next=$("#q"+(i+1));
+          if(next) next.scrollIntoView({behavior:"smooth",block:"center"});
+        },280);
+      });
+    });
+  }
+
+  /* ============ scoring engine ============ */
+  var TIME_BUCKETS = {
+    "Under 90 min": function(yr,t){return /\b(short|82 min|78 min|85 min)\b/i.test(t)},
+    "90 to 120 min": function(yr,t){return true},
+    "2 to 3 hours": function(yr,t){return /epic|long|three hours|3 hours|nolan|tarantino|scorsese|villeneuve/i.test(t)},
+    "Any length": function(){return true}
+  };
+
+  // map current state to {boost regex, avoid regex}
+  var CURRENT_RULES = {
+    "Happy":           {avoid:/horror|grief|tragedy|war|dystop/i},
+    "Bored":           {boost:/adventure|epic|action|spectacle|sci.fi|heist/i},
+    "Burned out":      {boost:/comfort|ghibli|romance|comedy|warm|coming.of.age/i, avoid:/heavy|war|grief|complex/i},
+    "Empty":           {boost:/spielberg|life|warmth|coming.of.age|family/i, avoid:/nihilism|bleak/i},
+    "Lonely":          {boost:/romance|family|connection|friendship|sunrise|before/i, avoid:/isolation|horror/i},
+    "Stressed":        {boost:/comfort|comedy|easy|ghibli|warm/i, avoid:/horror|thriller|tense/i},
+    "Anxious":         {boost:/calm|slow|comfort|ghibli|peaceful/i, avoid:/horror|thriller|panic|tense/i},
+    "Sad":             {boost:/uplift|inspir|life|hope|warmth/i, avoid:/grief|tragedy|loss|depress/i},
+    "Depressed":       {boost:/hope|life|warmth|coming.of.age|spielberg/i, avoid:/heavy|dark|nihilism|grief/i},
+    "Curious":         {boost:/mystery|sci.fi|noir|whodunit|documentary|nolan/i},
+    "Nostalgic":       {boost:/classic|childhood|coming.of.age|amblin|spielberg|disney|pixar/i},
+    "Angry":           {boost:/action|revenge|kill bill|tarantino|fight/i},
+    "Sleepy":          {boost:/short|easy|light|comedy/i, avoid:/long|epic|complex|3 hours/i},
+    "Need stimulation":{boost:/action|thriller|fast|adrenaline|spectacle|villeneuve|nolan/i}
+  };
+
+  // desired feeling to {strong regex, min rating}
+  var DESIRED_RULES = {
+    "Inspired":              {boost:/inspir|biopic|true.story|under.dog|whiplash|rocky|jobs|founder/i, minR:4.0},
+    "Hopeful":               {boost:/hope|redemption|coming.of.age|family|life is beautiful/i, minR:3.5},
+    "Comforted":             {boost:/comfort|ghibli|romance|coming.of.age|amblin|warm/i, minR:3.5, rewatchBoost:true},
+    "Emotionally destroyed": {boost:/grief|loss|war|tragedy|schindler|sacrifice/i, minR:4.5},
+    "Cry and release":       {boost:/love|loss|family|cry|tears|coda|about time|impossible/i, minR:4.0},
+    "Amazed":                {boost:/spectacle|epic|blockbuster|nolan|villeneuve|cameron|interstellar/i, minR:4.0},
+    "Mind blown":            {boost:/mind.bend|sci.fi|nolan|kaufman|lynch|tenet|inception|prestige|shutter|donnie/i, minR:4.0},
+    "Scared":                {boost:/horror|haunt|terror|conjuring|hereditary|barbarian/i, minR:3.5},
+    "Motivated":             {boost:/sport|biopic|under.dog|whiplash|rocky|founder|jobs|wolf of wall/i, minR:4.0},
+    "Appreciative of life":  {boost:/life|family|simple|ikiru|kurosawa|about time|secret life/i, minR:4.0},
+    "Existential":           {boost:/existential|philosoph|kaufman|tarkovsky|malick|tree of life|synecdoche/i, minR:3.5},
+    "Peaceful":              {boost:/peaceful|slow|nature|ghibli|totoro/i, minR:3.5},
+    "Energized":             {boost:/action|adrenaline|fast|mission|fury|fast.and.furious|john wick/i, minR:4.0},
+    "Happy":                 {boost:/comedy|happy|feel.good|click|grown.ups/i, minR:3.5}
+  };
+
+  var EXP_REGEX = {
+    "Human drama": /drama|character|life|family/i,
+    "Character study": /character|biograph|portrait|joker|whiplash/i,
+    "Action": /action|fight|combat|war/i,
+    "Mystery": /mystery|whodunit|noir|knives/i,
+    "Thriller": /thriller|suspense|shutter|prisoners/i,
+    "Horror": /horror|terror|haunt/i,
+    "Romance": /romance|love|sunrise|notebook|before/i,
+    "Comedy": /comedy|humor|click|hangover/i,
+    "Epic filmmaking": /epic|spectacle|3 hours|villeneuve|nolan|cameron/i,
+    "Visual spectacle": /spectacle|visual|villeneuve|cameron|cinematograph|deakins/i,
+    "Philosophical": /philosoph|existential|kaufman|malick|tarkovsky/i,
+    "Slow cinema": /slow|art.house|kurosawa|tarkovsky|bresson/i,
+    "Pure entertainment": /entertain|blockbuster|action|comedy/i
+  };
+
+  function scoreFilm(f, a){
+    var t=tagsFor(f), low=t+" "+f.name.toLowerCase();
+    var r=f.rating||3;
+    var s = r*2; // 6-10 baseline
+
+    // current
+    var cr=CURRENT_RULES[a.current]||{};
+    if(cr.boost && cr.boost.test(low)) s+=3;
+    if(cr.avoid && cr.avoid.test(low)) s-=6;
+
+    // desired (the heaviest weight)
+    var dr=DESIRED_RULES[a.desired]||{};
+    if(dr.boost && dr.boost.test(low)) s+=10;
+    if(dr.minR && r<dr.minR) s-=3;
+    if(dr.rewatchBoost && f.liked) s+=4;
+
+    // experience
+    var ex=EXP_REGEX[a.exp];
+    if(ex && ex.test(low)) s+=6;
+
+    // complexity
+    if(a.complexity==="Easy watch"){
+      if(/comedy|kid|family|amblin/i.test(low)) s+=3;
+      if(r>=4.5 && /nolan|kaufman|lynch|tarkovsky/i.test(low)) s-=3;
+    } else if(a.complexity==="Full concentration"){
+      if(/nolan|kaufman|lynch|villeneuve|tenet|inception|tree of life/i.test(low)) s+=4;
+      if(r<3.5) s-=2;
+    }
+
+    // energy
+    if(a.energy==="Extremely low" && /epic|3 hours|war|villeneuve/i.test(low)) s-=3;
+    if(a.energy==="High" && /action|adrenaline|fast|spectacle/i.test(low)) s+=2;
+
+    // liked is a strong personal signal
+    if(f.liked) s+=2;
+
+    // discourage low-rated
+    if(r<2.5) s-=5;
+    return s;
+  }
+
+  function runEngine(){
+    if(quotaBlocked()){$("#gate").classList.add("show");return}
+    $("#questions").style.display="none";
+    $("#shortcuts").style.display="none";
+    $("#thinking").style.display="block";
+    setTimeout(function(){
+      var scored=LB.films.map(function(f){return {f:f, s:scoreFilm(f,answers)}});
+      scored.sort(function(a,b){return b.s-a.s});
+      // dedupe by title to prevent two prints of same film
+      var seen={}, top=[];
+      for(var i=0;i<scored.length;i++){
+        var k=scored[i].f.name.toLowerCase();
+        if(seen[k]) continue; seen[k]=1;
+        top.push(scored[i]);
+        if(top.length>=5) break;
+      }
+      $("#thinking").style.display="none";
+      renderResult(top);
+      bumpUses(); updateQuota();
+    },650);
+  }
+
+  function reasonForPick(f, a){
+    var lowEnergy = a.energy.toLowerCase();
+    var article = /^[aeiou]/.test(lowEnergy.charAt(0)) ? "an" : "a";
+    var why_now="A match for being "+a.current.toLowerCase()+", with "+article+" "+lowEnergy+" energy budget to spend.";
+    var why_after="It carries the kind of finish that leaves you "+a.desired.toLowerCase()+", which is exactly the landing you asked for.";
+    var extras=[];
+    if (f.liked) extras.push("This one is on my heart shelf, not just rated high.");
+    if (f.rating>=5) extras.push("Five stars from me, which means I keep coming back.");
+    else if (f.rating>=4.5) extras.push("Sits in my top tier of the year it dropped.");
+    if (extras.length) why_after += " " + extras[0];
+    return {why_now:why_now, why_after:why_after};
+  }
+
+  function renderResult(top){
+    var r=$("#result"), prim=top[0], alts=top.slice(1);
+    r.innerHTML="";
+    if(!prim){r.innerHTML="<p>Nothing in the library scored cleanly for that combination. Try the Surprise me shortcut.</p>";r.classList.add("show");return}
+    var reasons=reasonForPick(prim.f, answers);
+    var past=pastYouSnippet(prim.f);
+    var primHTML='<div class="result-eyebrow">Tonight on the desk</div>'+
+                 '<div class="result-head">Your Pick</div>'+
+                 '<div class="pick-card">'+
+                   '<div class="pick-poster" style="background-image:url(\''+(prim.f.poster||"")+'\')"></div>'+
+                   '<div class="pick-meta">'+
+                     '<div class="ptitle">'+esc(prim.f.name)+'</div>'+
+                     '<div class="pyear">'+(prim.f.year||"")+'</div>'+
+                     '<div class="pstars">'+stars(prim.f.rating)+' &middot; Arwin\'s rating</div>'+
+                     '<div class="pick-reasons">'+
+                       '<div class="pick-reason"><b>Why this fits where you are</b>'+esc(reasons.why_now)+'</div>'+
+                       '<div class="pick-reason"><b>Why this lands where you want</b>'+esc(reasons.why_after)+'</div>'+
+                     '</div>'+
+                     (past?'<div class="pick-past"><span class="past-lab">Why past you loved this · '+esc(past.date)+'</span>"'+esc(past.snip)+'"</div>':'')+
+                   '</div>'+
+                 '</div>';
+
+    var altHTML="";
+    if(alts.length){
+      altHTML='<div class="alts-head">Alternative picks</div><div class="alts">';
+      alts.forEach(function(it){
+        var f=it.f, pa=pastYouSnippet(f);
+        altHTML+='<div class="alt">'+
+          '<div class="alt-poster" style="background-image:url(\''+(f.poster||"")+'\')"></div>'+
+          '<div class="alt-meta">'+
+            '<div class="at">'+esc(f.name)+'</div>'+
+            '<div class="ay">'+(f.year||"")+'</div>'+
+            '<div class="ar">'+stars(f.rating)+'</div>'+
+            (pa?'<div class="ax">"'+esc(pa.snip.slice(0,110))+(pa.snip.length>110?'...':'')+'"</div>':'')+
+          '</div></div>';
+      });
+      altHTML+='</div>';
+    }
+
+    var reflectHTML='<div class="reflect"><h4>After the credits</h4><ul>'+
+      '<li>Did this film give you what you needed tonight?</li>'+
+      '<li>What emotion stayed with you?</li>'+
+      '<li>Would you rewatch it?</li>'+
+      '</ul></div>'+
+      '<div class="again-row">'+
+        '<button class="again primary" id="againBtn">Pick again</button>'+
+        '<button class="again" id="resetBtn">Start over</button>'+
+      '</div>';
+
+    r.innerHTML=primHTML+altHTML+reflectHTML;
+    r.classList.add("show");
+    $("#againBtn").addEventListener("click",function(){
+      if(quotaBlocked()){$("#gate").classList.add("show");$("#gate").scrollIntoView({behavior:"smooth"});return}
+      // reuse same answers, re-roll with tie-breaker shuffle
+      runEngine();
+    });
+    $("#resetBtn").addEventListener("click",resetAll);
+  }
+
+  function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+  function stars(r){if(!r)return"";var f=Math.floor(r),h=r%1>=0.5,out="";for(var i=0;i<f;i++)out+="★";if(h)out+="½";return out}
+
+  /* ============ shortcuts ============ */
+  var SHORTCUTS = {
+    "surprise":   {current:"Curious",      energy:"Normal", time:"Any length",     desired:"Amazed",      exp:"Epic filmmaking",   complexity:"Medium attention"},
+    "heal":       {current:"Burned out",   energy:"Low",    time:"90 to 120 min",  desired:"Comforted",   exp:"Human drama",       complexity:"Easy watch"},
+    "cry":        {current:"Empty",        energy:"Normal", time:"2 to 3 hours",   desired:"Cry and release", exp:"Human drama",   complexity:"Medium attention"},
+    "hope":       {current:"Sad",          energy:"Low",    time:"90 to 120 min",  desired:"Hopeful",     exp:"Human drama",       complexity:"Easy watch"},
+    "kid":        {current:"Nostalgic",    energy:"Normal", time:"90 to 120 min",  desired:"Happy",       exp:"Pure entertainment",complexity:"Easy watch"},
+    "spielberg":  {current:"Curious",      energy:"Normal", time:"2 to 3 hours",   desired:"Amazed",      exp:"Epic filmmaking",   complexity:"Medium attention"},
+    "tired":      {current:"Sleepy",       energy:"Extremely low", time:"Under 90 min", desired:"Comforted", exp:"Comedy",          complexity:"Easy watch"}
+  };
+  $$(".sc").forEach(function(b){
+    b.addEventListener("click",function(){
+      var a=SHORTCUTS[b.dataset.sc]; if(!a) return;
+      answers=Object.assign({}, a);
+      runEngine();
+    });
+  });
+
+  function resetAll(){
+    answers={};
+    $("#questions").innerHTML=""; $("#questions").style.display="";
+    $("#shortcuts").style.display="";
+    $("#result").classList.remove("show"); $("#result").innerHTML="";
+    renderQuestion(0);
+    $("#shortcuts").scrollIntoView({behavior:"smooth"});
+  }
+
+  /* ============ crew unlock ============ */
+  $("#unlockBtn").addEventListener("click",function(){
+    var code=($("#crewInput").value||"").trim().toUpperCase();
+    if(CREW_CODES.indexOf(code)>=0){
+      localStorage.setItem("mm_crew","1");
+      $("#unlockMsg").style.color="var(--green)";
+      $("#unlockMsg").textContent="Unlocked. Welcome to The Crew.";
+      updateQuota();
+      setTimeout(function(){$("#gate").classList.remove("show");resetAll()},900);
+    } else {
+      $("#unlockMsg").style.color="var(--red)";
+      $("#unlockMsg").textContent="That code did not match. Check your welcome email or join below.";
+    }
+  });
+
+  /* ============ boot ============ */
+  updateQuota();
+  if(quotaBlocked()){$("#gate").classList.add("show")}
+  renderQuestion(0);
+})();
+</script>
+</body>
+</html>

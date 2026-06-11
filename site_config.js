@@ -27,13 +27,15 @@ window.LBC = {
     checkout: "#support",
     tiers: [
       { name: "Fan", price: "Free", period: "", highlight: false,
-        perks: ["Every public review", "Browse all 139 lists", "Watchlist preview",
-                "Try the predictor, 3 films a day"],
+        perks: ["Every public review", "Browse all 158 lists", "Watchlist preview",
+                "Try the predictor, 3 films a day",
+                "Movie Mode, 3 picks a day"],
         cta: "Start reading", url: "#reviews" },
       { name: "The Crew", price: "199", period: "per month", highlight: true,
         perks: ["This week's watchlist, what I review next",
                 "VIP group chat, talk to me directly",
                 "What Arwin Might Think, unlimited predictions",
+                "Movie Mode, unlimited picks plus Past You review snippets",
                 "Annual Year in Review card, yours first",
                 "Full review archive, early access before public",
                 "Vote on the next review and the next ranking",
@@ -63,6 +65,15 @@ window.LBC = {
     blurb: "Name any film. My taste model, built on every rating I have ever given, calls the stars I would land on and the reasons why. Free members get three a day. The Crew gets it unlimited.",
     file: "predictor.html",
     cta: "Open the predictor"
+  },
+
+  /* MEMBER BENEFIT — Movie Mode AI, mood to film matcher from the 1,351 archive. */
+  moviemode: {
+    title: "Movie Mode",
+    badge: "Member benefit",
+    blurb: "Tell me how you feel and how you want to land. I match you to a film from the desk, with a reason, and pull what past you wrote about it when you watched. Free members get three picks a day. The Crew gets unlimited and a deeper rationale.",
+    file: "moviemode.html",
+    cta: "Open Movie Mode"
   },
 
   /* MONEY — work with the desk (sponsored reviews, gear testing, cinema/brand partners) */

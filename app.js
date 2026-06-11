@@ -180,7 +180,16 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=33";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=34";
+  })();
+
+  /* MOVIE MODE (member benefit, embedded tab) */
+  (function () {
+    var mc = LBC.moviemode; if (!mc) return;
+    if (mc.badge) $("#mmBadge").textContent = mc.badge;
+    if (mc.title) $("#mmTitle").textContent = mc.title;
+    if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=35";
   })();
 
   /* NUMBERS */
@@ -534,16 +543,18 @@
       reviews: ["#reviewsLanding"],
       films:   ["#numbers", "#vault"],
       predict: ["#predictor"],
+      moviemode: ["#moviemode"],
       lists:   ["#lists"],
       join:    ["#weekwatch", "#join", "#partner", "#support"]
     };
-    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#lists","#weekwatch","#join","#partner","#support","#merch"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", predictor:"predict", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home" };
+    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#lists","#weekwatch","#join","#partner","#support","#merch"];
+    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review on the Desk · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
       films:   { t:"All Films and Stats · ARWIN REVIEWS", d:"A searchable vault of every film logged, with star ratings, genres, decades, and auteur breakdowns." },
       predict: { t:"What Arwin Might Think · ARWIN REVIEWS", d:"A film rating predictor trained on Arwin's reviews. Get a likely score for any film before you watch it." },
+      moviemode:{ t:"Movie Mode · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from the desk, with a reason and a snippet from past you." },
       lists:   { t:"Ranked Film Lists · ARWIN REVIEWS", d:"Films ranked by director, cinematographer, decade, studio, genre, and mood." },
       join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back the desk. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
     };
