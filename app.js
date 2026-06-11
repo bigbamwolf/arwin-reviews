@@ -72,14 +72,7 @@
     pe.addEventListener("click", function(){ openReview(feat); });
   })();
 
-  /* FAVORITES — five poster shelf (cinematic backdrop overrides) */
-  var FAV_ART = {
-    "Dune: Part Two":"img/fav-dune-part-two.jpg",
-    "One Battle After Another":"img/fav-one-battle-after-another.jpg",
-    "Django Unchained":"img/fav-django-unchained.jpg",
-    "A Star Is Born":"img/fav-a-star-is-born.jpg",
-    "Schindler's List":"img/fav-schindlers-list.jpg"
-  };
+  /* FAVORITES — five poster shelf */
   var GRAD = {
     "Dune: Part Two":"linear-gradient(150deg,#2c2010,#7a5320 90%)",
     "One Battle After Another":"linear-gradient(150deg,#2e1212,#84252a 90%)",
@@ -90,9 +83,8 @@
   LB.favorites.forEach(function (f, i) {
     var card = document.createElement("div");
     card.className = "fav reveal"; card.style.transitionDelay = (i*0.06)+"s";
-    var src = FAV_ART[f.name] || f.poster;
-    var art = src
-      ? '<img class="fav-img" src="'+src+'" alt="'+attr(f.name)+'" />'
+    var art = f.poster
+      ? '<img class="fav-img" src="'+f.poster+'" alt="'+attr(f.name)+'" />'
       : '<div class="fav-grad" style="background:'+(GRAD[f.name]||"linear-gradient(150deg,#1c2228,#384450)")+'"><span class="fav-gname">'+esc(f.name)+'</span></div>';
     card.innerHTML = '<div class="fav-poster">'+art+'<span class="fav-num">0'+(i+1)+'</span><span class="fav-tag">★</span></div>'+
       '<div class="fav-cap"><h3 class="fav-title">'+esc(f.name)+'</h3><span class="fav-year">'+(f.year||"")+'</span></div>';
@@ -188,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=31";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=32";
   })();
 
   /* NUMBERS */
