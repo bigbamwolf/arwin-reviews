@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=44";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=45";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +189,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=44";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=45";
   })();
 
   /* Auto height iframe matching: children postMessage their scrollHeight, parent resizes
@@ -375,33 +375,80 @@
   /* TIERS (membership) */
   (function () {
     var m = LBC.membership; if (!m) return;
-    m.tiers.forEach(function (t) {
+    m.tiers.forEach(function (t, idx) {
       var price = (/^\d/.test(t.price)) ? '<span class="cur">&#8369;</span>'+t.price : t.price;
       var perks = t.perks.map(function(p){
         var hl = /Year on the Desk|personalized to your activity/i.test(p);
         return '<li'+(hl?' class="perk-hl"':'')+'>'+esc(p)+(hl?' <span class="perk-new">NEW</span>':'')+'</li>';
       }).join("");
       var per = t.period ? esc(t.period) : "&nbsp;";
-      var href = (/^\d/.test(t.price) && m.checkout) ? m.checkout : (t.url || "#");
-      var blank = href.indexOf("http") === 0 ? ' target="_blank" rel="noopener"' : "";
+      var isPaid = /^\d/.test(t.price);
+      var href = isPaid ? "#" : (t.url || "#");
       var d = document.createElement("div"); d.className = "tier"+(t.highlight?" hl":"");
+      // Annual tier inference: name contains "Annual" OR period contains "year"
+      var tierKey = /annual|year/i.test((t.name||"")+(t.period||"")) ? "annual" : (isPaid ? "monthly" : "fan");
       d.innerHTML = '<div class="t-name">'+esc(t.name)+'</div><div class="t-price">'+price+'</div>'+
         '<div class="t-period">'+per+'</div><ul class="t-perks">'+perks+'</ul>'+
-        '<a class="btn '+(t.highlight?"btn-join":"btn-ghost")+'" href="'+href+'"'+blank+'>'+esc(t.cta)+'</a>';
+        '<a class="btn '+(t.highlight?"btn-join":"btn-ghost")+'" href="'+href+'" data-tier="'+tierKey+'">'+esc(t.cta)+'</a>';
       $("#tierGrid").appendChild(d);
-      if (href === "#support") {
+      if (isPaid) {
         var cbtn = $(".btn", d);
         if (cbtn) cbtn.addEventListener("click", function(e){
           e.preventDefault();
-          var card = document.querySelector("#tipCard") || document.querySelector("#support");
-          if (card) card.scrollIntoView({ behavior:"smooth", block:"center" });
-          var box = $("#gcashBox"), tip = $("#tipBtn");
-          if (box && box.hidden && tip) tip.click();
+          openCheckoutModal(tierKey, t.name, t.price);
         });
       }
     });
     $("#tierNote").textContent = m.note||"";
   })();
+
+  function openCheckoutModal(tierKey, tierName, price) {
+    var existing = document.getElementById("checkoutModal");
+    if (existing) existing.remove();
+    var modal = document.createElement("div");
+    modal.id = "checkoutModal"; modal.className = "co-modal";
+    modal.innerHTML =
+      '<div class="co-bg" data-close></div>' +
+      '<div class="co-card">' +
+        '<button class="co-close" data-close aria-label="Close">&times;</button>' +
+        '<div class="co-eyebrow">Take the VIP pass</div>' +
+        '<div class="co-title">'+esc(tierName)+'</div>' +
+        '<div class="co-price"><span class="co-cur">&#8369;</span>'+esc(price)+'</div>' +
+        '<label for="coEmail">Your email</label>' +
+        '<input type="email" id="coEmail" placeholder="you@email.com" autocomplete="email" />' +
+        '<div class="co-note">Your VIP code lands in this inbox seconds after payment.</div>' +
+        '<button class="btn btn-primary co-pay" id="coPayBtn">Pay with Xendit</button>' +
+        '<div class="co-msg" id="coMsg"></div>' +
+        '<div class="co-fine">GCash, Maya, GrabPay, Visa, Mastercard. Receipt from CURATED ARCHIVE CONSUMER GOODS TRADING (Arwin\'s registered business).</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+    document.body.style.overflow = "hidden";
+    setTimeout(function(){ $("#coEmail").focus(); }, 100);
+    modal.querySelectorAll("[data-close]").forEach(function(el){ el.addEventListener("click", closeCheckoutModal); });
+    document.addEventListener("keydown", function esc(e){ if (e.key === "Escape") { closeCheckoutModal(); document.removeEventListener("keydown", esc); }});
+    $("#coPayBtn").addEventListener("click", function(){ fireCheckout(tierKey); });
+    $("#coEmail").addEventListener("keydown", function(e){ if (e.key === "Enter") fireCheckout(tierKey); });
+  }
+  function closeCheckoutModal() {
+    var m = document.getElementById("checkoutModal");
+    if (m) { m.remove(); document.body.style.overflow = ""; }
+  }
+  function fireCheckout(tierKey) {
+    var api = window.ARWIN_PAYMENTS_API || "";
+    var email = ($("#coEmail").value||"").trim();
+    var msg = $("#coMsg"), btn = $("#coPayBtn");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.style.color = "var(--red)"; msg.textContent = "Valid email required."; return; }
+    if (!api) { msg.style.color = "var(--red)"; msg.textContent = "Checkout temporarily unavailable. Try the tip jar."; return; }
+    msg.style.color = "var(--muted)"; msg.textContent = "Opening Xendit checkout...";
+    btn.disabled = true;
+    fetch(api, { method: "POST", body: JSON.stringify({route:"create_invoice", tier: tierKey, email: email}), headers: {"Content-Type":"text/plain"} })
+      .then(function(r){return r.json()})
+      .then(function(r){
+        if (r.ok && r.invoice_url) { window.location.href = r.invoice_url; }
+        else { msg.style.color = "var(--red)"; msg.textContent = r.error || "Could not start checkout. Try again."; btn.disabled = false; }
+      })
+      .catch(function(){ msg.style.color = "var(--red)"; msg.textContent = "Connection failed. Try again."; btn.disabled = false; });
+  }
 
   /* MERCH */
   (function () {

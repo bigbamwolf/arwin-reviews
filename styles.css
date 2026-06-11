@@ -299,6 +299,24 @@ body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;back
 .yir-line .yir-v{color:var(--gold-soft);text-align:right;font-weight:500}
 .yir-note{margin-top:18px;padding:14px;background:rgba(231,181,74,.06);border-left:2px solid var(--gold);border-radius:6px;font-size:.82rem;color:var(--muted);font-style:italic;line-height:1.55}
 .yir-cta{display:block;margin-top:22px;text-align:center}
+.co-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.co-bg{position:absolute;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px)}
+.co-card{position:relative;max-width:440px;width:100%;background:linear-gradient(165deg,#11150d 0%,#12171c 60%);border:1px solid rgba(0,224,84,.35);border-radius:16px;padding:32px 28px;color:var(--ink);box-shadow:0 40px 100px rgba(0,0,0,.7)}
+.co-close{position:absolute;top:14px;right:18px;background:transparent;border:0;color:var(--muted);font-size:1.8rem;cursor:pointer;line-height:1;font-family:var(--sans)}
+.co-close:hover{color:var(--gold)}
+.co-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.co-title{font-family:var(--serif);font-size:1.7rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.co-price{font-family:var(--serif);font-size:2.4rem;font-weight:600;color:var(--gold-soft);margin-bottom:22px;font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
+.co-price .co-cur{font-size:1.4rem;margin-right:4px;color:var(--gold)}
+.co-card label{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.co-card input{width:100%;background:#0c1014;border:1px solid var(--line);color:var(--ink);padding:14px 18px;border-radius:30px;font-size:1rem;outline:none;font-family:var(--sans);margin-bottom:10px}
+.co-card input:focus{border-color:var(--green)}
+.co-note{font-size:.78rem;color:var(--faint);margin-bottom:18px}
+.co-pay{width:100%;padding:14px 22px;border:0;border-radius:30px;background:var(--green);color:#06140a;font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:var(--sans);transition:filter .2s}
+.co-pay:hover:not(:disabled){filter:brightness(1.1)}
+.co-pay:disabled{opacity:.6;cursor:default}
+.co-msg{margin-top:10px;font-size:.82rem;min-height:18px;text-align:center}
+.co-fine{margin-top:18px;font-size:.7rem;color:var(--faint);line-height:1.5;text-align:center}
 .xendit-tip-box{margin-top:14px;padding:14px;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:10px}
 .xendit-tip-box label{display:block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
 .xendit-tip-box .xendit-row{display:flex;gap:8px;flex-wrap:wrap}
