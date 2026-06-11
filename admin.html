@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ARWIN REVIEWS Payments Dashboard</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0a0c0e; --panel:#12171c; --panel-2:#161c22; --line:rgba(255,255,255,.08);
+  --ink:#ece9e2; --muted:#9aa1aa; --faint:#6b727b; --gold:#e7b54a; --gold-soft:#f1cd7e;
+  --green:#00e054; --red:#ff6b6b; --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 24px}
+.brand{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--gold);margin-bottom:6px}
+.brand-sub{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:30px}
+.gate{max-width:420px;margin:80px auto;padding:32px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.gate h2{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:18px}
+.gate label{display:block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.gate input{width:100%;background:#0c1014;border:1px solid var(--line);color:var(--ink);padding:12px 16px;border-radius:24px;font-size:.95rem;outline:none;margin-bottom:14px;font-family:var(--sans)}
+.gate input:focus{border-color:var(--gold)}
+.gate button{width:100%;padding:12px 22px;border:0;border-radius:24px;background:var(--gold);color:#1a1306;font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:var(--sans)}
+.gate button:hover{background:var(--gold-soft)}
+.gate-msg{margin-top:10px;font-size:.78rem;color:var(--red);min-height:18px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:32px}
+.metric{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.metric .v{font-family:var(--serif);font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:600;color:var(--gold-soft);line-height:1;font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
+.metric .l{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:0}
+.tab{padding:10px 18px;border:0;background:transparent;color:var(--muted);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;font-family:var(--sans)}
+.tab.active{color:var(--gold);border-color:var(--gold)}
+.tab:hover{color:var(--ink)}
+.toolbar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:200px;background:#0c1014;border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:24px;font-size:.85rem;outline:none;font-family:var(--sans)}
+.toolbar select{background:#0c1014;border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:24px;font-size:.85rem;font-family:var(--sans)}
+.toolbar .refresh{padding:10px 18px;border:0;border-radius:24px;background:rgba(231,181,74,.18);color:var(--gold);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:var(--sans);border:1px solid rgba(231,181,74,.3)}
+.toolbar .refresh:hover{background:rgba(231,181,74,.28)}
+.table-wrap{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{text-align:left;padding:11px 14px;background:var(--panel-2);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--ink);font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
+tr:hover td{background:rgba(255,255,255,.02)}
+.badge{display:inline-block;padding:3px 9px;border-radius:10px;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.badge.paid{background:rgba(0,224,84,.14);color:var(--green)}
+.badge.pending{background:rgba(231,181,74,.14);color:var(--gold)}
+.badge.unused{background:rgba(255,255,255,.06);color:var(--muted)}
+.badge.issued{background:rgba(0,224,84,.14);color:var(--green)}
+.badge.redeemed{background:rgba(255,255,255,.06);color:var(--faint)}
+.badge.revoked{background:rgba(255,107,107,.14);color:var(--red)}
+.empty{padding:40px 20px;text-align:center;color:var(--faint);font-size:.9rem}
+.logout{position:absolute;top:32px;right:24px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--line);padding:8px 14px;border-radius:20px;cursor:pointer;font-family:var(--sans)}
+.logout:hover{color:var(--gold);border-color:var(--gold)}
+.banner{padding:14px 18px;background:rgba(231,181,74,.08);border:1px solid rgba(231,181,74,.2);border-radius:10px;margin-bottom:18px;font-size:.85rem;color:var(--gold-soft)}
+</style>
+</head>
+<body>
+
+<div id="gateView" class="wrap">
+  <div class="gate">
+    <div class="brand">ARWIN REVIEWS</div>
+    <div class="brand-sub">Payments Dashboard</div>
+    <h2>Password</h2>
+    <input type="password" id="pwInput" placeholder="Admin password" autocomplete="off" />
+    <button id="loginBtn">Unlock</button>
+    <div class="gate-msg" id="gateMsg"></div>
+    <div class="banner" id="phase2Banner" style="margin-top:18px;display:none">Phase 2 not deployed yet. Set window.ARWIN_PAYMENTS_API on this page to point at your Apps Script /exec URL once it's live.</div>
+  </div>
+</div>
+
+<div id="dashView" class="wrap" style="display:none;position:relative">
+  <button class="logout" id="logoutBtn">Log out</button>
+  <div class="brand">ARWIN REVIEWS</div>
+  <div class="brand-sub">Payments Dashboard</div>
+
+  <div class="metrics" id="metrics"></div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="members">Members</button>
+    <button class="tab" data-tab="codes">Code Book</button>
+    <button class="tab" data-tab="audit">Audit Log</button>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="filter" placeholder="Filter rows..." />
+    <select id="statusFilter">
+      <option value="">All statuses</option>
+      <option value="PAID">Paid only</option>
+      <option value="PENDING">Pending only</option>
+      <option value="UNUSED">Unused codes</option>
+      <option value="ISSUED">Issued codes</option>
+      <option value="REDEEMED">Redeemed codes</option>
+    </select>
+    <button class="refresh" id="refreshBtn">Refresh</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="dataTable">
+      <thead id="tableHead"></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var API_URL = window.ARWIN_PAYMENTS_API || localStorage.getItem("arwin_payments_api") || "";
+  var token = localStorage.getItem("arwin_admin_token") || "";
+  var ttl = parseInt(localStorage.getItem("arwin_admin_ttl") || "0", 10);
+  var $ = function(s){return document.querySelector(s)};
+  var $$ = function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+
+  if (!API_URL) {
+    $("#phase2Banner").style.display = "block";
+    $("#loginBtn").disabled = true;
+    $("#loginBtn").style.opacity = ".5";
+  }
+  if (token && ttl > Date.now() && API_URL) showDash();
+
+  $("#loginBtn").addEventListener("click", login);
+  $("#pwInput").addEventListener("keydown", function(e){ if(e.key==="Enter") login(); });
+  $("#logoutBtn").addEventListener("click", logout);
+  $("#refreshBtn").addEventListener("click", refresh);
+  $("#filter").addEventListener("input", renderRows);
+  $("#statusFilter").addEventListener("change", renderRows);
+  $$(".tab").forEach(function(b){ b.addEventListener("click", function(){
+    $$(".tab").forEach(function(x){x.classList.remove("active")});
+    b.classList.add("active");
+    state.activeTab = b.dataset.tab;
+    refresh();
+  })});
+
+  var state = { activeTab: "members", rows: [], metrics: {} };
+
+  function login(){
+    var pw = $("#pwInput").value.trim();
+    if (!pw || !API_URL) return;
+    $("#gateMsg").textContent = "Checking...";
+    $("#gateMsg").style.color = "var(--muted)";
+    api("admin_login", { password: pw }).then(function(r){
+      if (r.ok) {
+        token = r.token; ttl = r.ttl;
+        localStorage.setItem("arwin_admin_token", token);
+        localStorage.setItem("arwin_admin_ttl", String(ttl));
+        showDash();
+      } else {
+        $("#gateMsg").style.color = "var(--red)";
+        $("#gateMsg").textContent = r.error || "Wrong password";
+      }
+    }).catch(function(e){
+      $("#gateMsg").style.color = "var(--red)";
+      $("#gateMsg").textContent = "Connection failed. Check API_URL.";
+    });
+  }
+
+  function logout(){
+    token = ""; ttl = 0;
+    localStorage.removeItem("arwin_admin_token");
+    localStorage.removeItem("arwin_admin_ttl");
+    location.reload();
+  }
+
+  function showDash(){
+    $("#gateView").style.display = "none";
+    $("#dashView").style.display = "block";
+    refresh();
+  }
+
+  function api(route, body){
+    body = body || {}; body.route = route; if (token) body.token = token;
+    return fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "text/plain" }
+    }).then(function(r){ return r.json(); });
+  }
+
+  function refresh(){
+    api("admin_metrics").then(function(r){
+      if (r.ok) { state.metrics = r.metrics; renderMetrics(); }
+    });
+    var tab = state.activeTab;
+    api("admin_" + tab).then(function(r){
+      if (r.ok) { state.rows = r.rows || []; renderRows(); }
+      else if (r.error === "Auth") logout();
+    });
+  }
+
+  function renderMetrics(){
+    var m = state.metrics;
+    $("#metrics").innerHTML =
+      bigStat(m.paid, "Paid Members") +
+      bigStat("P" + Number(m.revenue||0).toLocaleString(), "Revenue") +
+      bigStat(m.pending, "Pending") +
+      bigStat(m.monthly_count, "Monthly") +
+      bigStat(m.annual_count, "Annual") +
+      bigStat(m.codes_unused, "Codes Left");
+  }
+  function bigStat(v,l){return '<div class="metric"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>'}
+
+  function renderRows(){
+    var tab = state.activeTab;
+    var rows = state.rows;
+    var q = $("#filter").value.toLowerCase();
+    var sf = $("#statusFilter").value;
+    var head, cols;
+    if (tab === "members") {
+      head = ["When","Email","Tier","Amount","Status","Code","Invoice"];
+      cols = function(r){ return [fmt(r[0]), r[1]||"", r[3]||"", r[4]?"P"+Number(r[4]).toLocaleString():"", badge(r[6]), r[7]||"", short(r[5])]; };
+    } else if (tab === "codes") {
+      head = ["Code","Status","Assigned To","Assigned At","Redeemed At"];
+      cols = function(r){ return [r[0]||"", badge(r[1]), r[2]||"", fmt(r[3]), fmt(r[4])]; };
+    } else {
+      head = ["When","Event","Details"];
+      cols = function(r){ return [fmt(r[0]), r[1]||"", short(r[2], 120)]; };
+    }
+    $("#tableHead").innerHTML = "<tr>" + head.map(function(h){return "<th>"+h+"</th>"}).join("") + "</tr>";
+    var filtered = rows.filter(function(r){
+      var line = r.join(" ").toLowerCase();
+      if (q && line.indexOf(q) === -1) return false;
+      if (sf) {
+        var statusCol = tab === "members" ? r[6] : (tab === "codes" ? r[1] : null);
+        if (statusCol && String(statusCol).toUpperCase() !== sf) return false;
+      }
+      return true;
+    });
+    if (!filtered.length) { $("#tableBody").innerHTML = '<tr><td colspan="'+head.length+'" class="empty">No rows</td></tr>'; return; }
+    filtered.reverse();
+    $("#tableBody").innerHTML = filtered.map(function(r){
+      return "<tr>" + cols(r).map(function(c){return "<td>"+c+"</td>"}).join("") + "</tr>";
+    }).join("");
+  }
+
+  function fmt(v){ if (!v) return ""; var d = new Date(v); if (isNaN(d.getTime())) return String(v); return d.toLocaleString("en-PH",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}); }
+  function short(s, n){ s = String(s||""); n = n || 60; return s.length > n ? s.slice(0,n)+"..." : s; }
+  function badge(s){ s = String(s||""); var cl = s.toLowerCase(); return '<span class="badge '+cl+'">'+s+'</span>'; }
+})();
+</script>
+</body>
+</html>
