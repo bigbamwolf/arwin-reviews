@@ -188,7 +188,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=30";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=31";
   })();
 
   /* NUMBERS */
