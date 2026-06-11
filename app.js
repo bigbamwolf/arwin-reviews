@@ -180,19 +180,39 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=32";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=33";
   })();
 
   /* NUMBERS */
   [
-    { v: st.avg, l: "Avg Rating", s: " ★", d: 2 }, { v: st.fiveStars, l: "Five Star" },
-    { v: st.rewatches, l: "Rewatches" }, { v: st.thisYear, l: "This Year" },
-    { v: st.likes, l: "Likes" }, { v: st.reviewWords, l: "Words" }
+    { v: st.films,        l: "Films Logged" },
+    { v: st.hoursEst,     l: "Hours Watched", p: "approx" },
+    { v: st.reviews,      l: "Reviews" },
+    { v: st.reviewWords,  l: "Words Written" },
+    { v: st.avg,          l: "Avg Rating", s: " ★", d: 2 },
+    { v: st.fiveStars,    l: "Five Star" },
+    { v: st.thisYear,     l: "Watched in " + new Date().getFullYear() },
+    { v: st.likes,        l: "Liked" },
+    { v: st.rewatches,    l: "Rewatches" },
+    { v: st.longestStreak,l: "Longest Streak", s: " days" },
+    { v: st.watchlist,    l: "Watchlist" },
+    { v: st.followers,    l: "Followers" }
   ].forEach(function (t) {
+    if (t.v === null || t.v === undefined) return;
     var d = document.createElement("div"); d.className = "bigstat";
-    d.innerHTML = '<div class="v">'+(t.d?t.v.toFixed(t.d):num(t.v))+(t.s||"")+'</div><div class="l">'+t.l+'</div>';
+    var head = t.p ? '<span class="bigstat-prefix">'+t.p+'</span> ' : '';
+    d.innerHTML = '<div class="v">'+head+(t.d?t.v.toFixed(t.d):num(t.v))+(t.s||"")+'</div><div class="l">'+t.l+'</div>';
     $("#bigStats").appendChild(d);
   });
+  (function(){
+    var nu = $("#numbersUpdated"); if (!nu) return;
+    var gen = LB.generatedAt || "", days = st.daysOnLetterboxd, dec = st.topDecade;
+    var parts = [];
+    if (gen) parts.push("Last refresh " + gen);
+    if (days) parts.push(num(days) + " days on Letterboxd");
+    if (dec && dec.decade) parts.push("Heaviest decade " + dec.decade);
+    nu.textContent = parts.join(" · ");
+  })();
   (function () {
     var order = ["5.0","4.5","4.0","3.5","3.0","2.5","2.0","1.5","1.0","0.5"], max = 0;
     order.forEach(function(k){ if((st.dist[k]||0)>max) max=st.dist[k]; });
