@@ -145,7 +145,7 @@
     var rState = { q:"", filter:"all", sort:"new", shown:18 };
     var present = {};
     revs.forEach(function(r){ if (r.rating) present[r.rating] = true; });
-    var chipDefs = [{v:"all",t:"All"}, {v:"neg",t:"Negatives"}];
+    var chipDefs = [{v:"all",t:"All"}, {v:"neg",t:"Avoid"}];
     [5,4.5,4,3.5,3,2.5,2,1.5,1,0.5].forEach(function(rt){ if (present[rt]) chipDefs.push({v:"r"+rt, t:stars(rt)}); });
     chipDefs.push({v:"rw",t:"Rewatch"});
     var rlChips = $("#rlChips");
@@ -208,7 +208,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=53";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=54";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -217,7 +217,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=53";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=54";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)
@@ -822,7 +822,7 @@
       join:    ["#weekwatch", "#join", "#partner", "#support"]
     };
     var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#support","#merch"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
+    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review on the Desk · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
@@ -852,10 +852,10 @@
       (groups[view]||groups.home).forEach(function(sel){ var e=document.querySelector(sel); if(e){ e.style.display=""; $$(".reveal", e).forEach(function(x){ x.classList.add("in"); }); } });
       if (LBC.merch && LBC.merch.archived){ var m=document.querySelector("#merch"); if(m) m.style.display="none"; }
       $$(".nav-links a").forEach(function(a){ a.classList.toggle("active", a.getAttribute("data-route")===view); });
-      // Auto-activate the Negatives chip when arriving via #/negatives or #/honest
+      // Auto-activate the Avoid chip when arriving via #/avoid (or legacy #/negatives, #/honest)
       var raw = (location.hash || "").toLowerCase();
-      if (/negatives|honest/.test(raw)) {
-        var negBtn = Array.prototype.find ? Array.prototype.find.call(document.querySelectorAll("#rlChips .chip"), function(b){ return b.textContent.trim() === "Negatives"; }) : null;
+      if (/avoid|negatives|honest/.test(raw)) {
+        var negBtn = Array.prototype.find ? Array.prototype.find.call(document.querySelectorAll("#rlChips .chip"), function(b){ return b.textContent.trim() === "Avoid"; }) : null;
         if (negBtn) setTimeout(function(){ negBtn.click(); }, 50);
       }
       updateSEO(view);
