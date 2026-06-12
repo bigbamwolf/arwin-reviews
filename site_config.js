@@ -15,14 +15,16 @@ window.LBC = {
        Modes:
          "pitch"   -> empty state, shows "Your film here" pitch to advertisers
          "sponsor" -> a single featured film fills the slot. Set art = poster URL, fill kicker/title/tagline/cta/url. */
-    mode: "sponsor",
-    label: "On the desk now",
-    kicker: "This week's verdict",
-    title: "Disclosure Day",
-    tagline: "Spielberg flexing his filmmaking. Cat-and-mouse pacing, intriguing mystery, and the idea that empathy might be the next requirement for evolution.",
-    cta: "Read the review",
-    url: "#/reviews",
-    art: "url(img/disclosure-day-2026.jpg) center 18%/cover"
+    /* Default state is "auto" — JS picks the most recent current-year film rated 4 stars or higher.
+       Flip to "sponsor" only when a real cinema or studio buys the slot, then fill the fields below. */
+    mode: "auto",
+    label: "Slot open",
+    kicker: "Cinemas, this is your slot",
+    title: "Your film here",
+    tagline: "A paid, disclosed opening week slot. A real verdict from the desk on the week your film matters most.",
+    cta: "Talk to the desk",
+    url: "#partner",
+    art: "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)"
   },
 
   /* MONEY 2 — where to watch (affiliate). {q} is the film title, URL encoded. */
