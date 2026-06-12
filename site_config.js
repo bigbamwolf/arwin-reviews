@@ -8,19 +8,21 @@ window.LBC = {
   // mode "editorial" shows a Spotlight of Arwin's own best review (looks full, never empty).
   // Switch to "sponsor" and fill the fields below once a paying studio takes the slot.
   promo: {
-    /* TOP SLOT RULE, locked 2026-06-12: this slot is for CINEMAS AND STUDIOS promoting a film only.
-       Never own-review showcase. Never affiliate products (those go in a different placement later).
+    /* TOP SLOT RULE, locked 2026-06-12:
+       - This slot is paid cinema/studio sponsorship FIRST. Never auto-Spotlight from LBR.
+       - Manual config is OK. Boss can pick any single film (own review or sponsor) as the explicit feature.
+       - Default fallback if nothing manual is set: "pitch" mode showing the "Your film here" advertiser pitch.
        Modes:
-         "pitch"   -> empty state, shows "Your film here" pitch to advertisers (default)
-         "sponsor" -> a paying cinema/studio fills it with their film (set art = poster URL, fill kicker/title/tagline/cta/url) */
-    mode: "pitch",
-    label: "Slot open",
-    kicker: "Cinemas, this is your slot",
-    title: "Your film here",
-    tagline: "A paid, disclosed opening week slot. A real verdict from the desk on the week your film matters most.",
-    cta: "Talk to the desk",
-    url: "#partner",
-    art: "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)"
+         "pitch"   -> empty state, shows "Your film here" pitch to advertisers
+         "sponsor" -> a single featured film fills the slot. Set art = poster URL, fill kicker/title/tagline/cta/url. */
+    mode: "sponsor",
+    label: "On the desk now",
+    kicker: "This week's verdict",
+    title: "Disclosure Day",
+    tagline: "Spielberg flexing his filmmaking. Cat-and-mouse pacing, intriguing mystery, and the idea that empathy might be the next requirement for evolution.",
+    cta: "Read the review",
+    url: "#/reviews",
+    art: "url(img/disclosure-day-2026.jpg) center 18%/cover"
   },
 
   /* MONEY 2 — where to watch (affiliate). {q} is the film title, URL encoded. */
