@@ -45,9 +45,10 @@
     $("#statBand").appendChild(d); countUp($(".v", d), s.v);
   });
 
-  /* TOP SLOT — cinema and film sponsors only. No own-review showcase, no affiliate products.
-     Modes: "sponsor" -> a paying cinema/studio fills the slot with their film.
-            "pitch"   -> empty state, shows "Your film here" pitch directly to advertisers (default). */
+  /* TOP SLOT
+     - Paid cinema/studio takes priority. When site_config mode is "sponsor", explicit fields render.
+     - When NOT sponsor: auto-pick the most recent CURRENT YEAR film I rated 4 stars or higher with a written verdict.
+     - If no qualifying current-year pick exists yet, fall back to the pitch placeholder so cinemas see the slot is open. */
   (function () {
     var p = LBC.promo || {}, pe = $("#promo");
     if (p.mode === "sponsor") {
@@ -60,7 +61,23 @@
         '<span class="promo-cta">' + esc(p.cta||"Learn more") + ' &#8599;</span></div>';
       return;
     }
-    // Default: show the pitch placeholder for cinemas. No auto-Spotlight of own reviews.
+    var yr = String(new Date().getFullYear());
+    var feat = LBR
+      .filter(function(r){ return (r.watched||"").indexOf(yr+"-") === 0 && r.rating >= 4 && r.poster && (r.words||0) > 60; })
+      .sort(function(a,b){ return (b.watched||"").localeCompare(a.watched||""); })[0];
+    if (feat) {
+      var ex = strip(feat.review); if (ex.length>180) ex = ex.slice(0,180).replace(/\s+\S*$/,"")+"…";
+      pe.removeAttribute("href"); pe.style.cursor = "pointer";
+      pe.innerHTML =
+        '<div class="promo-art" style="background-image:url('+feat.poster+');background-size:cover;background-position:center 18%"><span class="promo-tag">On the desk now</span></div>' +
+        '<div class="promo-body"><div class="promo-kicker">This week\'s verdict</div>' +
+        '<div class="promo-title">'+esc(feat.name)+' <span class="promo-stars">'+stars(feat.rating)+'</span></div>' +
+        '<div class="promo-tagline">'+esc(ex)+'</div>' +
+        '<span class="promo-cta">Read the review &#8599;</span></div>';
+      pe.addEventListener("click", function(){ openReview(feat); });
+      return;
+    }
+    // Fallback: pitch placeholder for cinemas
     pe.href = p.url || "#partner";
     pe.style.cursor = "pointer";
     pe.innerHTML =
@@ -180,7 +197,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=57";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=58";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +206,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=57";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=58";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)
