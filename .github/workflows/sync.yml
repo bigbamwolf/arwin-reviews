@@ -1,0 +1,25 @@
+name: auto-sync
+# Keeps the site current with zero manual steps once it is hosted on GitHub Pages.
+# Runs daily, folds in any new activity, commits, and Pages redeploys.
+on:
+  schedule:
+    - cron: "0 0 * * *"   # daily 00:00 UTC (08:00 PHT)
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Pull new activity and rebuild data
+        run: python3 autosync.py
+      - name: Commit if changed
+        run: |
+          git config user.name "arwin-reviews-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data.js reviews.js posters_map.json img || true
+          git commit -m "auto-sync $(date -u +%F)" || echo "nothing to sync"
+          git push || true

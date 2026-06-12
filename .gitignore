@@ -17,5 +17,4 @@ posters_needed*.json
 rescue_report.json
 audit_report.json
 verify_results.json
-.github/
 .DS_Store
