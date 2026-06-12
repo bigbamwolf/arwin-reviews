@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=48";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=49";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,22 +189,27 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=48";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=49";
   })();
 
-  /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h) */
-  (function () {
+  /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)
+     Wrapped as a function so the gate re-evaluates on every #/year route hit, not just initial load */
+  window.renderArwinYear = function renderArwinYear() {
     var y = LB.stats && LB.stats.year; if (!y) return;
     var pr = LB.profile || {};
     $("#yearTitle").textContent = "My " + y.label + " On Letterboxd";
     var isCrew = localStorage.getItem("mm_crew") === "1" || localStorage.getItem("pred_crew") === "1";
+    var grid = document.querySelector(".year-grid");
+    var top = document.querySelector(".year-top");
+    $("#yearHero").innerHTML = "";
+    if (grid) grid.querySelectorAll(".dist, .decades, .months, .genrebars").forEach(function(n){ n.innerHTML = ""; });
+    if (top) top.querySelectorAll(".year-top-grid").forEach(function(n){ n.innerHTML = ""; });
+    var head = document.querySelector("#year .section-head");
+    var eb = head && head.querySelector(".eyebrow");
+    var lede = head && head.querySelector(".lede");
     if (!isCrew) {
-      // Replace the year body with a VIP paywall card. Public preview teases the headline stat only.
-      var head = document.querySelector("#year .section-head");
-      if (head) {
-        var eb = head.querySelector(".eyebrow"); if (eb) eb.textContent = "VIP benefit";
-        var lede = head.querySelector(".lede"); if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd. VIP members watch my year unfold day by day, with the full breakdown.";
-      }
+      if (eb) eb.textContent = "VIP benefit";
+      if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd. VIP members watch my year unfold day by day, with the full breakdown.";
       $("#yearHero").innerHTML =
         '<div class="yh-cell" style="grid-column:1 / -1;padding:32px 22px;border-color:rgba(231,181,74,.35);background:linear-gradient(165deg,#1b1207 0%,#12171c 60%)">' +
           '<div class="yh-v" style="font-size:clamp(2.2rem,4.5vw,3.4rem)">' + Number(y.films).toLocaleString("en-US") + '</div>' +
@@ -212,11 +217,15 @@
           '<div class="yh-sub" style="font-size:.82rem;margin-top:14px;color:var(--ink)">VIP members see the rest: hours, words, rating spread, months on pace, decades, top 10 of the year, and the live diary.</div>' +
           '<a class="btn btn-join" href="#/join" style="display:inline-block;margin-top:18px">Take the VIP pass</a>' +
         '</div>';
-      var grid = document.querySelector(".year-grid"); if (grid) grid.style.display = "none";
-      var top = document.querySelector(".year-top"); if (top) top.style.display = "none";
+      if (grid) grid.style.display = "none";
+      if (top) top.style.display = "none";
       $("#yearUpdated").textContent = "Refreshed every 6 hours, last sync " + (LB.generatedAt || "today");
       return;
     }
+    if (eb) eb.textContent = "VIP benefit";
+    if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd in near realtime, refreshed every 6 hours.";
+    if (grid) grid.style.display = "";
+    if (top) top.style.display = "";
     var MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     // Hero counter row
     var cells = [
@@ -284,7 +293,11 @@
     // Footer
     var first = y.firstWatch || "", last = y.lastWatch || "";
     $("#yearUpdated").textContent = "First watch " + first + " · last watch " + last + " · refreshed " + (LB.generatedAt || "today");
-  })();
+  };
+  window.renderArwinYear();
+  window.addEventListener("hashchange", function () {
+    if (/^#\/?(year|my-?year|2026|yir)/i.test(location.hash || "")) window.renderArwinYear();
+  });
 
   /* Auto height iframe matching: children postMessage their scrollHeight, parent resizes
      so the embedded section reads as part of the page, no inner scrollbar */
