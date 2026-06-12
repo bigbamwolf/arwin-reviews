@@ -1,0 +1,32 @@
+[
+  {
+    "to": "customercare@smcinema.com",
+    "ok": true,
+    "info": "70df525e-f6a2-490e-a5da-6bb22107fcf4"
+  },
+  {
+    "to": "newport.cinemas@rwmanila.com",
+    "ok": true,
+    "info": "4e771aba-e901-4862-9213-11da9de5f3e8"
+  },
+  {
+    "to": "inquiry@vistacinemas.com",
+    "ok": true,
+    "info": "3d5d662d-3aed-494d-bf7c-01b01d62812d"
+  },
+  {
+    "to": "ccp.fbnmd@gmail.com",
+    "ok": true,
+    "info": "5a4afaa6-35a4-41f7-90ff-5fd190a89b43"
+  },
+  {
+    "to": "marketing@culturalcenter.gov.ph",
+    "ok": true,
+    "info": "de1136f0-2911-4f7a-b4f9-5768d6de8202"
+  },
+  {
+    "to": "cinemalayafoundation@gmail.com",
+    "ok": true,
+    "info": "2600b897-0343-4c37-9b68-03c12f2124bf"
+  }
+]

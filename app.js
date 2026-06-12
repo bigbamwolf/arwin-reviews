@@ -868,4 +868,63 @@
     });
     route();
   })();
+
+  /* === NEWSLETTER === */
+  (function initNewsletter(){
+    var form = document.getElementById("nlForm");
+    if (!form) return;
+    var email = document.getElementById("nlEmail");
+    var btn   = document.getElementById("nlBtn");
+    var msg   = document.getElementById("nlMsg");
+    var heading = document.getElementById("nlHeading");
+    var sub = document.getElementById("nlSub");
+    var nl = (window.LBC && window.LBC.newsletter) || {};
+    if (nl.heading && heading) heading.textContent = nl.heading;
+    if (nl.sub && sub) sub.textContent = nl.sub;
+    if (nl.cta && btn) btn.textContent = nl.cta;
+    form.addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var addr = (email.value || "").trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) {
+        msg.textContent = "Please enter a valid email address.";
+        msg.style.color = "var(--red,#ff6b6b)";
+        return;
+      }
+      var api = (window.ARWIN_PAYMENTS_API || "").trim();
+      if (!api) {
+        msg.textContent = "Newsletter is offline. Try again later.";
+        return;
+      }
+      btn.disabled = true;
+      var prev = btn.textContent;
+      btn.textContent = "Sending...";
+      msg.textContent = "";
+      fetch(api, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ route: "newsletter_subscribe", email: addr, source: "site_footer" }),
+        redirect: "follow"
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d && d.ok) {
+          msg.textContent = d.already ? "You are already subscribed. Thank you." : "Subscribed. Watch your inbox.";
+          msg.style.color = "var(--green,#00e054)";
+          email.value = "";
+          if (window.gtag) gtag("event","newsletter_subscribe",{ value: 1 });
+        } else {
+          msg.textContent = (d && d.error) || "Could not subscribe. Try again later.";
+          msg.style.color = "var(--red,#ff6b6b)";
+        }
+      })
+      .catch(function(){
+        msg.textContent = "Network error. Try again in a moment.";
+        msg.style.color = "var(--red,#ff6b6b)";
+      })
+      .then(function(){
+        btn.disabled = false;
+        btn.textContent = prev;
+      });
+    });
+  })();
 })();

@@ -150,14 +150,21 @@ window.LBC = {
     ]
   },
 
-  /* MONEY 5, 6, 7 — support, newsletter, ad sales. */
+  /* NEWSLETTER — Resend Broadcasts, server-side audience id in arwin-payments Script Props */
+  newsletter: {
+    enabled: true,
+    heading: "Get every review in your inbox",
+    sub: "One email a week. The reviews, the rankings, the picks. No spam, unsubscribe anytime.",
+    cta: "Subscribe"
+  },
+
+  /* MONEY 5, 6, 7 — support, ad sales. */
   support: {
     tipLabel: "Send a tip via GCash",
     xenditLabel: "Send a tip via Xendit",
     xenditTipUrl: "#tip-xendit",
     gcash: { name: "Arwin Edward M. Bagaslao", number: "09356708680", qr: "img/gcash-qr.png" },
     paypal: "https://paypal.me/arwinbagaslao",
-    newsletterAction: "#newsletter", // TODO: mailing list endpoint
     sponsorEmail: "partnerships@arwinreviews.com"
   }
 };
