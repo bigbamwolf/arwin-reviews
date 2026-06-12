@@ -208,7 +208,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=52";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=53";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -217,7 +217,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=52";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=53";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)

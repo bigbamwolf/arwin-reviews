@@ -12,12 +12,15 @@ window.LBC = {
         "editorial" -> shows a Spotlight of Arwin's own best review (default)
         "sponsor"   -> single-product banner sponsor (one art + title + tagline + CTA)
         "products"  -> Agoda-style multi-product card (2 to 3 tiles with image + price + CTA per tile) */
-    mode: "products",
-    sponsor: "agoda",
+    mode: "editorial",
+    sponsor: "",
     label: "Sponsored",
+    /* When a real multi-product sponsor signs (Agoda, Klook, JustWatch, etc.):
+       1) set sponsor: "agoda" (lowercase, shows as the wordmark)
+       2) fill products[] with up to 3 tiles (name + price + url + optional image + optional cta)
+       3) change mode above to "products". That is it. */
     products: [
-      { name: "Park Inn by Radisson Clark", price: "₱6,500", image: "", cta: "View deal", url: "https://www.agoda.com/" },
-      { name: "Red Planet Clark Angeles City", price: "₱1,429", image: "", cta: "View deal", url: "https://www.agoda.com/" }
+      // { name: "Park Inn Clark", price: "₱6,500", image: "img/agoda-park-inn.jpg", url: "https://www.agoda.com/..." }
     ],
     /* Editorial fallback fields, used only when mode is "editorial" or "sponsor" */
     kicker: "Featured this week",

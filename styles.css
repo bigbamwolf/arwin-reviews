@@ -97,21 +97,22 @@ body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;back
 .promo .promo-cta{margin-top:18px;align-self:flex-start;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(231,181,74,.4);padding:10px 18px;border-radius:30px}
 .promo .promo-stars{color:var(--gold);font-size:.82em;margin-left:8px;letter-spacing:.04em}
 @media(max-width:680px){.promo{grid-template-columns:1fr}.promo .promo-art{min-height:130px}}
-/* Agoda-style multi-product sponsor card */
-.promo .ad-card-wrap{display:flex;flex-direction:column;background:#fff;color:#1a1a1a;padding:18px;width:100%;border-radius:16px;min-height:auto;font-family:var(--sans)}
-.promo .ad-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative}
-.promo .ad-head .ad-sponsor{flex:1;text-align:center;font-size:1.7rem;font-weight:600;color:#1a1a1a;letter-spacing:-.02em}
-.promo .ad-head .ad-tag{position:absolute;left:0;top:2px;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:#9aa1aa;background:transparent;border:0;padding:0}
-.promo .ad-head .ad-close{position:absolute;right:0;top:0;background:transparent;border:0;color:#666;font-size:1.5rem;cursor:pointer;line-height:1;padding:0 4px;font-family:var(--sans)}
-.promo .ad-head .ad-close:hover{color:#000}
-.promo .ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+/* Multi-product sponsor card, compact strip variant, easy to ignore, easy to scan */
+.promo:has(.ad-card-wrap){grid-template-columns:1fr;min-height:auto}
+.promo .ad-card-wrap{display:flex;flex-direction:column;background:rgba(255,255,255,.02);color:var(--ink);padding:12px 16px;width:100%;border-radius:14px;font-family:var(--sans);gap:8px}
+.promo .ad-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.promo .ad-head .ad-tag{font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:500}
+.promo .ad-head .ad-sponsor{flex:1;text-align:center;font-size:.95rem;font-weight:600;color:var(--muted);letter-spacing:.02em;text-transform:lowercase}
+.promo .ad-head .ad-close{background:transparent;border:0;color:var(--faint);font-size:1.05rem;cursor:pointer;line-height:1;padding:0 4px;font-family:var(--sans);width:20px;height:20px}
+.promo .ad-head .ad-close:hover{color:var(--ink)}
+.promo .ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:600px){.promo .ad-grid{grid-template-columns:1fr}}
-.promo .ad-card{display:flex;flex-direction:column;background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden;text-decoration:none;color:#1a1a1a;transition:border-color .2s,transform .2s}
-.promo .ad-card:hover{border-color:#ccc;transform:translateY(-2px)}
-.promo .ad-img{width:100%;aspect-ratio:16/9;background:#f5f5f5}
-.promo .ad-name{font-size:1.05rem;font-weight:600;line-height:1.25;color:#1a1a1a;padding:14px 14px 4px;text-align:center}
-.promo .ad-price{font-size:1.4rem;font-weight:600;color:#d4541b;text-align:center;padding:8px 14px;font-feature-settings:"lnum" 1,"tnum" 1}
-.promo .ad-cta{font-size:1.2rem;color:#1e63d4;text-align:center;padding:6px 14px 14px;font-weight:500}
+.promo .ad-card{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:10px;background:transparent;border:1px solid var(--line);border-radius:8px;padding:7px 10px;text-decoration:none;color:var(--ink);transition:border-color .2s,background .2s}
+.promo .ad-card:hover{border-color:var(--gold);background:rgba(231,181,74,.03)}
+.promo .ad-img{width:48px;height:32px;border-radius:4px;background:#1a2128 center/cover no-repeat}
+.promo .ad-name{font-size:.78rem;font-weight:500;line-height:1.2;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.promo .ad-price{font-size:.78rem;font-weight:600;color:var(--gold-soft);font-feature-settings:"lnum" 1,"tnum" 1;white-space:nowrap}
+.promo .ad-cta{display:none}
 
 /* FAVORITES — five poster shelf */
 .fav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
