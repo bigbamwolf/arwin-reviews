@@ -208,7 +208,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=51";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=52";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -217,7 +217,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=51";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=52";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)
@@ -225,7 +225,7 @@
   window.renderArwinYear = function renderArwinYear() {
     var y = LB.stats && LB.stats.year; if (!y) return;
     var pr = LB.profile || {};
-    $("#yearTitle").textContent = "My " + y.label + " On Letterboxd";
+    $("#yearTitle").textContent = "My " + y.label + " On the Desk";
     var isCrew = localStorage.getItem("mm_crew") === "1" || localStorage.getItem("pred_crew") === "1";
     var grid = document.querySelector(".year-grid");
     var top = document.querySelector(".year-top");
@@ -237,7 +237,7 @@
     var lede = head && head.querySelector(".lede");
     if (!isCrew) {
       if (eb) eb.textContent = "";
-      if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd. VIP members watch my year unfold day by day, with the full breakdown.";
+      if (lede) lede.textContent = "Every film I have watched this year, tracked in near realtime. VIP members watch my year unfold day by day, with the full breakdown.";
       $("#yearHero").innerHTML =
         '<div class="yh-cell" style="grid-column:1 / -1;padding:32px 22px;border-color:rgba(231,181,74,.35);background:linear-gradient(165deg,#1b1207 0%,#12171c 60%)">' +
           '<div class="yh-v" style="font-size:clamp(2.2rem,4.5vw,3.4rem)">' + Number(y.films).toLocaleString("en-US") + '</div>' +
@@ -251,7 +251,7 @@
       return;
     }
     if (eb) eb.textContent = "Refreshed every 6 hours";
-    if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd in near realtime, refreshed every 6 hours.";
+    if (lede) lede.textContent = "Every film I have watched this year, tracked in near realtime in near realtime, refreshed every 6 hours.";
     if (grid) grid.style.display = "";
     if (top) top.style.display = "";
     var MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -364,7 +364,7 @@
     var gen = LB.generatedAt || "", days = st.daysOnLetterboxd, dec = st.topDecade;
     var parts = [];
     if (gen) parts.push("Last refresh " + gen);
-    if (days) parts.push(num(days) + " days on Letterboxd");
+    if (days) parts.push(num(days) + " days on the desk");
     if (dec && dec.decade) parts.push("Heaviest decade " + dec.decade);
     nu.textContent = parts.join(" · ");
   })();
@@ -829,7 +829,7 @@
       films:   { t:"All Films and Stats · ARWIN REVIEWS", d:"A searchable vault of every film logged, with star ratings, genres, decades, and auteur breakdowns." },
       predict: { t:"What Arwin Might Think · ARWIN REVIEWS", d:"A film rating predictor trained on Arwin's reviews. Get a likely score for any film before you watch it." },
       moviemode:{ t:"Find Your Next Watch · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from the desk, with a reason and a snippet from past you." },
-      year:    { t:"My 2026 On Letterboxd · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed from Letterboxd every six hours." },
+      year:    { t:"My 2026 On the Desk · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed every six hours." },
       lists:   { t:"Ranked Film Lists · ARWIN REVIEWS", d:"Films ranked by director, cinematographer, decade, studio, genre, and mood." },
       join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back the desk. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
     };

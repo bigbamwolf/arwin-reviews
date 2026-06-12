@@ -120,7 +120,7 @@ window.LBC = {
   },
   yearInReview: {
     tag: "The personal one", title: "Your Year on the Desk",
-    body: "Not just my year on Letterboxd. Yours. Every film you predicted, every Find Your Next Watch pick you took, every tip you sent, every review you requested. A shareable card of how you spent your film year with me. Members get the first build, every December.",
+    body: "Not just my year on the desk. Yours. Every film you predicted, every Find Your Next Watch pick you took, every tip you sent, every review you requested. A shareable card of how you spent your film year with me. Members get the first build, every December.",
     cta: "Members get it first", url: "#join", highlight: true
   },
 
