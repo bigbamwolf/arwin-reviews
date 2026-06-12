@@ -45,36 +45,11 @@
     $("#statBand").appendChild(d); countUp($(".v", d), s.v);
   });
 
-  /* TOP SLOT — a real sponsor if set, otherwise an editorial Spotlight of his own work */
+  /* TOP SLOT — cinema and film sponsors only. No own-review showcase, no affiliate products.
+     Modes: "sponsor" -> a paying cinema/studio fills the slot with their film.
+            "pitch"   -> empty state, shows "Your film here" pitch directly to advertisers (default). */
   (function () {
     var p = LBC.promo || {}, pe = $("#promo");
-    // Multi-product sponsor card (Agoda-style: sponsor wordmark up top, 2-3 product cards in a row, prices, a small X to dismiss for the session)
-    if (p.mode === "products" && p.products && p.products.length) {
-      pe.removeAttribute("href");
-      var prodHTML = p.products.slice(0, 3).map(function(pr){
-        var price = pr.price ? '<span class="ad-price">' + esc(pr.price) + '</span>' : '';
-        var img = pr.image ? 'style="background-image:url(' + attr(pr.image) + ');background-size:cover;background-position:center"' : '';
-        return '<a class="ad-card" href="' + attr(pr.url || "#") + '" target="_blank" rel="noopener sponsored">' +
-                 '<div class="ad-img" ' + img + '></div>' +
-                 '<div class="ad-name">' + esc(pr.name) + '</div>' +
-                 price +
-                 (pr.cta ? '<div class="ad-cta">' + esc(pr.cta) + ' &#8250;</div>' : '<div class="ad-cta">&#8250;</div>') +
-               '</a>';
-      }).join("");
-      pe.innerHTML =
-        '<div class="ad-card-wrap">' +
-          '<div class="ad-head">' +
-            '<div class="ad-sponsor">' + esc(p.sponsor || "Sponsor") + '</div>' +
-            '<div class="ad-tag">' + esc(p.label || "Promoted") + '</div>' +
-            '<button class="ad-close" type="button" aria-label="Dismiss this ad">&times;</button>' +
-          '</div>' +
-          '<div class="ad-grid">' + prodHTML + '</div>' +
-        '</div>';
-      var cl = pe.querySelector(".ad-close");
-      if (cl) cl.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); pe.parentNode.style.display = "none"; sessionStorage.setItem("hide_promo", "1"); });
-      if (sessionStorage.getItem("hide_promo") === "1") pe.parentNode.style.display = "none";
-      return;
-    }
     if (p.mode === "sponsor") {
       pe.href = p.url || "#";
       pe.innerHTML =
@@ -85,18 +60,15 @@
         '<span class="promo-cta">' + esc(p.cta||"Learn more") + ' &#8599;</span></div>';
       return;
     }
-    var feat = LBR.filter(function(r){return r.rating>=4.5 && r.poster && r.words>80;})[0]
-            || LBR.filter(function(r){return r.poster && r.words>60;})[0];
-    if (!feat) { pe.parentNode.style.display = "none"; return; }
-    var ex = strip(feat.review); if (ex.length>150) ex = ex.slice(0,150).replace(/\s+\S*$/,"")+"…";
-    pe.removeAttribute("href"); pe.style.cursor = "pointer";
+    // Default: show the pitch placeholder for cinemas. No auto-Spotlight of own reviews.
+    pe.href = p.url || "#partner";
+    pe.style.cursor = "pointer";
     pe.innerHTML =
-      '<div class="promo-art" style="background-image:url('+feat.poster+');background-size:cover;background-position:center 18%"><span class="promo-tag">Spotlight</span></div>' +
-      '<div class="promo-body"><div class="promo-kicker">This week on the desk</div>' +
-      '<div class="promo-title">'+esc(feat.name)+' <span class="promo-stars">'+stars(feat.rating)+'</span></div>' +
-      '<div class="promo-tagline">'+esc(ex)+'</div>' +
-      '<span class="promo-cta">Read the review &#8599;</span></div>';
-    pe.addEventListener("click", function(){ openReview(feat); });
+      '<div class="promo-art" style="background:' + (p.art || "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)") + '"><span class="promo-tag">' + esc(p.label || "Slot open") + '</span></div>' +
+      '<div class="promo-body"><div class="promo-kicker">' + esc(p.kicker || "Cinemas, this is your slot") + '</div>' +
+      '<div class="promo-title">' + esc(p.title || "Your film here") + '</div>' +
+      '<div class="promo-tagline">' + esc(p.tagline || "A paid, disclosed opening week slot. A real verdict from the desk on the week your film matters most.") + '</div>' +
+      '<span class="promo-cta">' + esc(p.cta || "Talk to the desk") + ' &#8599;</span></div>';
   })();
 
   /* FAVORITES — five poster shelf */
@@ -208,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=54";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=55";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -217,7 +189,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=54";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=55";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)

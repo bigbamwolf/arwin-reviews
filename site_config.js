@@ -8,24 +8,16 @@ window.LBC = {
   // mode "editorial" shows a Spotlight of Arwin's own best review (looks full, never empty).
   // Switch to "sponsor" and fill the fields below once a paying studio takes the slot.
   promo: {
-    /* Modes:
-        "editorial" -> shows a Spotlight of Arwin's own best review (default)
-        "sponsor"   -> single-product banner sponsor (one art + title + tagline + CTA)
-        "products"  -> Agoda-style multi-product card (2 to 3 tiles with image + price + CTA per tile) */
-    mode: "editorial",
-    sponsor: "",
-    label: "Sponsored",
-    /* When a real multi-product sponsor signs (Agoda, Klook, JustWatch, etc.):
-       1) set sponsor: "agoda" (lowercase, shows as the wordmark)
-       2) fill products[] with up to 3 tiles (name + price + url + optional image + optional cta)
-       3) change mode above to "products". That is it. */
-    products: [
-      // { name: "Park Inn Clark", price: "₱6,500", image: "img/agoda-park-inn.jpg", url: "https://www.agoda.com/..." }
-    ],
-    /* Editorial fallback fields, used only when mode is "editorial" or "sponsor" */
-    kicker: "Featured this week",
+    /* TOP SLOT RULE, locked 2026-06-12: this slot is for CINEMAS AND STUDIOS promoting a film only.
+       Never own-review showcase. Never affiliate products (those go in a different placement later).
+       Modes:
+         "pitch"   -> empty state, shows "Your film here" pitch to advertisers (default)
+         "sponsor" -> a paying cinema/studio fills it with their film (set art = poster URL, fill kicker/title/tagline/cta/url) */
+    mode: "pitch",
+    label: "Slot open",
+    kicker: "Cinemas, this is your slot",
     title: "Your film here",
-    tagline: "A premium placement in front of a reader who has logged 1,343 films and written 124,000 words about them.",
+    tagline: "A paid, disclosed opening week slot. A real verdict from the desk on the week your film matters most.",
     cta: "Talk to the desk",
     url: "#partner",
     art: "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)"
