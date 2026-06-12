@@ -30,7 +30,7 @@ Drafts created in Gmail on 2026-06-12. Each draft sits in the Drafts folder of B
 
 ## Draft check before sending each one
 
-1. From line: Gmail defaults to arwinbagaslao@gmail.com. To send as arwinbagaslao+reviews@gmail.com, click the From dropdown in the draft and switch (requires "Send mail as" set up in Gmail settings, otherwise the default From is fine, you are still you).
+1. From line: Gmail defaults to arwinbagaslao@gmail.com. To send as partnerships@arwinreviews.com, click the From dropdown in the draft and switch (requires "Send mail as" set up in Gmail settings, otherwise the default From is fine, you are still you).
 2. Personalize one line per draft if you can. Mention a film you recently saw in their slate. Cinema chains, name the specific mall. Distributors, name the upcoming release.
 3. Quick re-read for the rate, the 15-minute call ask, and the link to arwinreviews.com/work.
 4. Send. Track in a simple Sheet if you want to log replies.

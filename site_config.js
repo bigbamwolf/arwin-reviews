@@ -97,7 +97,7 @@ window.LBC = {
   partner: {
     heading: "Work with me",
     sub: "A serious, high intent film audience and a reviewer who actually finishes the 124,000 words. Here is how brands plug in.",
-    email: "arwinbagaslao+reviews@gmail.com",
+    email: "partnerships@arwinreviews.com",
     cards: [
       { tag: "For studios and streamers", title: "Sponsored Reviews",
         body: "A disclosed, honest opening week slot. A real verdict from a critic people trust, on the week it matters most.",
@@ -158,6 +158,6 @@ window.LBC = {
     gcash: { name: "Arwin Edward M. Bagaslao", number: "09356708680", qr: "img/gcash-qr.png" },
     paypal: "https://paypal.me/arwinbagaslao",
     newsletterAction: "#newsletter", // TODO: mailing list endpoint
-    sponsorEmail: "arwinbagaslao+reviews@gmail.com"
+    sponsorEmail: "partnerships@arwinreviews.com"
   }
 };
