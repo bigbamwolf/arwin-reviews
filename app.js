@@ -48,6 +48,33 @@
   /* TOP SLOT — a real sponsor if set, otherwise an editorial Spotlight of his own work */
   (function () {
     var p = LBC.promo || {}, pe = $("#promo");
+    // Multi-product sponsor card (Agoda-style: sponsor wordmark up top, 2-3 product cards in a row, prices, a small X to dismiss for the session)
+    if (p.mode === "products" && p.products && p.products.length) {
+      pe.removeAttribute("href");
+      var prodHTML = p.products.slice(0, 3).map(function(pr){
+        var price = pr.price ? '<span class="ad-price">' + esc(pr.price) + '</span>' : '';
+        var img = pr.image ? 'style="background-image:url(' + attr(pr.image) + ');background-size:cover;background-position:center"' : '';
+        return '<a class="ad-card" href="' + attr(pr.url || "#") + '" target="_blank" rel="noopener sponsored">' +
+                 '<div class="ad-img" ' + img + '></div>' +
+                 '<div class="ad-name">' + esc(pr.name) + '</div>' +
+                 price +
+                 (pr.cta ? '<div class="ad-cta">' + esc(pr.cta) + ' &#8250;</div>' : '<div class="ad-cta">&#8250;</div>') +
+               '</a>';
+      }).join("");
+      pe.innerHTML =
+        '<div class="ad-card-wrap">' +
+          '<div class="ad-head">' +
+            '<div class="ad-sponsor">' + esc(p.sponsor || "Sponsor") + '</div>' +
+            '<div class="ad-tag">' + esc(p.label || "Promoted") + '</div>' +
+            '<button class="ad-close" type="button" aria-label="Dismiss this ad">&times;</button>' +
+          '</div>' +
+          '<div class="ad-grid">' + prodHTML + '</div>' +
+        '</div>';
+      var cl = pe.querySelector(".ad-close");
+      if (cl) cl.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); pe.parentNode.style.display = "none"; sessionStorage.setItem("hide_promo", "1"); });
+      if (sessionStorage.getItem("hide_promo") === "1") pe.parentNode.style.display = "none";
+      return;
+    }
     if (p.mode === "sponsor") {
       pe.href = p.url || "#";
       pe.innerHTML =
@@ -118,7 +145,7 @@
     var rState = { q:"", filter:"all", sort:"new", shown:18 };
     var present = {};
     revs.forEach(function(r){ if (r.rating) present[r.rating] = true; });
-    var chipDefs = [{v:"all",t:"All"}];
+    var chipDefs = [{v:"all",t:"All"}, {v:"neg",t:"Negatives"}];
     [5,4.5,4,3.5,3,2.5,2,1.5,1,0.5].forEach(function(rt){ if (present[rt]) chipDefs.push({v:"r"+rt, t:stars(rt)}); });
     chipDefs.push({v:"rw",t:"Rewatch"});
     var rlChips = $("#rlChips");
@@ -130,6 +157,7 @@
     function rlPass(r) {
       if (rState.q && r.name.toLowerCase().indexOf(rState.q)===-1) return false;
       if (rState.filter==="rw") return !!r.rewatch;
+      if (rState.filter==="neg") return r.rating !== undefined && r.rating !== null && r.rating <= 2;
       if (rState.filter.charAt(0)==="r") return r.rating === parseFloat(rState.filter.slice(1));
       return true;
     }
@@ -180,7 +208,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=50";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=51";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +217,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=50";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=51";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)
@@ -794,7 +822,7 @@
       join:    ["#weekwatch", "#join", "#partner", "#support"]
     };
     var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#support","#merch"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home" };
+    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review on the Desk · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
@@ -824,6 +852,12 @@
       (groups[view]||groups.home).forEach(function(sel){ var e=document.querySelector(sel); if(e){ e.style.display=""; $$(".reveal", e).forEach(function(x){ x.classList.add("in"); }); } });
       if (LBC.merch && LBC.merch.archived){ var m=document.querySelector("#merch"); if(m) m.style.display="none"; }
       $$(".nav-links a").forEach(function(a){ a.classList.toggle("active", a.getAttribute("data-route")===view); });
+      // Auto-activate the Negatives chip when arriving via #/negatives or #/honest
+      var raw = (location.hash || "").toLowerCase();
+      if (/negatives|honest/.test(raw)) {
+        var negBtn = Array.prototype.find ? Array.prototype.find.call(document.querySelectorAll("#rlChips .chip"), function(b){ return b.textContent.trim() === "Negatives"; }) : null;
+        if (negBtn) setTimeout(function(){ negBtn.click(); }, 50);
+      }
       updateSEO(view);
       if (window.gtag) gtag("event", "page_view", { page_path: location.hash || "#/", page_title: document.title });
       nav.classList.remove("open"); document.body.classList.remove("nav-open");

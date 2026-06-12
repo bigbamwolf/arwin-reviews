@@ -8,8 +8,18 @@ window.LBC = {
   // mode "editorial" shows a Spotlight of Arwin's own best review (looks full, never empty).
   // Switch to "sponsor" and fill the fields below once a paying studio takes the slot.
   promo: {
-    mode: "editorial",
-    label: "Promoted",
+    /* Modes:
+        "editorial" -> shows a Spotlight of Arwin's own best review (default)
+        "sponsor"   -> single-product banner sponsor (one art + title + tagline + CTA)
+        "products"  -> Agoda-style multi-product card (2 to 3 tiles with image + price + CTA per tile) */
+    mode: "products",
+    sponsor: "agoda",
+    label: "Sponsored",
+    products: [
+      { name: "Park Inn by Radisson Clark", price: "₱6,500", image: "", cta: "View deal", url: "https://www.agoda.com/" },
+      { name: "Red Planet Clark Angeles City", price: "₱1,429", image: "", cta: "View deal", url: "https://www.agoda.com/" }
+    ],
+    /* Editorial fallback fields, used only when mode is "editorial" or "sponsor" */
     kicker: "Featured this week",
     title: "Your film here",
     tagline: "A premium placement in front of a reader who has logged 1,343 films and written 124,000 words about them.",
