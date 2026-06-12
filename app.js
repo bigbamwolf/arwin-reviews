@@ -69,7 +69,7 @@
       var ex = strip(feat.review); if (ex.length>180) ex = ex.slice(0,180).replace(/\s+\S*$/,"")+"…";
       pe.removeAttribute("href"); pe.style.cursor = "pointer";
       pe.innerHTML =
-        '<div class="promo-art" style="background-image:url('+feat.poster+');background-size:cover;background-position:center 18%"><span class="promo-tag">On the desk now</span></div>' +
+        '<div class="promo-art" style="background-image:url('+feat.poster+');background-size:cover;background-position:center 18%"><span class="promo-tag">Now showing</span></div>' +
         '<div class="promo-body"><div class="promo-kicker">This week\'s verdict</div>' +
         '<div class="promo-title">'+esc(feat.name)+' <span class="promo-stars">'+stars(feat.rating)+'</span></div>' +
         '<div class="promo-tagline">'+esc(ex)+'</div>' +
@@ -84,8 +84,8 @@
       '<div class="promo-art" style="background:' + (p.art || "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)") + '"><span class="promo-tag">' + esc(p.label || "Slot open") + '</span></div>' +
       '<div class="promo-body"><div class="promo-kicker">' + esc(p.kicker || "Cinemas, this is your slot") + '</div>' +
       '<div class="promo-title">' + esc(p.title || "Your film here") + '</div>' +
-      '<div class="promo-tagline">' + esc(p.tagline || "A paid, disclosed opening week slot. A real verdict from the desk on the week your film matters most.") + '</div>' +
-      '<span class="promo-cta">' + esc(p.cta || "Talk to the desk") + ' &#8599;</span></div>';
+      '<div class="promo-tagline">' + esc(p.tagline || "A paid, disclosed opening week slot. A real verdict, curated on the week your film matters most.") + '</div>' +
+      '<span class="promo-cta">' + esc(p.cta || "Contact Arwin") + ' &#8599;</span></div>';
   })();
 
   /* FAVORITES — five poster shelf */
@@ -114,7 +114,7 @@
     return r.poster ? '<img class="feature-poster" src="'+r.poster+'" alt="'+attr(r.name)+'" />'
                     : '<div class="feature-mini">'+esc(r.name)+'</div>';
   }
-  $("#reviewsLede").textContent = LB.stats.reviews + " reviews on the desk. The latest cut below, the full archive one click away.";
+  $("#reviewsLede").textContent = LB.stats.reviews + " reviews curated. The latest cut below, the full archive one click away.";
   LBR.slice().sort(function(a,b){return (b.watched||"").localeCompare(a.watched||"") || (b.year||0)-(a.year||0);}).slice(0,6).forEach(function (r) {
     var ex = strip(r.review); if (ex.length>180) ex = ex.slice(0,180).replace(/\s+\S*$/,"")+"…";
     var c = document.createElement("div"); c.className = "feature reveal";
@@ -214,7 +214,7 @@
   window.renderArwinYear = function renderArwinYear() {
     var y = LB.stats && LB.stats.year; if (!y) return;
     var pr = LB.profile || {};
-    $("#yearTitle").textContent = "My " + y.label + " On the Desk";
+    $("#yearTitle").textContent = "My " + y.label + " , Curated";
     var isCrew = localStorage.getItem("mm_crew") === "1" || localStorage.getItem("pred_crew") === "1";
     var grid = document.querySelector(".year-grid");
     var top = document.querySelector(".year-top");
@@ -353,7 +353,7 @@
     var gen = LB.generatedAt || "", days = st.daysOnLetterboxd, dec = st.topDecade;
     var parts = [];
     if (gen) parts.push("Last refresh " + gen);
-    if (days) parts.push(num(days) + " days on the desk");
+    if (days) parts.push(num(days) + " days curating");
     if (dec && dec.decade) parts.push("Heaviest decade " + dec.decade);
     nu.textContent = parts.join(" · ");
   })();
@@ -385,7 +385,7 @@
   (function () {
     var bySlug = {}; (LB.lists||[]).forEach(function(l){ bySlug[l.slug] = l; });
     var dirs = (LB.auteurs||[]).filter(function(a){return a.cat==="Auteurs";}).slice(0,15);
-    var html = '<h3>Auteurs on the desk</h3><div class="as-sub">'+st.auteurCount+' directors ranked, plus cinematographers and lead actors. Tap a name for the full ranking.</div><div class="auteur-rows">';
+    var html = '<h3>Auteurs in the archive</h3><div class="as-sub">'+st.auteurCount+' directors ranked, plus cinematographers and lead actors. Tap a name for the full ranking.</div><div class="auteur-rows">';
     dirs.forEach(function(a){ html += '<div class="auteur-row" data-slug="'+attr(a.slug)+'"><span class="who">'+esc(a.who)+'</span><span class="top">'+esc(a.top)+'</span></div>'; });
     html += '</div>'; $("#auteurStrip").innerHTML = html;
     $$(".auteur-row", $("#auteurStrip")).forEach(function(row){
@@ -502,7 +502,7 @@
     m.tiers.forEach(function (t, idx) {
       var price = (/^\d/.test(t.price)) ? '<span class="cur">&#8369;</span>'+t.price : t.price;
       var perks = t.perks.map(function(p){
-        var hl = /Year on the Desk|personalized to your activity/i.test(p);
+        var hl = /Year, Curated|personalized to your activity/i.test(p);
         return '<li'+(hl?' class="perk-hl"':'')+'>'+esc(p)+(hl?' <span class="perk-new">NEW</span>':'')+'</li>';
       }).join("");
       var per = t.period ? esc(t.period) : "&nbsp;";
@@ -602,7 +602,7 @@
     });
   })();
 
-  /* PARTNER (work with the desk) + Year in Review */
+  /* PARTNER (work with Arwin) + Year in Review */
   (function () {
     var p = LBC.partner;
     if (p) {
@@ -648,7 +648,7 @@
       '<div class="yir-modal-card">' +
         '<button class="yir-close" data-close aria-label="Close">&times;</button>' +
         '<div class="yir-eyebrow">Sample, illustrative only</div>' +
-        '<div class="yir-title">Your Year on the Desk, '+samp.year+'</div>' +
+        '<div class="yir-title">Your Year, Curated, '+samp.year+'</div>' +
         '<div class="yir-grid">' +
           yirStat(samp.predictions, "Predicts you ran") +
           yirStat(samp.pick_landed, "FYNW picks you watched") +
@@ -814,13 +814,13 @@
     var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
-      reviews: { t:"Every Review on the Desk · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
+      reviews: { t:"Every Review · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
       films:   { t:"All Films and Stats · ARWIN REVIEWS", d:"A searchable vault of every film logged, with star ratings, genres, decades, and auteur breakdowns." },
       predict: { t:"What Arwin Might Think · ARWIN REVIEWS", d:"A film rating predictor trained on Arwin's reviews. Get a likely score for any film before you watch it." },
-      moviemode:{ t:"Find Your Next Watch · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from the desk, with a reason and a snippet from past you." },
-      year:    { t:"My 2026 On the Desk · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed every six hours." },
+      moviemode:{ t:"Find Your Next Watch · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from Arwin, with a reason and a snippet from past you." },
+      year:    { t:"My 2026, Curated · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed every six hours." },
       lists:   { t:"Ranked Film Lists · ARWIN REVIEWS", d:"Films ranked by director, cinematographer, decade, studio, genre, and mood." },
-      join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back the desk. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
+      join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back Arwin. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
     };
     function setMeta(sel, val){ var m=document.querySelector(sel); if(m) m.setAttribute("content", val); }
     function updateSEO(view){

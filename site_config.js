@@ -21,8 +21,8 @@ window.LBC = {
     label: "Slot open",
     kicker: "Cinemas, this is your slot",
     title: "Your film here",
-    tagline: "A paid, disclosed opening week slot. A real verdict from the desk on the week your film matters most.",
-    cta: "Talk to the desk",
+    tagline: "A paid, disclosed opening week slot. A real verdict, curated on the week your film matters most.",
+    cta: "Contact Arwin",
     url: "#partner",
     art: "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)"
   },
@@ -47,7 +47,7 @@ window.LBC = {
                 "Find Your Next Watch, unlimited picks plus Past You review snippets",
                 "Full review archive, early access before public",
                 "Vote on the next review and the next ranking",
-                "Your Year on the Desk, personalized to your activity, yours every December",
+                "Your Year, Curated, personalized to your activity, yours every December",
                 "Ad free reading", "10 percent off all merch"],
         cta: "Take the VIP pass", url: "#join" },
       { name: "VIP Annual", price: "1990", period: "per year, 2 months free", highlight: true,
@@ -56,7 +56,7 @@ window.LBC = {
                 "Locked in for 12 months, no rate changes",
                 "Founding-member spot in the credits",
                 "First seat at the next live watch party",
-                "Your Year on the Desk, personalized, yours every December"],
+                "Your Year, Curated, personalized, yours every December"],
         cta: "Take the VIP pass", url: "#join" },
       { name: "Producer", price: "499", period: "per month", highlight: false,
         perks: ["Everything in The Crew", "Your name in the site credits",
@@ -88,19 +88,19 @@ window.LBC = {
   moviemode: {
     title: "Find Your Next Watch",
     badge: "",
-    blurb: "Tell me how you feel and how you want to land. I match you to a film from the desk, with a reason, and pull what past you wrote about it when you watched. Free members get three picks a day. The Crew gets unlimited and a deeper rationale.",
+    blurb: "Tell me how you feel and how you want to land. I match you to a film from the archive, with a reason, and pull what past you wrote about it when you watched. Free members get three picks a day. The Crew gets unlimited and a deeper rationale.",
     file: "moviemode.html",
     cta: "Open Find Your Next Watch"
   },
 
-  /* MONEY — work with the desk (sponsored reviews, gear testing, cinema/brand partners) */
+  /* MONEY — work with Arwin (sponsored reviews, gear testing, cinema/brand partners) */
   partner: {
     heading: "Work with me",
     sub: "A serious, high intent film audience and a reviewer who actually finishes the 124,000 words. Here is how brands plug in.",
     email: "arwinbagaslao+reviews@gmail.com",
     cards: [
       { tag: "For studios and streamers", title: "Sponsored Reviews",
-        body: "A disclosed, honest opening week slot. A real verdict from a desk people trust, on the week it matters most.",
+        body: "A disclosed, honest opening week slot. A real verdict from a critic people trust, on the week it matters most.",
         cta: "Pitch a title" },
       { tag: "For brands and manufacturers", title: "Gear Testing",
         body: "Send the projector, the soundbar, the 4K player, the headphones. I put them to work across real films and report how they perform. Your call on the titles I test them with.",
@@ -118,8 +118,8 @@ window.LBC = {
     price: "299", cta: "Request a film", url: "#join"
   },
   yearInReview: {
-    tag: "The personal one", title: "Your Year on the Desk",
-    body: "Not just my year on the desk. Yours. Every film you predicted, every Find Your Next Watch pick you took, every tip you sent, every review you requested. A shareable card of how you spent your film year with me. Members get the first build, every December.",
+    tag: "The personal one", title: "Your Year, Curated",
+    body: "Not just my year in the archive. Yours. Every film you predicted, every Find Your Next Watch pick you took, every tip you sent, every review you requested. A shareable card of how you spent your film year with me. Members get the first build, every December.",
     cta: "Members get it first", url: "#join", highlight: true
   },
 

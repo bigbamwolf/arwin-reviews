@@ -99,7 +99,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
 
   <div id="questions"></div>
 
-  <div class="mm-thinking" id="thinking" style="display:none"><span class="dots">Reading your mood, scanning the desk</span></div>
+  <div class="mm-thinking" id="thinking" style="display:none"><span class="dots">Reading your mood, scanning the archive</span></div>
 
   <div class="result" id="result"></div>
 
@@ -362,7 +362,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
     if(!prim){r.innerHTML="<p>Nothing in the library scored cleanly for that combination. Try the Surprise me shortcut.</p>";r.classList.add("show");return}
     var reasons=reasonForPick(prim.f, answers);
     var past=pastYouSnippet(prim.f);
-    var primHTML='<div class="result-eyebrow">Tonight on the desk</div>'+
+    var primHTML='<div class="result-eyebrow">Tonight&#39;s pick</div>'+
                  '<div class="result-head">Your Pick</div>'+
                  '<div class="pick-card">'+
                    '<div class="pick-poster" style="background-image:url(\''+(prim.f.poster||"")+'\')"></div>'+
