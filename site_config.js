@@ -69,7 +69,7 @@ window.LBC = {
   /* MEMBER BENEFIT — the "What Arwin Might Think" predictor (rebuilt in-house). */
   predictor: {
     title: "What Arwin Might Think",
-    badge: "Member benefit",
+    badge: "",
     blurb: "Name any film. My taste model, built on every rating I have ever given, calls the stars I would land on and the reasons why. Free members get three a day. The Crew gets it unlimited.",
     file: "predictor.html",
     cta: "Open the predictor"
@@ -78,7 +78,7 @@ window.LBC = {
   /* MEMBER BENEFIT — Find Your Next Watch, mood to film matcher from the 1,351 archive. */
   moviemode: {
     title: "Find Your Next Watch",
-    badge: "Member benefit",
+    badge: "",
     blurb: "Tell me how you feel and how you want to land. I match you to a film from the desk, with a reason, and pull what past you wrote about it when you watched. Free members get three picks a day. The Crew gets unlimited and a deeper rationale.",
     file: "moviemode.html",
     cta: "Open Find Your Next Watch"

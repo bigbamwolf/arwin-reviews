@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=49";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=50";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +189,7 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=49";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=50";
   })();
 
   /* MY YEAR ON LETTERBOXD (VIP-only, mirrored from RSS, refreshed every 6h)
@@ -208,7 +208,7 @@
     var eb = head && head.querySelector(".eyebrow");
     var lede = head && head.querySelector(".lede");
     if (!isCrew) {
-      if (eb) eb.textContent = "VIP benefit";
+      if (eb) eb.textContent = "";
       if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd. VIP members watch my year unfold day by day, with the full breakdown.";
       $("#yearHero").innerHTML =
         '<div class="yh-cell" style="grid-column:1 / -1;padding:32px 22px;border-color:rgba(231,181,74,.35);background:linear-gradient(165deg,#1b1207 0%,#12171c 60%)">' +
@@ -222,7 +222,7 @@
       $("#yearUpdated").textContent = "Refreshed every 6 hours, last sync " + (LB.generatedAt || "today");
       return;
     }
-    if (eb) eb.textContent = "VIP benefit";
+    if (eb) eb.textContent = "Refreshed every 6 hours";
     if (lede) lede.textContent = "Every film I have watched this year, mirrored from Letterboxd in near realtime, refreshed every 6 hours.";
     if (grid) grid.style.display = "";
     if (top) top.style.display = "";
