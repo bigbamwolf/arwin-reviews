@@ -180,7 +180,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=45";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=46";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
@@ -189,7 +189,81 @@
     if (mc.badge) $("#mmBadge").textContent = mc.badge;
     if (mc.title) $("#mmTitle").textContent = mc.title;
     if (mc.blurb) $("#mmBlurb").textContent = mc.blurb;
-    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=45";
+    var f = $("#mmIframe"); if (f) f.src = (mc.file || "moviemode.html") + "?v=46";
+  })();
+
+  /* MY YEAR ON LETTERBOXD (member benefit, mirrored from RSS, refreshed every 6h) */
+  (function () {
+    var y = LB.stats && LB.stats.year; if (!y) return;
+    var pr = LB.profile || {};
+    $("#yearTitle").textContent = "My " + y.label + " On Letterboxd";
+    var MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    // Hero counter row
+    var cells = [
+      { v: y.films,     l: "Films Watched" },
+      { v: y.hoursEst,  l: "Hours, approx" },
+      { v: y.reviews,   l: "Reviews Written" },
+      { v: y.words,     l: "Words Written" },
+      { v: y.avg,       l: "Avg Rating", s: " ★", d: 2 },
+      { v: y.fiveStars, l: "Five Star" },
+      { v: y.liked,     l: "Liked" },
+      { v: y.longestStreak, l: "Longest Streak", s: " days" },
+      { v: y.uniqueDays, l: "Days Active" },
+      { v: y.topReleaseYear && y.topReleaseYear[0], l: "Top Release Year", sub: y.topReleaseYear ? (y.topReleaseYear[1] + " films from this year") : "" }
+    ];
+    var heroHTML = "";
+    cells.forEach(function (c) {
+      if (c.v === null || c.v === undefined) return;
+      var val = (c.d ? Number(c.v).toFixed(c.d) : Number(c.v).toLocaleString("en-US")) + (c.s || "");
+      heroHTML += '<div class="yh-cell"><div class="yh-v">' + val + '</div><div class="yh-l">' + c.l + '</div>' + (c.sub ? '<div class="yh-sub">' + c.sub + '</div>' : '') + '</div>';
+    });
+    $("#yearHero").innerHTML = heroHTML;
+    // Months bar
+    var monthsBox = $("#yearMonths");
+    var mEntries = Object.keys(y.months || {}).sort();
+    var mMax = 1;
+    mEntries.forEach(function (k) { if (y.months[k] > mMax) mMax = y.months[k]; });
+    mEntries.forEach(function (k) {
+      var p = k.split("-"); var label = MON[parseInt(p[1], 10) - 1] || k;
+      var c = y.months[k];
+      var row = document.createElement("div"); row.className = "mn-row";
+      row.innerHTML = '<span class="lab">' + label + '</span><span class="track"><span class="fill"></span></span><span class="cnt">' + c + '</span>';
+      monthsBox.appendChild(row);
+      var fl = row.querySelector(".fill");
+      requestAnimationFrame(function () { fl.style.width = (c / mMax * 100) + "%"; });
+    });
+    // Stars distribution (this year only)
+    var order = ["5.0","4.5","4.0","3.5","3.0","2.5","2.0","1.5","1.0","0.5"];
+    var dMax = 0; order.forEach(function (k) { if ((y.dist[k] || 0) > dMax) dMax = y.dist[k]; });
+    order.forEach(function (k) {
+      var c = y.dist[k] || 0;
+      var row = document.createElement("div"); row.className = "dist-row";
+      row.innerHTML = '<span class="lab">' + stars(parseFloat(k)) + '</span><span class="track"><span class="fill"></span></span><span class="cnt">' + c + '</span>';
+      $("#yearDist").appendChild(row);
+      var fl = row.querySelector(".fill"); requestAnimationFrame(function () { fl.style.width = (dMax ? c / dMax * 100 : 0) + "%"; });
+    });
+    // Decades watched THIS YEAR
+    var dec = y.decades || {}; var maxDec = 0;
+    Object.keys(dec).forEach(function (k) { if (dec[k] > maxDec) maxDec = dec[k]; });
+    Object.keys(dec).sort().reverse().forEach(function (k) {
+      var c = dec[k];
+      var row = document.createElement("div"); row.className = "dec-row";
+      row.innerHTML = '<span class="lab">' + k + '</span><span class="track"><span class="fill"></span></span><span class="cnt">' + c + '</span>';
+      $("#yearDecades").appendChild(row);
+      var fl = row.querySelector(".fill"); requestAnimationFrame(function () { fl.style.width = (maxDec ? c / maxDec * 100 : 0) + "%"; });
+    });
+    // Top 10 of the year, poster grid
+    (y.top10 || []).forEach(function (f) {
+      var r = reviewByKey[f.name + "|" + f.year];
+      var c = document.createElement("div"); c.className = "yt-card";
+      c.innerHTML = (f.poster ? '<img src="' + f.poster + '" alt="' + attr(f.name) + '" loading="lazy" />' : '<div class="yt-grad"><span>' + esc(f.name) + '</span></div>') +
+        '<div class="yt-meta"><div class="yt-t">' + esc(f.name) + '</div><div class="yt-y">' + (f.year || "") + ' &middot; <span class="yt-s">' + stars(f.rating) + '</span></div></div>';
+      if (r) { c.style.cursor = "pointer"; c.addEventListener("click", function () { openReview(r); }); }
+      $("#yearTopGrid").appendChild(c);
+    });
+    // Footer
+    var first = y.firstWatch || "", last = y.lastWatch || "";
+    $("#yearUpdated").textContent = "First watch " + first + " · last watch " + last + " · refreshed " + (LB.generatedAt || "today");
   })();
 
   /* Auto height iframe matching: children postMessage their scrollHeight, parent resizes
@@ -682,17 +756,19 @@
       films:   ["#numbers", "#vault"],
       predict: ["#predictor"],
       moviemode: ["#moviemode"],
+      year:    ["#year"],
       lists:   ["#lists"],
       join:    ["#weekwatch", "#join", "#partner", "#support"]
     };
-    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#lists","#weekwatch","#join","#partner","#support","#merch"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home" };
+    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#support","#merch"];
+    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review on the Desk · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
       films:   { t:"All Films and Stats · ARWIN REVIEWS", d:"A searchable vault of every film logged, with star ratings, genres, decades, and auteur breakdowns." },
       predict: { t:"What Arwin Might Think · ARWIN REVIEWS", d:"A film rating predictor trained on Arwin's reviews. Get a likely score for any film before you watch it." },
       moviemode:{ t:"Find Your Next Watch · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from the desk, with a reason and a snippet from past you." },
+      year:    { t:"My 2026 On Letterboxd · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed from Letterboxd every six hours." },
       lists:   { t:"Ranked Film Lists · ARWIN REVIEWS", d:"Films ranked by director, cinematographer, decade, studio, genre, and mood." },
       join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back the desk. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
     };

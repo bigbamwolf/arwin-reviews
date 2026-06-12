@@ -54,7 +54,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=45" />
+<link rel="stylesheet" href="styles.css?v=46" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -68,6 +68,7 @@
     <a href="#/films" data-route="films">Films</a>
     <a href="#/predict" data-route="predict">Predict</a>
     <a href="#/moviemode" data-route="moviemode">Find Your Next Watch</a>
+    <a href="#/year" data-route="year">My 2026</a>
     <a href="#/lists" data-route="lists">Lists</a>
     <a class="nav-join-mobile" href="#/join" data-route="join">Take the VIP pass</a>
   </nav>
@@ -150,6 +151,26 @@
     <div class="predictor-frame reveal">
       <iframe id="predIframe" title="What Arwin Might Think" loading="lazy"></iframe>
     </div>
+  </section>
+
+  <!-- MY YEAR ON LETTERBOXD (member benefit, mirrored from RSS, refreshed every 6h) -->
+  <section class="section wrap" id="year">
+    <div class="section-head center reveal">
+      <span class="eyebrow" id="yearEyebrow">Member benefit, refreshed every 6 hours</span>
+      <h2 id="yearTitle">My 2026 On Letterboxd</h2>
+      <p class="lede" id="yearLede">Every film I've watched this year, mirrored from Letterboxd in near realtime. Members watch my year unfold day by day.</p>
+    </div>
+    <div class="year-hero reveal" id="yearHero"></div>
+    <div class="year-grid">
+      <div class="year-card reveal"><h3>Months on pace</h3><div class="months" id="yearMonths"></div></div>
+      <div class="year-card reveal"><h3>How the stars fall this year</h3><div class="dist" id="yearDist"></div></div>
+      <div class="year-card reveal"><h3>Decades I leaned on</h3><div class="decades" id="yearDecades"></div></div>
+    </div>
+    <div class="year-top reveal">
+      <h3>The highest I rated this year</h3>
+      <div class="year-top-grid" id="yearTopGrid"></div>
+    </div>
+    <div class="year-foot reveal"><span id="yearUpdated"></span></div>
   </section>
 
   <!-- MOVIE MODE (member benefit, mood matcher) -->
@@ -346,9 +367,9 @@
 </div>
 
 <script>window.ARWIN_PAYMENTS_API="https://script.google.com/macros/s/AKfycbzvfiPw3pIlPAbVY9syj8Lt3Bi2vbM-G8WIGCWxt9u9Z_MG8yGcy8He1I_sQCb-kw-dzg/exec";</script>
-<script src="site_config.js?v=45"></script>
-<script src="data.js?v=202606120227"></script>
-<script src="reviews.js?v=202606120227"></script>
-<script src="app.js?v=45"></script>
+<script src="site_config.js?v=46"></script>
+<script src="data.js?v=202606120934"></script>
+<script src="reviews.js?v=202606120934"></script>
+<script src="app.js?v=46"></script>
 </body>
 </html>

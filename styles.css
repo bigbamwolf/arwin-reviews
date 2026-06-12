@@ -165,6 +165,38 @@ body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;back
 .bigstat .bigstat-prefix{font-family:var(--sans);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);vertical-align:.55em;margin-right:2px}
 .num-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
 .num-foot-meta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* MY YEAR */
+.year-hero{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:0 auto 36px;max-width:1100px}
+@media(max-width:900px){.year-hero{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:540px){.year-hero{grid-template-columns:repeat(2,1fr)}}
+.yh-cell{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 14px;text-align:center}
+.yh-cell .yh-v{font-family:var(--serif);font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:600;color:var(--gold-soft);line-height:1;font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
+.yh-cell .yh-l{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.yh-cell .yh-sub{font-size:.7rem;color:var(--muted);margin-top:5px}
+.year-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px;margin-bottom:36px}
+@media(max-width:900px){.year-grid{grid-template-columns:1fr}}
+.year-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
+.year-card h3{font-family:var(--serif);font-weight:600;font-size:1.25rem;margin-bottom:18px}
+.year-card .months{display:flex;flex-direction:column;gap:9px}
+.year-card .mn-row{display:grid;grid-template-columns:88px 1fr 36px;align-items:center;gap:11px}
+.year-card .mn-row .lab{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.year-card .mn-row .cnt{font-size:.82rem;color:var(--gold);text-align:right;font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
+.year-card .mn-row .track{display:block;height:14px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.05);border-radius:7px;overflow:hidden}
+.year-card .mn-row .fill{display:block;height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-soft) 100%);width:0;transition:width .9s ease}
+.year-top{margin-top:8px;padding-top:30px;border-top:1px solid var(--line)}
+.year-top h3{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin-bottom:18px;text-align:center}
+.year-top-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media(max-width:900px){.year-top-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:540px){.year-top-grid{grid-template-columns:repeat(2,1fr)}}
+.yt-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:transform .2s ease,border-color .2s ease}
+.yt-card:hover{transform:translateY(-3px);border-color:var(--gold)}
+.yt-card img{width:100%;aspect-ratio:2/3;display:block;object-fit:cover}
+.yt-card .yt-grad{width:100%;aspect-ratio:2/3;background:linear-gradient(150deg,#1c2228,#384450);display:flex;align-items:center;justify-content:center;padding:10px;text-align:center;font-family:var(--serif);font-size:1rem;color:var(--ink)}
+.yt-card .yt-meta{padding:10px 12px}
+.yt-card .yt-t{font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--ink);line-height:1.2}
+.yt-card .yt-y{font-size:.74rem;color:var(--muted);margin-top:4px}
+.yt-card .yt-y .yt-s{color:var(--gold)}
+.year-foot{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .numbers-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px}
 @media(max-width:900px){.numbers-grid{grid-template-columns:1fr}}
 .num-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
