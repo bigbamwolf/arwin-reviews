@@ -148,8 +148,8 @@ def main():
             if not ls:
                 continue
             existing = next((l for l in LB["lists"] if l.get("slug") == ls), None)
-            if existing and existing.get("films"):
-                continue  # already complete
+            if existing and existing.get("films") and existing.get("cover"):
+                continue  # already complete (films AND cover both present)
             desc = it.findtext("description") or ""
             lt = html.unescape(it.findtext("title") or ls.replace("-", " ").title())
             intro = re.sub(r"<ol>.*?</ol>", "", desc, flags=re.S)
