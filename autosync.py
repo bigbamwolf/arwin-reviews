@@ -390,6 +390,11 @@ def main():
           % (new_films, new_reviews, new_lists, new_posters, st["films"], st["reviews"], st["lists"]))
 
     # auto deploy to GitHub Pages when there's actually something new
+    if not os.environ.get("GITHUB_ACTIONS"):
+        # Local runs are followers, not writers. The GitHub Action is the single
+        # deployer; two writers on main diverged and stranded 34 commits (2026-08-23).
+        print("autosync: local run, deploy owned by GitHub Actions")
+        return
     if (new_films + new_reviews + new_lists + new_posters) > 0:
         import subprocess
         env = dict(os.environ, GIT_AUTHOR_NAME="bigbamwolf", GIT_AUTHOR_EMAIL="arwinbagaslao@gmail.com",

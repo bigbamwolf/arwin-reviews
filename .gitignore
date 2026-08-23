@@ -19,3 +19,12 @@ rescue_report.json
 audit_report.json
 verify_results.json
 .DS_Store
+
+# Movie Marathon tooling (private sheet data, never served publicly)
+justwatch.json
+omdb.json
+omdb_neg.json
+lb_export/
+marathon_backup/
+marathon_lastbuild.txt
+*.err
