@@ -1,6 +1,7 @@
 # dev tooling and build scratch, never served to the public site
 *.py
 !autosync.py
+!autosync_local.py
 *.bak
 *.prebuild_bak
 *.preaudit
