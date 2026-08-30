@@ -927,4 +927,121 @@
       });
     });
   })();
+
+  /* ---- desk search: one box across films, reviews and lists ----------------
+     Boss 2026-08-30. The site had three search inputs and none reachable from
+     the nav: the Films one sat 1,824px down its own page, the Reviews one never
+     became visible, the archive one lived in a modal nothing opened, and Lists
+     had none at all despite 324 of them. This is one box over all three. */
+  (function deskSearch(){
+    var overlay = $("#deskSearch"), input = $("#dsInput"), body = $("#dsBody");
+    if (!overlay || !input || !body) return;
+    var sel = -1, rows = [];
+
+    function norm(x){ return String(x||"").toLowerCase(); }
+
+    function hunt(q){
+      var LB = window.LB || {}, films = LB.films || [], lists = LB.lists || [],
+          revs = window.LBR || [], out = [];
+      // reviews first, they are the thing worth reading
+      revs.forEach(function(r){
+        if (norm(r.name).indexOf(q) > -1 || norm(r.review).indexOf(q) > -1)
+          out.push({k:"review", n:r.name, y:r.year, rating:r.rating,
+                    poster:r.poster, sub:(r.words||0)+" words", obj:r});
+      });
+      var seen = {};
+      out.forEach(function(o){ seen[norm(o.n)+o.y] = 1; });
+      films.forEach(function(f){
+        if (seen[norm(f.name)+f.year]) return;         // already shown as a review
+        if (norm(f.name).indexOf(q) > -1)
+          out.push({k:"film", n:f.name, y:f.year, rating:f.rating,
+                    poster:f.poster, sub:f.watched ? fmtDate(f.watched,true) : "", obj:f});
+      });
+      lists.forEach(function(l){
+        if (norm(l.title).indexOf(q) > -1 || norm(l.blurb).indexOf(q) > -1 ||
+            norm(l.cat).indexOf(q) > -1)
+          out.push({k:"list", n:l.title, y:null, rating:null, poster:l.cover,
+                    sub:(l.count||0)+" films  ·  "+(l.cat||""), obj:l});
+      });
+      return out;
+    }
+
+    function stars(v){
+      if (v === null || v === undefined) return "";
+      var f = Math.floor(v);
+      return "\u2605".repeat(f) + (v - f >= .5 ? "\u00bd" : "");
+    }
+
+    function render(q){
+      body.innerHTML = ""; rows = []; sel = -1;
+      if (!q) { body.innerHTML = '<p class="ds-hint">Start typing. Everything on the desk is searchable.</p>'; return; }
+      var hits = hunt(q);
+      if (!hits.length) {
+        body.innerHTML = '<p class="ds-none">Nothing on the desk matches \u201c' + esc(q) + '\u201d.</p>';
+        return;
+      }
+      var order = ["review","film","list"],
+          label = {review:"Reviews", film:"Films", list:"Lists"};
+      order.forEach(function(k){
+        var group = hits.filter(function(h){ return h.k === k; }).slice(0, 8);
+        if (!group.length) return;
+        var head = document.createElement("div");
+        head.className = "ds-group";
+        head.textContent = label[k] + "  (" + hits.filter(function(h){return h.k===k;}).length + ")";
+        body.appendChild(head);
+        group.forEach(function(h){
+          var row = document.createElement("div");
+          row.className = "ds-item";
+          row.innerHTML =
+            (h.poster ? '<img src="'+h.poster+'" alt="" loading="lazy" />' : '<img alt="" />') +
+            '<div class="t"><b>' + esc(h.n) + (h.y ? " (" + h.y + ")" : "") + '</b>' +
+            '<span>' + esc(h.sub || "") + '</span></div>' +
+            '<div class="r">' + stars(h.rating) + '</div>';
+          row.addEventListener("click", function(){ go(h); });
+          body.appendChild(row); rows.push(row);
+        });
+      });
+    }
+
+    function go(h){
+      close();
+      if (h.k === "list") { location.hash = "#/lists"; setTimeout(function(){ openList(h.obj); }, 60); }
+      else {
+        var r = h.k === "review" ? h.obj
+              : (window.LBR||[]).filter(function(x){ return x.name===h.n && x.year===h.y; })[0];
+        if (r) { location.hash = "#/reviews"; setTimeout(function(){ openReview(r); }, 60); }
+        else   { location.hash = "#/films"; }
+      }
+    }
+
+    function open(){ overlay.hidden = false; document.body.style.overflow = "hidden";
+                     input.value = ""; render(""); setTimeout(function(){ input.focus(); }, 40); }
+    function close(){ overlay.hidden = true; document.body.style.overflow = ""; }
+
+    $("#navSearchBtn").addEventListener("click", open);
+    $("#dsClose").addEventListener("click", close);
+    overlay.addEventListener("click", function(e){ if (e.target === overlay) close(); });
+    input.addEventListener("input", function(e){ render(norm(e.target.value).trim()); });
+
+    document.addEventListener("keydown", function(e){
+      if (overlay.hidden) {
+        var typing = /^(INPUT|TEXTAREA)$/.test((e.target.tagName||""));
+        if (!typing && (e.key === "/" || ((e.metaKey||e.ctrlKey) && e.key === "k"))) {
+          e.preventDefault(); open();
+        }
+        return;
+      }
+      if (e.key === "Escape") { close(); return; }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!rows.length) return;
+        if (sel > -1) rows[sel].classList.remove("sel");
+        sel = e.key === "ArrowDown" ? Math.min(sel + 1, rows.length - 1) : Math.max(sel - 1, 0);
+        rows[sel].classList.add("sel");
+        rows[sel].scrollIntoView({block:"nearest"});
+      }
+      if (e.key === "Enter" && sel > -1) rows[sel].click();
+    });
+  })();
+
 })();

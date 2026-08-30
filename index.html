@@ -78,8 +78,27 @@
     <a href="#/lists" data-route="lists">Lists</a>
     <a class="nav-join-mobile" href="#/join" data-route="join">Take the VIP pass</a>
   </nav>
+  <button class="nav-search-btn" id="navSearchBtn" type="button" aria-label="Search the desk">
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+  </button>
   <a class="btn btn-join nav-join" href="#/join" data-route="join">Take the VIP pass</a>
 </header>
+
+<div class="ds-overlay" id="deskSearch" hidden>
+  <div class="ds-panel" role="dialog" aria-modal="true" aria-label="Search the desk">
+    <div class="ds-head">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input id="dsInput" type="search" autocomplete="off" spellcheck="false"
+             placeholder="Search films, reviews and lists..." />
+      <button class="ds-close" id="dsClose" type="button" aria-label="Close">Esc</button>
+    </div>
+    <div class="ds-body" id="dsBody">
+      <p class="ds-hint">Start typing. Everything on the desk is searchable.</p>
+    </div>
+  </div>
+</div>
 
 <main id="top">
 
