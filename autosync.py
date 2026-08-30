@@ -136,7 +136,7 @@ def main():
     film_keys = {"%s|%s" % (f["name"], f["year"]) for f in LB["films"]}
     review_keys = {"%s|%s" % (r["name"], r["year"]) for r in LBR}
     list_slugs = {l.get("slug") for l in LB["lists"]}
-    new_films = new_reviews = new_posters = new_lists = 0
+    new_films = new_reviews = new_posters = new_lists = drifted = 0
 
     for it in root.findall(".//item"):
         link = it.findtext("link") or ""
@@ -148,8 +148,13 @@ def main():
             if not ls:
                 continue
             existing = next((l for l in LB["lists"] if l.get("slug") == ls), None)
-            if existing and existing.get("films") and existing.get("cover"):
-                continue  # already complete (films AND cover both present)
+            # Do NOT skip a list just because it already has films and a cover.
+            # A list only appears in the RSS when Boss CREATED or UPDATED it, so its
+            # presence here is the change signal. Skipping on "complete" meant a list
+            # he kept adding to was read once and never again: "Men Will Literally Save
+            # the World Instead of Going to Therapy" sat at 364 on the site while
+            # Letterboxd was already at 373. A stale count on a published card is worse
+            # than no card. Re-read it and report the drift.
             desc = it.findtext("description") or ""
             lt = html.unescape(it.findtext("title") or ls.replace("-", " ").title())
             intro = re.sub(r"<ol>.*?</ol>", "", desc, flags=re.S)
@@ -160,6 +165,10 @@ def main():
                      "tags": [], "count": len(films), "year": int(ym.group(1)) if ym else None,
                      "cover": cover, "films": films, "partial": (len(films) == 0)}
             if existing:
+                was = existing.get("count", 0)
+                if was and was != entry["count"]:
+                    print("[DRIFT] %s  %d -> %d films" % (ls, was, entry["count"]))
+                    drifted += 1
                 existing.update(entry)
             else:
                 LB["lists"].insert(0, entry); new_lists += 1
