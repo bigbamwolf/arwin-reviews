@@ -767,24 +767,21 @@
   $$("[data-close-list]").forEach(function(b){ b.addEventListener("click",function(){ listModal.hidden=true; document.body.style.overflow=""; }); });
 
   /* ARCHIVE */
-  var archiveModal = $("#archiveModal");
   function renderArchive(q) {
     var list = $("#archiveList"); list.innerHTML = "";
     LBR.filter(function(r){ return !q || r.name.toLowerCase().indexOf(q)!==-1; }).forEach(function (r) {
       var ex = strip(r.review); if (ex.length>90) ex = ex.slice(0,90).replace(/\s+\S*$/,"")+"…";
       var row = document.createElement("div"); row.className = "arch-row";
       row.innerHTML = '<div class="ar-l"><div class="ar-t">'+esc(r.name)+'<span class="yr">'+(r.year||"")+'</span></div><div class="ar-ex">'+esc(ex)+'</div></div><div class="ar-s">'+stars(r.rating)+'</div>';
-      row.addEventListener("click", function(){ archiveModal.hidden=true; openReview(r); });
+      row.addEventListener("click", function(){ openReview(r); });
       list.appendChild(row);
     });
   }
-  function openArchive(){ renderArchive(""); $("#archiveSearch").value=""; archiveModal.hidden=false; document.body.style.overflow="hidden"; }
-  $("#archiveSearch").addEventListener("input", function(e){ renderArchive(e.target.value.toLowerCase().trim()); });
-  $$("[data-close-archive]").forEach(function(b){ b.addEventListener("click",function(){ archiveModal.hidden=true; document.body.style.overflow=""; }); });
+  
 
   document.addEventListener("keydown", function (e) {
     if (e.key!=="Escape") return;
-    [modal,listModal,archiveModal].forEach(function(m){ if(!m.hidden){ m.hidden=true; document.body.style.overflow=""; } });
+    [modal,listModal].forEach(function(m){ if(!m.hidden){ m.hidden=true; document.body.style.overflow=""; } });
   });
 
   /* REVEAL + NAV */
