@@ -99,16 +99,28 @@ def fetch_list_full(slug, rss_desc, pm):
     """Full films + cover for a list. List page has the films+years, RSS desc is the fallback."""
     films, cover = [], None
     try:
-        h = get(LIST_URL % (HANDLE, slug))
-        slugs = re.findall(r'data-item-slug="([^"]+)"', h)
-        names = re.findall(r'data-item-name="([^"]+)"', h)
-        for i in range(min(len(slugs), len(names))):
-            nm = html.unescape(names[i])
-            ym = re.search(r"\((\d{4})\)\s*$", nm)
-            films.append({"n": re.sub(r"\s*\(\d{4}\)\s*$", "", nm), "y": int(ym.group(1)) if ym else None})
-        og = re.search(r'og:image" content="([^"]+)', h)
-        if og and "film-poster" in og.group(1):
-            cover = og.group(1)
+        # Letterboxd paginates lists at 100 films per page. Fetching only page 1
+        # silently truncated every list over 100 (IMAX Ranked showed 100 of 415).
+        # Walk the pages until one comes back short.
+        for page in range(1, 40):
+            url = LIST_URL % (HANDLE, slug)
+            if page > 1:
+                url += "page/%d/" % page
+            h = get(url)
+            names = re.findall(r'data-item-name="([^"]+)"', h)
+            if page == 1:
+                og = re.search(r'og:image" content="([^"]+)', h)
+                if og and "film-poster" in og.group(1):
+                    cover = og.group(1)
+            if not names:
+                break
+            for nm in names:
+                nm = html.unescape(nm)
+                ym = re.search(r"\((\d{4})\)\s*$", nm)
+                films.append({"n": re.sub(r"\s*\(\d{4}\)\s*$", "", nm),
+                              "y": int(ym.group(1)) if ym else None})
+            if len(names) < 100:
+                break
     except Exception:
         pass
     if not films:  # fallback: ordered links in the RSS description
