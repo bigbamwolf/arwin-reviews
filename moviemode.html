@@ -91,8 +91,8 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
 
   <div class="mm-gate" id="gate">
     <h3>Tonight's picks are spent</h3>
-    <p>Free tier gives you 3 picks a day. The Crew gets unlimited Movie Mode, every day.</p>
-    <a class="join" href="../#/join" target="_top">Take the VIP pass, P199</a>
+    <p>You get one free pick. Unlock it forever for P249, one payment, no subscription.</p>
+    <a class="join" href="../#/join" target="_top">Unlock forever, P249</a>
     <div style="margin-top:14px">
       <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Already a member? Paste your Crew code</div>
       <div class="crew-row">
@@ -122,7 +122,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
   var $$ = function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
 
   /* ============ daily quota + crew gate ============ */
-  var FREE_LIMIT = 3;
+  var FREE_LIMIT = 1;   // Boss 2026-09-04: was 3/day, almost nobody hit the wall so the paywall was never seen
   var ARWIN_PAYMENTS_API = "https://script.google.com/macros/s/AKfycbzvfiPw3pIlPAbVY9syj8Lt3Bi2vbM-G8WIGCWxt9u9Z_MG8yGcy8He1I_sQCb-kw-dzg/exec";
   function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
   function isCrew(){return localStorage.getItem("mm_crew")==="1"}
@@ -142,7 +142,7 @@ body{background:transparent;color:var(--ink);font-family:var(--sans);line-height
       t.innerHTML='<span class="crew-tag">★ CREW MEMBER</span>';
     } else {
       var u=getUses();
-      q.textContent="Tonight: "+Math.min(u,FREE_LIMIT)+" of "+FREE_LIMIT+" picks used";
+      q.textContent=u>=FREE_LIMIT?"Free pick used":"1 free pick";
       t.innerHTML=u>=FREE_LIMIT?'Free tier exhausted':'Free tier';
     }
   }

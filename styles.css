@@ -554,3 +554,18 @@ body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;back
 .ds-none{color:var(--muted);font:400 15px/1.5 var(--sans);padding:26px 20px}
 @media(max-width:700px){.ds-overlay{padding:6vh 12px 12px}
   #dsInput{font-size:17px}.nav-search-btn{width:36px;height:36px}}
+
+/* AFFILIATE RAIL — disclosed partners. Deliberately quieter than the hero
+   promo slot and than the partner cards, so a commercial link never reads
+   louder than a review. */
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.aff-card{display:flex;flex-direction:column;gap:8px;padding:20px;border:1px solid var(--line);
+  border-radius:12px;background:rgba(255,255,255,.015);transition:border-color .2s,transform .2s}
+.aff-card:hover{border-color:rgba(231,181,74,.35);transform:translateY(-2px)}
+.aff-tag{font:500 .62rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint);border:1px solid var(--line);border-radius:99px;padding:5px 9px;align-self:flex-start}
+.aff-card h3{font-family:var(--serif);font-size:1.15rem;color:var(--ink);margin:2px 0 0}
+.aff-card p{font:400 .86rem/1.55 var(--sans);color:var(--muted);margin:0;flex:1}
+.aff-cta{font:500 .78rem/1 var(--sans);color:var(--gold);margin-top:4px}
+.aff-disclosure{font:400 .74rem/1.6 var(--sans);color:var(--faint);margin-top:18px;max-width:60ch}
+@media(max-width:700px){.aff-grid{grid-template-columns:1fr}}

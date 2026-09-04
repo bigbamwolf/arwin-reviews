@@ -17,7 +17,8 @@ window.LBC = {
          "sponsor" -> a single featured film fills the slot. Set art = poster URL, fill kicker/title/tagline/cta/url. */
     /* Default state is "auto" — JS picks the most recent current-year film rated 4 stars or higher.
        Flip to "sponsor" only when a real cinema or studio buys the slot, then fill the fields below. */
-    mode: "auto",
+    mode: "affiliate",   // AFFILIATE opened on the hero slot by Boss 2026-09-04.
+                         // Flip to "sponsor" the moment a cinema pays, they outrank it.
     label: "Slot open",
     kicker: "Cinemas, this is your slot",
     title: "Your film here",
@@ -30,39 +31,31 @@ window.LBC = {
   /* MONEY 2 — where to watch (affiliate). {q} is the film title, URL encoded. */
   whereToWatch: { label: "Where to watch", base: "https://www.justwatch.com/ph/search?q={q}" },
 
-  /* MONEY 3 — membership. The Crew. Prices are placeholders. */
+  /* MONEY 3 — membership. ONE lifetime unlock, repriced 2026-09-04 by Boss.
+     WHY: the backend never had recurring billing (Code.gs hits the one time
+     /v2/invoices endpoint) and validateCode_ never checked expiry, so P199 had
+     ALWAYS bought forever access under a "per month" label. The old four tier
+     table also shipped a broken Producer tier that displayed P499 and charged
+     P199, because app.js infers the tier by /annual|year/ and everything else
+     falls through to monthly. A monthly price also invited a comparison with
+     Netflix PH at roughly P149, which this product loses. One honest one time
+     price invites no comparison at all. */
   membership: {
-    note: "Pick a tier and pay through one secure checkout. GCash, Maya, GrabPay, Visa or Mastercard, all handled by Xendit. Your unique VIP code lands in your email the moment it clears.",
+    note: "One payment, yours forever. GCash, Maya, GrabPay, Visa or Mastercard through Xendit. Your unlock code lands in your email the moment it clears.",
     checkout: "#support",
     tiers: [
-      { name: "Fan", price: "Free", period: "", highlight: false,
-        perks: ["Every public review", "Browse all 158 lists", "Watchlist preview",
-                "Try the predictor, 3 films a day",
-                "Find Your Next Watch, 3 picks a day"],
+      { key: "fan", name: "Fan", price: "Free", period: "", highlight: false,
+        perks: ["Every public review", "Browse all 746 lists", "Watchlist preview",
+                "One free go at the predictor",
+                "One free Find Your Next Watch pick"],
         cta: "Start reading", url: "#reviews" },
-      { name: "The Crew", price: "199", period: "per month", highlight: false,
-        perks: ["This week's watchlist, what I review next",
-                "VIP group chat, talk to me directly",
-                "What Arwin Might Think, unlimited predictions",
+      { key: "lifetime", name: "Lifetime Unlock", price: "249", period: "one time, yours forever", highlight: true,
+        perks: ["What Arwin Might Think, unlimited predictions, forever",
                 "Find Your Next Watch, unlimited picks plus Past You review snippets",
-                "Full review archive, early access before public",
-                "Vote on the next review and the next ranking",
-                "Your Year, Curated, personalized to your activity, yours every December",
-                "Ad free reading", "10 percent off all merch"],
-        cta: "Take the VIP pass", url: "#join" },
-      { name: "VIP Annual", price: "1990", period: "per year, 2 months free", highlight: true,
-        perks: ["Everything in The Crew, billed yearly",
-                "Save P398 versus paying monthly",
-                "Locked in for 12 months, no rate changes",
-                "Founding-member spot in the credits",
-                "First seat at the next live watch party",
-                "Your Year, Curated, personalized, yours every December"],
-        cta: "Take the VIP pass", url: "#join" },
-      { name: "Producer", price: "499", period: "per month", highlight: false,
-        perks: ["Everything in The Crew", "Your name in the site credits",
-                "Monthly live watch party, in person, Metro Manila", "Request a film for review",
-                "20 percent off all merch"],
-        cta: "Become a Producer", url: "#join" }
+                "No renewals, no subscription, no expiry",
+                "Every future tool on the site, included",
+                "Ad free reading"],
+        cta: "Unlock for P249", url: "#join" }
     ]
   },
 
@@ -79,7 +72,7 @@ window.LBC = {
   predictor: {
     title: "What Arwin Might Think",
     badge: "",
-    blurb: "Name any film. My taste model, built on every rating I have ever given, calls the stars I would land on and the reasons why. Free members get three a day. The Crew gets it unlimited.",
+    blurb: "Name any film. My taste model, built on every rating I have ever given, calls the stars I would land on and the reasons why. Free members get one go. The Lifetime Unlock makes it unlimited, forever.",
     file: "predictor.html",
     cta: "Open the predictor"
   },
@@ -88,7 +81,7 @@ window.LBC = {
   moviemode: {
     title: "Find Your Next Watch",
     badge: "",
-    blurb: "Tell me how you feel and how you want to land. I match you to a film from the archive, with a reason, and pull what past you wrote about it when you watched. Free members get three picks a day. The Crew gets unlimited and a deeper rationale.",
+    blurb: "Tell me how you feel and how you want to land. I match you to a film from the archive, with a reason, and pull what past you wrote about it when you watched. Free members get one pick. The Lifetime Unlock makes it unlimited, with a deeper rationale.",
     file: "moviemode.html",
     cta: "Open Find Your Next Watch"
   },
@@ -156,6 +149,38 @@ window.LBC = {
     heading: "Get every review in your inbox",
     sub: "One email a week. The reviews, the rankings, the picks. No spam, unsubscribe anytime.",
     cta: "Subscribe"
+  },
+
+  /* MONEY 8 — affiliate rail. Opened by Boss 2026-09-04.
+     This is the SEPARATE placement the 2026-06-12 rule reserved for affiliate
+     products. The top hero slot stays cinema and studio only, unchanged.
+     Every card renders a visible "Affiliate" tag and the block carries a
+     disclosure line, because an undisclosed affiliate link is the thing that
+     actually cheapens a review site.
+     Set enabled:false to pull the whole rail without touching code.
+     Each item needs a REAL affiliate URL before it earns anything. Items
+     with a url starting "TODO" are skipped at render, so the rail never
+     ships a dead link. */
+  affiliates: {
+    enabled: true,
+    eyebrow: "Disclosed partners",
+    heading: "The Kit",
+    lede: "Things I actually use to watch, track, and think about films. If you buy through these, the desk earns a small cut at no extra cost to you.",
+    disclosure: "Affiliate links. I only list what I would recommend without the commission. A paid placement never buys a rating.",
+    items: [
+      { tag: "Streaming", name: "Where to watch",
+        blurb: "Every review on this site links out to a live streaming check for that exact film, PH region.",
+        cta: "Find a film", url: "https://www.justwatch.com/ph" },
+      { tag: "Tickets", name: "Cinema tickets",
+        blurb: "Opening week is the only honest way to see some films. Book the good screen.",
+        cta: "Book a screening", url: "TODO_cinema_affiliate" },
+      { tag: "Reading", name: "The film shelf",
+        blurb: "The criticism and craft books that shaped how the reviews on this site get written.",
+        cta: "See the shelf", url: "TODO_bookstore_affiliate" },
+      { tag: "Home cinema", name: "The setup",
+        blurb: "Projector, sound, and seating notes from building a room worth watching in.",
+        cta: "See the setup", url: "TODO_gear_affiliate" }
+    ]
   },
 
   /* MONEY 5, 6, 7 — support, ad sales. */

@@ -61,6 +61,29 @@
         '<span class="promo-cta">' + esc(p.cta||"Learn more") + ' &#8599;</span></div>';
       return;
     }
+    /* AFFILIATE MODE, opened by Boss 2026-09-04, reversing the 2026-06-12
+       cinema-only rule on this slot. A paid cinema sponsor still outranks it:
+       set mode "sponsor" and the affiliate never renders. Always disclosed. */
+    if (p.mode === "affiliate") {
+      var af = LBC.affiliates || {};
+      var lead = (af.items || []).filter(function (it) {
+        return it.url && it.url.indexOf("TODO") !== 0;
+      })[0];
+      if (lead) {
+        pe.href = lead.url;
+        pe.target = "_blank";
+        pe.rel = "sponsored noopener noreferrer";
+        pe.innerHTML =
+          '<div class="promo-art" style="background:' + (lead.art || p.art || "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)") + '"><span class="promo-tag">Affiliate</span></div>' +
+          '<div class="promo-body"><div class="promo-kicker">' + esc(lead.tag || "Disclosed partner") + '</div>' +
+          '<div class="promo-title">' + esc(lead.name || "") + '</div>' +
+          '<div class="promo-tagline">' + esc(lead.blurb || "") + '</div>' +
+          '<span class="promo-cta">' + esc(lead.cta || "Take a look") + ' &#8599;</span></div>';
+        return;
+      }
+      // no real affiliate link yet, fall through to the normal behaviour
+    }
+
     var yr = String(new Date().getFullYear());
     var feat = LBR
       .filter(function(r){ return (r.watched||"").indexOf(yr+"-") === 0 && r.rating >= 4 && r.poster && (r.words||0) > 60; })
@@ -510,7 +533,11 @@
       var href = isPaid ? "#" : (t.url || "#");
       var d = document.createElement("div"); d.className = "tier"+(t.highlight?" hl":"");
       // Annual tier inference: name contains "Annual" OR period contains "year"
-      var tierKey = /annual|year/i.test((t.name||"")+(t.period||"")) ? "annual" : (isPaid ? "monthly" : "fan");
+      // Boss 2026-09-04: the tier key is now DECLARED in site_config.js. The old
+      // regex inferred it from prose, so any paid tier that was not "annual" fell
+      // through to "monthly" and got charged 199 while the card displayed its own
+      // price. That is how the P499 Producer tier shipped charging P199.
+      var tierKey = t.key || (/annual|year/i.test((t.name||"")+(t.period||"")) ? "annual" : (isPaid ? "monthly" : "fan"));
       d.innerHTML = '<div class="t-name">'+esc(t.name)+'</div><div class="t-price">'+price+'</div>'+
         '<div class="t-period">'+per+'</div><ul class="t-perks">'+perks+'</ul>'+
         '<a class="btn '+(t.highlight?"btn-join":"btn-ghost")+'" href="'+href+'" data-tier="'+tierKey+'">'+esc(t.cta)+'</a>';
@@ -599,6 +626,33 @@
         '<a class="m-buy" href="'+(mc.storeUrl||"#")+'">Preorder</a></div>';
       $$(".swatch", d).forEach(function(sw){ sw.addEventListener("click", function(){ d.dataset.color=sw.dataset.c; $$(".swatch",d).forEach(function(x){x.classList.remove("active");}); sw.classList.add("active"); }); });
       $("#merchGrid").appendChild(d);
+    });
+  })();
+
+  /* AFFILIATE RAIL (disclosed partners). Separate placement, never the hero slot. */
+  (function () {
+    var a = LBC.affiliates, sec = document.getElementById("affiliates");
+    if (!sec) return;
+    var live = (a && a.enabled && a.items || []).filter(function (it) {
+      return it.url && it.url.indexOf("TODO") !== 0;
+    });
+    if (!live.length) return;            // no real links, rail stays hidden
+    sec.hidden = false;
+    $("#affEyebrow").textContent = a.eyebrow || "Disclosed partners";
+    $("#affHeading").textContent = a.heading || "The Kit";
+    $("#affLede").textContent = a.lede || "";
+    $("#affDisclosure").textContent = a.disclosure || "";
+    live.forEach(function (it) {
+      var d = document.createElement("a");
+      d.className = "aff-card reveal";
+      d.href = it.url;
+      d.target = "_blank";
+      d.rel = "sponsored noopener noreferrer";
+      d.innerHTML = '<span class="aff-tag">' + esc(it.tag || "Partner") + '</span>' +
+        '<h3>' + esc(it.name || "") + '</h3>' +
+        '<p>' + esc(it.blurb || "") + '</p>' +
+        '<span class="aff-cta">' + esc(it.cta || "Take a look") + ' &#8599;</span>';
+      $("#affGrid").appendChild(d);
     });
   })();
 
@@ -805,10 +859,10 @@
       moviemode: ["#moviemode"],
       year:    ["#year"],
       lists:   ["#lists"],
-      join:    ["#weekwatch", "#join", "#partner", "#support"]
+      join:    ["#weekwatch", "#join", "#partner", "#affiliates", "#support"]
     };
-    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#support","#merch"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
+    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#affiliates","#support","#merch"];
+    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", affiliates:"join", kit:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
