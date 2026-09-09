@@ -18,6 +18,26 @@
   gtag('js', new Date());
   gtag('config', 'G-ZK111NQYT1');
 </script>
+<!-- Self readable traffic counter. Anonymous, no cookies, no PII.
+     Exists because GA4 cannot be READ without an interactive Google sign in,
+     and the Cloudflare API tokens on file carry no zone.analytics.read.
+     Daily keys let the monthly figure be pulled with a plain GET.
+     Read:  https://abacus.jasoncameron.dev/get/arwinreviews-com/<key>
+     Keys:  v-YYYY-MM-DD  pageviews     u-YYYY-MM-DD  daily uniques -->
+<script>
+(function(){
+  var NS = "arwinreviews-com", B = "https://abacus.jasoncameron.dev/hit/" + NS + "/";
+  function day(){ var d = new Date(); return d.getUTCFullYear() + "-" + String(d.getUTCMonth()+1).padStart(2,"0") + "-" + String(d.getUTCDate()).padStart(2,"0"); }
+  function ping(k){ try { fetch(B + k, { mode: "cors", keepalive: true }); } catch(e){} }
+  function view(){ ping("v-" + day()); }
+  try {
+    var t = day();
+    if (localStorage.getItem("arv_seen") !== t) { localStorage.setItem("arv_seen", t); ping("u-" + t); }
+  } catch(e){}
+  view();
+  window.addEventListener("hashchange", view);
+})();
+</script>
 <meta name="description" content="Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. 1,438 films logged, 512 reviews, 138,274 words. Theatrical, festival, and opening week verdicts." />
 <link rel="canonical" href="https://arwinreviews.com/" />
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png" />
