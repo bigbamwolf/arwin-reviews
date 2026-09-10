@@ -3,11 +3,31 @@ Compiled September 9, 2026, Asia/Manila.
 Purpose: sell the hero slot WITHOUT cold email. List the inventory publicly,
 let the advertiser find it and buy it.
 
-## THE ROUTE
-Primary: BuySellAds. Direct marketplace, no minimum traffic, publisher lists
-inventory and advertisers browse by category and buy the placement.
-Secondary: Amazon Publisher Services. Also no traffic minimum, stricter vetting.
-Fallback fill: Google AdSense on the same slot when no direct buyer holds the week.
+## THE ROUTE, CORRECTED September 10, 2026
+EARLIER CLAIM IN THIS FILE WAS WRONG. It said BuySellAds is a self serve
+marketplace with no traffic floor where advertisers browse and buy. That came
+from a search summary, not from BuySellAds. Checked against the primary source:
+
+  buysellads.com/publishers says only "Contact our sales team to get set up",
+  pointing at support@buysellads.com. There is no publisher signup form.
+  /sell, /signup, /join and /publishers/signup all return 404.
+
+So BuySellAds onboarding IS an email to their sales team. The route Boss asked
+for, list it somewhere instead of emailing anyone, does not exist there. Listing
+on BuySellAds means writing one email to BuySellAds instead of many emails to
+cinemas, which is a smaller ask but not a different kind of ask.
+
+WHAT ACTUALLY NEEDS NO CONVERSATION
+  1. The hero slot on arwinreviews.com itself. As of September 10, 2026 it
+     carries a price (P3,500 per week founding rate) and a Book this slot CTA,
+     plus a fourth lane on work.html. That is now a real self serve storefront
+     on property Boss owns outright. It needs traffic, not permission.
+  2. Google AdSense. Genuinely self serve signup, fills the slot automatically,
+     pays on volume. Needs an account, which is Boss's to create.
+  3. Amazon Publisher Services. No traffic minimum, but vetted.
+
+HONEST ORDER OF WORK: the slot is priced and bookable, so the constraint is no
+longer the offer, it is that almost nobody sees the page. Traffic first.
 
 ## SITE FACTS (copy paste into any listing form)
 Site: arwinreviews.com
