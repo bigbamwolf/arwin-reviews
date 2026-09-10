@@ -63,9 +63,36 @@ signs in once. So a listing submitted today can only claim content depth, not
 an impressions history. Wait roughly 14 days for a defensible monthly figure,
 or list now with content stats only.
 
-## PRICE, NOT YET SET
-Cannot be set honestly until the traffic number above is known.
-Rate card on work.html sells three lanes but carries no slot CPM.
+## PRICE, DRAFTED September 10, 2026, NOT PUBLISHED
+Correction to an earlier note in this file: work.html DOES carry prices for the
+three sponsorship lanes. From P25,000 per title (sponsored opening week review),
+From P40,000 per cycle (gear testing), From P15,000 per month (brand partner).
+What has never carried a price is the HERO SLOT itself, the one on the homepage
+that currently reads "Your film here".
+
+THE PROBLEM WITH THE EXISTING LADDER
+Those three numbers price an audience the site cannot yet evidence. A buyer who
+asks "how many people will see this" gets no answer today, and P25,000 with no
+impressions figure reads as a number picked out of the air. That is a plausible
+reason the lanes have produced zero enquiries in the life of the inbox.
+
+PROPOSED HERO SLOT RATE, founding sponsor framing
+  P3,500 per week, or P12,000 per month (a 14 percent discount on four weeks).
+WHY THESE NUMBERS
+  Low enough to be an instant yes without a meeting, which is the entire point of
+  a self serve marketplace listing. High enough not to signal a dead site.
+  Framed explicitly as a founding rate that rises once the traffic figure is
+  published, which gives the first buyer a reason to move now and gives Boss a
+  clean, non embarrassing path to reprice upward later.
+  Deliberately NOT anchored to the P25,000 lane. The hero slot is a placement,
+  not a commissioned review, and pricing it near the review lane would make both
+  look arbitrary.
+
+REVISIT DATE September 23, 2026, when the self counter carries a full month.
+At that point price on real CPM and delete the founding framing.
+
+STATUS: drafted only. Nothing published. The live rate card is untouched, because
+a public price is Boss's call and a revenue decision, not a formatting fix.
 
 ## THE ONE STEP THAT NEEDS BOSS
 Account creation on the marketplace. That is a credential action, it stays with
