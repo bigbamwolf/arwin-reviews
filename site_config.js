@@ -22,8 +22,8 @@ window.LBC = {
     label: "Slot open",
     kicker: "Cinemas, this is your slot",
     title: "Your film here",
-    tagline: "A paid, disclosed opening week slot. A real verdict, curated on the week your film matters most.",
-    cta: "Contact Arwin",
+    tagline: "A paid, disclosed opening week slot, P3,500 for the week at the founding rate. A real verdict, curated on the week your film matters most.",
+    cta: "Book this slot",
     url: "#partner",
     art: "linear-gradient(135deg,#1b1207,#3a2410 55%,#0d0905)"
   },
