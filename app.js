@@ -66,9 +66,15 @@
        set mode "sponsor" and the affiliate never renders. Always disclosed. */
     if (p.mode === "affiliate") {
       var af = LBC.affiliates || {};
-      var lead = (af.items || []).filter(function (it) {
+      /* LEAD SELECTION, hardened 2026-09-24. The hero is the most valuable
+         placement on the site, so it leads with a link that actually pays.
+         A payout of "none" (JustWatch has no affiliate id) only takes the slot
+         when nothing paying is live yet. */
+      var liveItems = (af.items || []).filter(function (it) {
         return it.url && it.url.indexOf("TODO") !== 0;
-      })[0];
+      });
+      var lead = liveItems.filter(function (it) { return it.payout && it.payout !== "none"; })[0]
+              || liveItems[0];
       if (lead) {
         pe.href = lead.url;
         pe.target = "_blank";

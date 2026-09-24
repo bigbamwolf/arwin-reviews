@@ -167,19 +167,30 @@ window.LBC = {
     heading: "The Kit",
     lede: "Things I actually use to watch, track, and think about films. If you buy through these, the desk earns a small cut at no extra cost to you.",
     disclosure: "Affiliate links. I only list what I would recommend without the commission. A paid placement never buys a rating.",
+    /* PAYOUT FIELD, added 2026-09-24. "none" means the link earns nothing, so the
+       hero slot selector in app.js will never lead with it while a paying link
+       exists. Research and program status: outreach/AFFILIATE_PROGRAM_SHORTLIST.md */
     items: [
       { tag: "Streaming", name: "Where to watch",
         blurb: "Every review on this site links out to a live streaming check for that exact film, PH region.",
-        cta: "Find a film", url: "https://www.justwatch.com/ph" },
-      { tag: "Tickets", name: "Cinema tickets",
-        blurb: "Opening week is the only honest way to see some films. Book the good screen.",
-        cta: "Book a screening", url: "TODO_cinema_affiliate" },
-      { tag: "Reading", name: "The film shelf",
-        blurb: "The criticism and craft books that shaped how the reviews on this site get written.",
-        cta: "See the shelf", url: "TODO_bookstore_affiliate" },
+        cta: "Find a film", url: "https://www.justwatch.com/ph",
+        network: "justwatch_partner_api", payout: "none",
+        note: "Plain link, no affiliate id, earns P0.00. JustWatch commissions run through their Partner API, which is business development and not self serve." },
       { tag: "Home cinema", name: "The setup",
         blurb: "Projector, sound, and seating notes from building a room worth watching in.",
-        cta: "See the setup", url: "TODO_gear_affiliate" }
+        cta: "See the setup", url: "TODO_involve_shopee_or_lazada_gear",
+        network: "involve_asia", payout: "cps",
+        note: "Best earner of the four. A Filipino reader buys a projector or soundbar on Shopee or Lazada, both live on Involve Asia." },
+      { tag: "Reading", name: "The film shelf",
+        blurb: "The criticism and craft books that shaped how the reviews on this site get written.",
+        cta: "See the shelf", url: "TODO_involve_shopee_or_lazada_books",
+        network: "involve_asia", payout: "cps",
+        note: "Local Shopee or Lazada beats Amazon Associates here, imported book shipping to PH kills conversion." },
+      { tag: "Tickets", name: "Cinema tickets",
+        blurb: "Opening week is the only honest way to see some films. Book the good screen.",
+        cta: "Book a screening", url: "TODO_no_program_exists",
+        network: "none", payout: "none",
+        note: "NO PH cinema affiliate program exists. SM Cinema, Ayala Malls Cinemas, Robinsons Movieworld and GMovies publish none. Repurpose this card or leave it dark." }
     ]
   },
 
