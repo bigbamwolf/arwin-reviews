@@ -12,7 +12,7 @@ This writes /r/<slug>/index.html for every review, a hub at /r/, and a sitemap
 listing all of them, so each review becomes its own indexable document with its
 own title, description, schema.org Review markup and canonical URL.
 """
-import json, os, re, html, datetime, shutil
+import json, os, re, html, datetime, shutil, urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "r")
@@ -60,7 +60,18 @@ color:var(--faint);font-size:13px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px 22px;margin-top:22px}
 .grid a{font-size:15px;display:block;padding:4px 0;border-bottom:1px solid var(--line)}
 .grid span{color:var(--faint);font-size:12px}
-@media(max-width:560px){h1{font-size:29px}.review{font-size:19px}.hero img{width:112px}}"""
+.slots{margin:40px 0 0;display:grid;gap:12px}
+.slot{display:block;border:1px solid var(--line);background:var(--panel);
+border-radius:8px;padding:16px 18px;transition:border-color .2s}
+.slot:hover{border-color:var(--gold);text-decoration:none}
+.slot-tag{display:inline-block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:2px 7px;margin-bottom:8px}
+.slot-title{font-family:var(--serif);font-size:20px;color:var(--ink);margin:0 0 4px;font-weight:600}
+.slot-body{color:var(--muted);font-size:14px;margin:0}
+.slot-cta{display:inline-block;margin-top:9px;color:var(--gold);font-size:13px;letter-spacing:.04em}
+.slot-note{color:var(--faint);font-size:11.5px;margin:2px 2px 0;line-height:1.5}
+@media(max-width:560px){h1{font-size:29px}.review{font-size:19px}.hero img{width:112px}
+.slot-title{font-size:18px}}"""
 
 HEAD = """<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -73,6 +84,68 @@ TOP = """<header class="top"><div class="inner">
 <a class="brand" href="/">ARWIN <b>REVIEWS</b></a>
 <nav><a href="/">Home</a><a href="/r/">All reviews</a><a href="/work.html">Work with Arwin</a></nav>
 </div></header>"""
+
+AFF_FALLBACK_WATCH = "https://www.justwatch.com/ph/search?q={q}"
+
+def affiliate_lead():
+    """Read the first PAYING affiliate link straight out of site_config.js so the
+    515 review pages and the SPA hero slot can never drift apart. One place to
+    paste a tracked link. Returns None on any parse trouble, and the pages then
+    ship the advertiser pitch alone rather than breaking the build."""
+    try:
+        src = open(os.path.join(ROOT, "site_config.js"), encoding="utf8").read()
+        start = src.index("affiliates:")
+        block = src[start:src.index("\n  },", start)]
+        for obj in re.findall(r"\{[^{}]*\}", block):
+            url = re.search(r'url:\s*"([^"]*)"', obj)
+            payout = re.search(r'payout:\s*"([^"]*)"', obj)
+            if not url or url.group(1).startswith("TODO"):
+                continue
+            if payout and payout.group(1) != "none":
+                name = re.search(r'name:\s*"([^"]*)"', obj)
+                blurb = re.search(r'blurb:\s*"([^"]*)"', obj)
+                cta = re.search(r'cta:\s*"([^"]*)"', obj)
+                return {"url": url.group(1),
+                        "name": name.group(1) if name else "Recommended",
+                        "blurb": blurb.group(1) if blurb else "",
+                        "cta": cta.group(1) if cta else "Take a look"}
+        return None
+    except Exception:
+        return None
+
+LEAD = None
+
+def slots(title):
+    """Ad inventory on a review page. Until 2026-09-25 these 515 pages, the only
+    crawlable URLs on the site, carried no placement at all while every ad unit
+    sat inside the hash routed SPA that Google cannot rank."""
+    q = urllib.parse.quote_plus(title)
+    out = ['<section class="slots">']
+    if LEAD:
+        out.append(
+            f'<a class="slot" href="{html.escape(LEAD["url"])}" target="_blank" rel="sponsored noopener noreferrer">'
+            f'<span class="slot-tag">Affiliate</span>'
+            f'<p class="slot-title">{html.escape(LEAD["name"])}</p>'
+            f'<p class="slot-body">{html.escape(LEAD["blurb"])}</p>'
+            f'<span class="slot-cta">{html.escape(LEAD["cta"])} &#8599;</span></a>')
+    out.append(
+        f'<a class="slot" href="{AFF_FALLBACK_WATCH.format(q=q)}" target="_blank" rel="sponsored noopener noreferrer">'
+        f'<span class="slot-tag">Where to watch</span>'
+        f'<p class="slot-title">Stream {html.escape(title)} in the Philippines</p>'
+        f'<p class="slot-body">A live check of every legal streaming option for this exact film, PH region.</p>'
+        f'<span class="slot-cta">Check availability &#8599;</span></a>')
+    out.append(
+        '<a class="slot" href="/work.html">'
+        '<span class="slot-tag">Slot open</span>'
+        '<p class="slot-title">Your film here</p>'
+        '<p class="slot-body">A paid, disclosed opening week placement on a Philippine film archive. '
+        'P3,500 for the week at the founding rate. A real verdict, on the week your film matters most.</p>'
+        '<span class="slot-cta">Book this slot &#8599;</span></a>')
+    out.append('<p class="slot-note">Disclosed links. Nothing here buys a rating, and a paid '
+               'placement never changes a verdict.</p>')
+    out.append('</section>')
+    return "\n".join(out)
+
 
 def page(rv, slug):
     title = rv["name"]; year = rv.get("year") or ""
@@ -120,6 +193,7 @@ def page(rv, slug):
 {'<div class="spoiler">This review contains spoilers.</div>' if rv.get("spoiler") else ''}
 <div class="review">{html.escape(body)}</div>
 </article>
+{slots(title)}
 <footer>
 <p>Part of <a href="/">ARWIN REVIEWS</a>, a Philippine film archive on global cinema.
 {len(REVIEWS)} reviews and counting. <a href="/r/">Browse them all</a>.</p>
@@ -147,7 +221,9 @@ def hub(items):
 REVIEWS = []
 
 def main():
-    global REVIEWS
+    global REVIEWS, LEAD
+    LEAD = affiliate_lead()
+    print("affiliate lead:", LEAD["name"] if LEAD else "none paying yet, pitch only")
     REVIEWS = [r for r in load() if (r.get("review") or "").strip()]
     if os.path.isdir(OUT): shutil.rmtree(OUT)
     os.makedirs(OUT, exist_ok=True)

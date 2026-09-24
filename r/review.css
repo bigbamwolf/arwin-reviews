@@ -27,4 +27,15 @@ color:var(--faint);font-size:13px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px 22px;margin-top:22px}
 .grid a{font-size:15px;display:block;padding:4px 0;border-bottom:1px solid var(--line)}
 .grid span{color:var(--faint);font-size:12px}
-@media(max-width:560px){h1{font-size:29px}.review{font-size:19px}.hero img{width:112px}}
+.slots{margin:40px 0 0;display:grid;gap:12px}
+.slot{display:block;border:1px solid var(--line);background:var(--panel);
+border-radius:8px;padding:16px 18px;transition:border-color .2s}
+.slot:hover{border-color:var(--gold);text-decoration:none}
+.slot-tag{display:inline-block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:2px 7px;margin-bottom:8px}
+.slot-title{font-family:var(--serif);font-size:20px;color:var(--ink);margin:0 0 4px;font-weight:600}
+.slot-body{color:var(--muted);font-size:14px;margin:0}
+.slot-cta{display:inline-block;margin-top:9px;color:var(--gold);font-size:13px;letter-spacing:.04em}
+.slot-note{color:var(--faint);font-size:11.5px;margin:2px 2px 0;line-height:1.5}
+@media(max-width:560px){h1{font-size:29px}.review{font-size:19px}.hero img{width:112px}
+.slot-title{font-size:18px}}
