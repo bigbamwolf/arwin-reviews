@@ -161,6 +161,11 @@ window.LBC = {
      Each item needs a REAL affiliate URL before it earns anything. Items
      with a url starting "TODO" are skipped at render, so the rail never
      ships a dead link. */
+  /* ADSENSE, added 2026-09-27. Paste the publisher id from the AdSense account
+     that already pays YouTube, format "ca-pub-" plus 16 digits, then run
+     python3 tools/adsense_apply.py. Empty string keeps every ad tag off. */
+  adsense: { client: "" },
+
   affiliates: {
     enabled: true,
     eyebrow: "Disclosed partners",

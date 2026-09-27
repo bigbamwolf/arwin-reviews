@@ -12,7 +12,7 @@ This writes /r/<slug>/index.html for every review, a hub at /r/, and a sitemap
 listing all of them, so each review becomes its own indexable document with its
 own title, description, schema.org Review markup and canonical URL.
 """
-import json, os, re, html, datetime, shutil, urllib.parse
+import json, os, re, html, datetime, shutil, urllib.parse, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "r")
@@ -223,6 +223,12 @@ REVIEWS = []
 def main():
     global REVIEWS, LEAD
     LEAD = affiliate_lead()
+    global HEAD
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import adsense_apply
+    ad = adsense_apply.tag(adsense_apply.client())
+    if ad: HEAD = HEAD + "\n" + ad
+    print("adsense:", "ON" if ad else "off, client empty")
     print("affiliate lead:", LEAD["name"] if LEAD else "none paying yet, pitch only")
     REVIEWS = [r for r in load() if (r.get("review") or "").strip()]
     if os.path.isdir(OUT): shutil.rmtree(OUT)
