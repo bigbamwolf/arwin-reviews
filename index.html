@@ -80,7 +80,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=61" />
+<link rel="stylesheet" href="styles.css?v=62" />
 <!-- ADSENSE -->
 <meta name="google-adsense-account" content="ca-pub-9552997595838205" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9552997595838205" crossorigin="anonymous"></script>
@@ -101,6 +101,7 @@
     <a href="#/moviemode" data-route="moviemode">Find Your Next Watch</a>
     <a href="#/year" data-route="year">My 2026</a>
     <a href="#/lists" data-route="lists">Lists</a>
+    <a href="#/extras" data-route="extras" id="navExtras" hidden>Crew Extras</a>
     <a class="nav-join-mobile" href="#/join" data-route="join">Take the VIP pass</a>
   </nav>
   <button class="nav-search-btn" id="navSearchBtn" type="button" aria-label="Search the desk">
@@ -220,6 +221,22 @@
       <div class="year-top-grid" id="yearTopGrid"></div>
     </div>
     <div class="year-foot reveal"><span id="yearUpdated"></span></div>
+  </section>
+
+  <!-- CREW EXTRAS (members bonus content, hidden while crew_extras.json is empty) -->
+  <section class="section wrap" id="extras" hidden>
+    <div class="section-head center reveal">
+      <span class="eyebrow">Members only</span>
+      <h2 id="exTitle">Crew Extras</h2>
+      <p class="lede" id="exSub"></p>
+    </div>
+    <div class="ex-list" id="exList"></div>
+    <div class="ex-gate" id="exGate" hidden>
+      <p>Already in The Crew? Enter your unlock code.</p>
+      <div class="ex-row"><input type="text" id="exCode" placeholder="Crew code" autocomplete="off" /><button class="btn btn-join" id="exBtn" type="button">Unlock</button></div>
+      <p class="ex-msg" id="exMsg"></p>
+      <a class="btn btn-primary" href="#/join">Take the VIP pass</a>
+    </div>
   </section>
 
   <!-- MOVIE MODE (member benefit, mood matcher) -->
@@ -412,6 +429,12 @@
     <a href="#/lists">Lists</a>
     <a href="#/join">Take the VIP pass</a>
   </div>
+  <div class="foot-links">
+    <a href="/press.html">Press and Screenings</a>
+    <a href="/work.html">Work with Arwin</a>
+    <a href="/write.html">Write for us</a>
+    <a href="/r/">All reviews</a>
+  </div>
 </footer>
 
 <!-- FILM / REVIEW MODAL -->
@@ -438,10 +461,10 @@
      The nav search (#deskSearch) covers films, reviews and lists instead. -->
 
 <script>window.ARWIN_PAYMENTS_API="https://script.google.com/macros/s/AKfycbzvfiPw3pIlPAbVY9syj8Lt3Bi2vbM-G8WIGCWxt9u9Z_MG8yGcy8He1I_sQCb-kw-dzg/exec";</script>
-<script src="site_config.js?v=61"></script>
+<script src="site_config.js?v=62"></script>
 <script src="data.js?v=202609270445"></script>
 <script src="reviews.js?v=202609270445"></script>
-<script src="app.js?v=61"></script>
+<script src="app.js?v=62"></script>
 <div style="max-width:1200px;margin:0 auto;padding:18px 20px;border-top:1px solid rgba(255,255,255,.08);font:13px/1.6 system-ui,sans-serif;color:#6b727b">
 <a href="/r/" style="color:#e7b54a;text-decoration:none">Browse all 512 written reviews</a>, each on its own page.
 </div>

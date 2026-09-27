@@ -69,6 +69,8 @@ color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:2px 7p
 .slot-title{font-family:var(--serif);font-size:20px;color:var(--ink);margin:0 0 4px;font-weight:600}
 .slot-body{color:var(--muted);font-size:14px;margin:0}
 .slot-cta{display:inline-block;margin-top:9px;color:var(--gold);font-size:13px;letter-spacing:.04em}
+.cred{color:var(--faint);font-size:12.5px;margin-top:4px;letter-spacing:.02em}
+.guest{display:inline-block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(231,181,74,.4);border-radius:3px;padding:2px 7px;margin-bottom:8px}
 .slot-note{color:var(--faint);font-size:11.5px;margin:2px 2px 0;line-height:1.5}
 @media(max-width:560px){h1{font-size:29px}.review{font-size:19px}.hero img{width:112px}
 .slot-title{font-size:18px}}"""
@@ -83,7 +85,7 @@ HEAD = """<meta charset="utf-8" />
 
 TOP = """<header class="top"><div class="inner">
 <a class="brand" href="/">ARWIN <b>REVIEWS</b></a>
-<nav><a href="/">Home</a><a href="/r/">All reviews</a><a href="/work.html">Work with Arwin</a></nav>
+<nav><a href="/">Home</a><a href="/r/">All reviews</a><a href="/press.html">Press</a><a href="/work.html">Work with Arwin</a></nav>
 </div></header>"""
 
 AFF_FALLBACK_WATCH = "https://www.justwatch.com/ph/search?q={q}"
@@ -115,6 +117,47 @@ def affiliate_lead():
         return None
 
 LEAD = None
+SHOP = None
+CRED = ""
+
+def config_block(key):
+    src = open(os.path.join(ROOT, "site_config.js"), encoding="utf8").read()
+    start = src.index(key + ":")
+    return src[start:src.index("\n  },", start)]
+
+def shop_rail():
+    """Own it rail config. Returns None unless enabled with at least one real
+    affiliate id, so a plain non earning search link never ships."""
+    try:
+        b = config_block("shopRail")
+        if not re.search(r"enabled:\s*true", b):
+            return None
+        out = []
+        for shop, label in (("shopee", "Shopee"), ("lazada", "Lazada")):
+            m = re.search(shop + r':\s*\{\s*id:\s*"([^"]*)",\s*template:\s*"([^"]*)"', b)
+            if m and m.group(1) and m.group(2):
+                out.append((label, m.group(1), m.group(2)))
+        suf = re.search(r'suffix:\s*"([^"]*)"', b)
+        return {"shops": out, "suffix": suf.group(1) if suf else ""} if out else None
+    except Exception:
+        return None
+
+def credentials_line():
+    """Stats from data.js plus real memberships from site_config.js."""
+    parts = []
+    try:
+        d = open(os.path.join(ROOT, "data.js"), encoding="utf8").read()
+        st = json.loads(d[d.index("{"):d.rindex("}") + 1])["stats"]
+        parts += [f"{st['reviews']:,} reviews", f"{st['films']:,} films logged",
+                  f"{st['reviewWords']:,} words"]
+    except Exception:
+        pass
+    try:
+        parts += re.findall(r'"([^"]+)"', re.search(r"memberships:\s*\[([^\]]*)\]",
+                            config_block("credentials")).group(1))
+    except Exception:
+        pass
+    return " · ".join(html.escape(x) for x in parts)
 
 def slots(title):
     """Ad inventory on a review page. Until 2026-09-25 these 515 pages, the only
@@ -122,6 +165,15 @@ def slots(title):
     sat inside the hash routed SPA that Google cannot rank."""
     q = urllib.parse.quote_plus(title)
     out = ['<section class="slots">']
+    if SHOP:
+        sq = urllib.parse.quote_plus(f"{title} {SHOP['suffix']}".strip())
+        for label, aid, tpl in SHOP["shops"]:
+            out.append(
+                f'<a class="slot" href="{html.escape(tpl.format(q=sq, id=aid))}" target="_blank" rel="sponsored noopener noreferrer">'
+                f'<span class="slot-tag">Affiliate · {label}</span>'
+                f'<p class="slot-title">Own {html.escape(title)}</p>'
+                f'<p class="slot-body">Blu-rays, steelbooks, books and merch for this film on {label}. The desk earns a small cut at no extra cost to you.</p>'
+                f'<span class="slot-cta">Search {label} &#8599;</span></a>')
     if LEAD:
         out.append(
             f'<a class="slot" href="{html.escape(LEAD["url"])}" target="_blank" rel="sponsored noopener noreferrer">'
@@ -150,6 +202,8 @@ def slots(title):
 
 def page(rv, slug):
     title = rv["name"]; year = rv.get("year") or ""
+    guest = rv.get("author")
+    by = guest or "Arwin Edward Bagaslao"
     st = stars(rv.get("rating"))
     body = (rv.get("review") or "").strip()
     desc = re.sub(r"\s+", " ", body)[:155]
@@ -159,7 +213,7 @@ def page(rv, slug):
     ld = {"@context": "https://schema.org", "@type": "Review",
           "itemReviewed": {"@type": "Movie", "name": title,
                            **({"datePublished": str(year)} if year else {})},
-          "author": {"@type": "Person", "name": "Arwin Edward Bagaslao"},
+          "author": {"@type": "Person", "name": by, **({"url": rv["author_url"]} if rv.get("author_url") else {})},
           "publisher": {"@type": "Organization", "name": "ARWIN REVIEWS"},
           "url": url, "reviewBody": body}
     if rv.get("rating"):
@@ -167,6 +221,10 @@ def page(rv, slug):
                               "bestRating": 5, "worstRating": 0.5}
     if watched: ld["datePublished"] = watched
     t = f"{title} ({year}) review" if year else f"{title} review"
+    if guest: t += f" by {guest}"
+    byline = (f'Guest review by <a href="{html.escape(rv["author_url"])}" rel="noopener" target="_blank">{html.escape(guest)}</a>'
+              if guest and rv.get("author_url") else f"Guest review by {html.escape(guest)}" if guest
+              else "Reviewed by Arwin Edward Bagaslao")
     return f"""<!doctype html><html lang="en"><head>
 <title>{html.escape(t)} · ARWIN REVIEWS</title>
 {HEAD}
@@ -188,7 +246,9 @@ def page(rv, slug):
 <div>
 <h1>{html.escape(title)} <span class="yr">{year}</span></h1>
 <div class="rating">{st}</div>
-<div class="meta">Reviewed by Arwin Edward Bagaslao{f" · {watched}" if watched else ""}</div>
+{'<span class="guest">Guest review</span>' if guest else ''}
+<div class="meta">{byline}{f" · {html.escape(watched)}" if watched else ""}</div>
+{'' if guest or not CRED else f'<div class="cred">{CRED}</div>'}
 </div>
 </div>
 {'<div class="spoiler">This review contains spoilers.</div>' if rv.get("spoiler") else ''}
@@ -198,13 +258,14 @@ def page(rv, slug):
 <footer>
 <p>Part of <a href="/">ARWIN REVIEWS</a>, a Philippine film archive on global cinema.
 {len(REVIEWS)} reviews and counting. <a href="/r/">Browse them all</a>.</p>
-<p>Cinemas and distributors, the homepage slot is <a href="/work.html">open and priced</a>.</p>
+<p>Distributors and PR teams, <a href="/press.html">invite me to a press screening</a>. Cinemas, the homepage slot is <a href="/work.html">open and priced</a>.</p>
+<p>Want your own verdict here? <a href="/write.html">Write a guest review</a>.</p>
 </footer>
 </div></body></html>"""
 
 def hub(items):
     rows = "\n".join(
-        f'<a href="/r/{s}/">{html.escape(r["name"])} <span>{r.get("year","")} {stars(r.get("rating"))}</span></a>'
+        f'<a href="/r/{s}/">{html.escape(r["name"])} <span>{r.get("year","")} {stars(r.get("rating"))}{" · guest review by " + html.escape(r["author"]) if r.get("author") else ""}</span></a>'
         for s, r in items)
     return f"""<!doctype html><html lang="en"><head>
 <title>All film reviews · ARWIN REVIEWS</title>
@@ -222,8 +283,11 @@ def hub(items):
 REVIEWS = []
 
 def main():
-    global REVIEWS, LEAD
+    global REVIEWS, LEAD, SHOP, CRED
     LEAD = affiliate_lead()
+    SHOP = shop_rail()
+    CRED = credentials_line()
+    print("shop rail:", ", ".join(x[0] for x in SHOP["shops"]) if SHOP else "off")
     global HEAD
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import adsense_apply
@@ -245,11 +309,22 @@ def main():
         d = os.path.join(OUT, s); os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w", encoding="utf8").write(page(r, s))
         items.append((s, r))
+    gpath = os.path.join(ROOT, "guest_reviews.json")
+    guests = json.load(open(gpath, encoding="utf8")) if os.path.exists(gpath) else []
+    for g in guests:
+        if not (g.get("author") and (g.get("review") or "").strip()):
+            continue
+        s = slugify(g["name"], g.get("year") or "") + "-by-" + slugify(g["author"], "")
+        d = os.path.join(OUT, s); os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf8").write(page(g, s))
+        items.append((s, g))
+    print(f"guest reviews: {len(guests)}")
     items.sort(key=lambda x: x[1]["name"].lower())
     open(os.path.join(OUT, "index.html"), "w", encoding="utf8").write(hub(items))
 
     today = datetime.date.today().isoformat()
-    urls = [(f"{SITE}/", "1.0"), (f"{SITE}/r/", "0.9"), (f"{SITE}/work.html", "0.6")]
+    urls = [(f"{SITE}/", "1.0"), (f"{SITE}/r/", "0.9"), (f"{SITE}/work.html", "0.6"),
+            (f"{SITE}/press.html", "0.6"), (f"{SITE}/write.html", "0.5")]
     urls += [(f"{SITE}/r/{s}/", "0.8") for s, _ in items]
     body = "\n".join(
         f"  <url><loc>{u}</loc><lastmod>{today}</lastmod>"

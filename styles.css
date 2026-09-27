@@ -569,3 +569,18 @@ body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;back
 .aff-cta{font:500 .78rem/1 var(--sans);color:var(--gold);margin-top:4px}
 .aff-disclosure{font:400 .74rem/1.6 var(--sans);color:var(--faint);margin-top:18px;max-width:60ch}
 @media(max-width:700px){.aff-grid{grid-template-columns:1fr}}
+
+/* CREW EXTRAS, added 2026-09-27 */
+.ex-list{display:grid;gap:18px;max-width:760px;margin:0 auto}
+.ex-card{background:var(--panel,#12171c);border:1px solid var(--line,rgba(255,255,255,.08));border-radius:14px;padding:26px 24px}
+.ex-kind{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold,#e7b54a);margin-bottom:8px}
+.ex-card h3{font-family:var(--serif);font-size:1.5rem;font-weight:600;line-height:1.2;margin:0 0 4px}
+.ex-film{color:var(--muted,#9aa1aa);font-size:.86rem;margin-bottom:12px}
+.ex-body{font-family:var(--serif);font-size:1.12rem;line-height:1.6;color:var(--ink,#ece9e2)}
+.ex-body p{margin:0 0 12px}
+.ex-locked{position:relative;max-height:7.5em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 30%,transparent);mask-image:linear-gradient(#000 30%,transparent);user-select:none}
+.ex-gate{max-width:420px;margin:28px auto 0;text-align:center;color:var(--muted,#9aa1aa)}
+.ex-row{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.ex-row input{flex:1;min-width:0;background:var(--panel,#12171c);border:1px solid var(--line,rgba(255,255,255,.08));border-radius:24px;padding:11px 16px;color:var(--ink,#ece9e2);font:inherit}
+.ex-msg{min-height:20px;font-size:.84rem}
+.ex-gate .btn-primary{margin-top:8px}

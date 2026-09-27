@@ -199,6 +199,38 @@ window.LBC = {
     ]
   },
 
+  /* CREDENTIALS, added 2026-09-27. Real memberships only, one string each, for
+     example "Member, Online Film and Television Association". Empty list keeps the
+     credentials block hidden on press.html and the review pages. Never invent one. */
+  credentials: {
+    memberships: []
+  },
+
+  /* MONEY 9 — own it rail on every review page, added 2026-09-27.
+     Sends the reader to a Shopee or Lazada search for the film (Blu-ray, book,
+     steelbook, merch). Stays OFF until a real affiliate id exists, because a plain
+     search link only leaks traffic and earns nothing. Once the Shopee Affiliate
+     Program or Involve Asia account is approved, paste the id, set enabled:true,
+     confirm the tracking template against one link generated in the affiliate
+     console, then run python3 tools/build_review_pages.py.
+     {q} is the film title plus a suffix, URL encoded. {id} is the affiliate id. */
+  shopRail: {
+    enabled: false,
+    shopee: { id: "", template: "https://shopee.ph/search?keyword={q}&utm_source=an_{id}&utm_medium=affiliates" },
+    lazada: { id: "", template: "" },
+    suffix: "blu ray"
+  },
+
+  /* MEMBERS BONUS — Crew Extras, added 2026-09-27. Director's cut notes, early
+     looks and members only rankings Boss writes himself, stored in
+     crew_extras.json. The section and its perk line stay hidden while that file
+     is empty, so the site never sells a perk that does not exist yet. */
+  crewExtras: {
+    heading: "Crew Extras",
+    sub: "The longer cut. Director's cut notes, early looks, and rankings that never leave the members room.",
+    perk: "Crew Extras, the members only director's cut notes and early looks"
+  },
+
   /* MONEY 5, 6, 7 — support, ad sales. */
   support: {
     tipLabel: "Send a tip via GCash",

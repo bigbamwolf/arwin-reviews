@@ -865,10 +865,11 @@
       moviemode: ["#moviemode"],
       year:    ["#year"],
       lists:   ["#lists"],
-      join:    ["#weekwatch", "#join", "#partner", "#affiliates", "#support"]
+      join:    ["#weekwatch", "#join", "#partner", "#affiliates", "#support"],
+      extras:  ["#extras"]
     };
-    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#affiliates","#support","#merch"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", affiliates:"join", kit:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work" };
+    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#affiliates","#support","#merch","#extras"];
+    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", affiliates:"join", kit:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work", "crew-extras":"extras", crew:"extras", "directors-cut":"extras" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
@@ -877,6 +878,7 @@
       moviemode:{ t:"Find Your Next Watch · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from Arwin, with a reason and a snippet from past you." },
       year:    { t:"My 2026, Curated · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed every six hours." },
       lists:   { t:"Ranked Film Lists · ARWIN REVIEWS", d:"Films ranked by director, cinematographer, decade, studio, genre, and mood." },
+      extras:  { t:"Crew Extras · ARWIN REVIEWS", d:"Members only director's cut notes, early looks, and rankings from Arwin Bagaslao." },
       join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back Arwin. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
     };
     function setMeta(sel, val){ var m=document.querySelector(sel); if(m) m.setAttribute("content", val); }
@@ -924,6 +926,45 @@
       }
     });
     route();
+  })();
+
+  /* === CREW EXTRAS, added 2026-09-27 ===
+     Members bonus content from crew_extras.json. While the file is empty the
+     section, the nav link and the membership perk line all stay hidden. */
+  (function initExtras(){
+    var cfg = LBC.crewExtras || {};
+    function crew(){ return localStorage.getItem("mm_crew") === "1" || localStorage.getItem("pred_crew") === "1"; }
+    function paras(t){ return esc(String(t || "")).split(/\n{2,}/).map(function(p){ return "<p>" + p.replace(/\n/g, "<br>") + "</p>"; }).join(""); }
+    fetch("crew_extras.json?cb=" + Date.now()).then(function(r){ return r.json(); }).then(function(items){
+      if (!items || !items.length) return;
+      items.sort(function(a, b){ return (a.date || "") < (b.date || "") ? 1 : -1; });
+      var sec = $("#extras"); sec.hidden = false; $("#navExtras").hidden = false;
+      $("#exTitle").textContent = cfg.heading || "Crew Extras";
+      $("#exSub").textContent = cfg.sub || "";
+      var tl = document.querySelector("#tierGrid .tier.hl .t-perks");
+      if (tl && cfg.perk) { var li = document.createElement("li"); li.textContent = cfg.perk; tl.appendChild(li); }
+      function render(){
+        var on = crew();
+        $("#exList").innerHTML = items.map(function(x){
+          var head = '<div class="ex-kind">' + esc(String(x.kind || "Extra")) + (x.date ? " · " + esc(String(x.date)) : "") + '</div>' +
+            '<h3>' + esc(String(x.title || "")) + '</h3>' + (x.film ? '<div class="ex-film">' + esc(String(x.film)) + (x.year ? " (" + esc(String(x.year)) + ")" : "") + '</div>' : "");
+          var body = on ? '<div class="ex-body">' + paras(x.body || "") + '</div>'
+                        : '<div class="ex-body ex-locked">' + paras(String(x.body || "").slice(0, 220)) + '</div>';
+          return '<article class="ex-card">' + head + body + '</article>';
+        }).join("");
+        $("#exGate").hidden = on;
+      }
+      render();
+      $("#exBtn").addEventListener("click", function(){
+        var code = ($("#exCode").value || "").trim().toUpperCase(); if (!code) return;
+        $("#exMsg").textContent = "Checking...";
+        fetch(window.ARWIN_PAYMENTS_API, { method: "POST", body: JSON.stringify({ route: "validate_code", code: code }), headers: { "Content-Type": "text/plain" } })
+          .then(function(r){ return r.json(); }).then(function(r){
+            if (r.ok) { localStorage.setItem("mm_crew", "1"); localStorage.setItem("pred_crew", "1"); $("#exMsg").textContent = "Unlocked. Welcome to The Crew."; render(); }
+            else { $("#exMsg").textContent = r.error || "That code did not match. Check your welcome email."; }
+          }).catch(function(){ $("#exMsg").textContent = "Connection failed. Try again."; });
+      });
+    }).catch(function(){});
   })();
 
   /* === NEWSLETTER === */
