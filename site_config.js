@@ -177,7 +177,7 @@ window.LBC = {
        exists. Research and program status: outreach/AFFILIATE_PROGRAM_SHORTLIST.md */
     items: [
       { tag: "Streaming", name: "Where to watch",
-        blurb: "Every review on this site links out to a live streaming check for that exact film, PH region.",
+        blurb: "Every review on this site links out to a live streaming check for that exact film, in your country.",
         cta: "Find a film", url: "https://www.justwatch.com/ph",
         network: "justwatch_partner_api", payout: "none",
         note: "Plain link, no affiliate id, earns P0.00. JustWatch commissions run through their Partner API, which is business development and not self serve." },

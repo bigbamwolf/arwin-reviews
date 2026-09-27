@@ -78,7 +78,8 @@ HEAD = """<meta charset="utf-8" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/r/review.css" />
-<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png" />"""
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png" />
+<script defer src="/region.js"></script>"""
 
 TOP = """<header class="top"><div class="inner">
 <a class="brand" href="/">ARWIN <b>REVIEWS</b></a>
@@ -131,8 +132,8 @@ def slots(title):
     out.append(
         f'<a class="slot" href="{AFF_FALLBACK_WATCH.format(q=q)}" target="_blank" rel="sponsored noopener noreferrer">'
         f'<span class="slot-tag">Where to watch</span>'
-        f'<p class="slot-title">Stream {html.escape(title)} in the Philippines</p>'
-        f'<p class="slot-body">A live check of every legal streaming option for this exact film, PH region.</p>'
+        f'<p class="slot-title">Where to stream {html.escape(title)}</p>'
+        f'<p class="slot-body">A live check of every legal streaming option for this exact film, in your country.</p>'
         f'<span class="slot-cta">Check availability &#8599;</span></a>')
     out.append(
         '<a class="slot" href="/work.html">'
