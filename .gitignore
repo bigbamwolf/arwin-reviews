@@ -29,3 +29,4 @@ lb_export/
 marathon_backup/
 marathon_lastbuild.txt
 *.err
+state/
