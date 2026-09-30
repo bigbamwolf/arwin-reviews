@@ -1055,13 +1055,23 @@
           out.push({k:"film", n:f.name, y:f.year, rating:f.rating,
                     poster:f.poster, sub:f.watched ? fmtDate(f.watched,true) : "", obj:f});
       });
+      var inside = [];
       lists.forEach(function(l){
         if (norm(l.title).indexOf(q) > -1 || norm(l.blurb).indexOf(q) > -1 ||
-            norm(l.cat).indexOf(q) > -1)
+            norm(l.cat).indexOf(q) > -1) {
           out.push({k:"list", n:l.title, y:null, rating:null, poster:l.cover,
                     sub:(l.count||0)+" films  ·  "+(l.cat||""), obj:l});
+          return;
+        }
+        var has = (l.films || []).filter(function(f){ return norm(f.n).indexOf(q) > -1; });
+        if (has.length)
+          inside.push({k:"list", n:l.title, y:null, rating:null, poster:l.cover,
+                       sub:"Has " + has.slice(0, 2).map(function(f){ return f.n + (f.y ? " (" + f.y + ")" : ""); }).join(", ") +
+                           (has.length > 2 ? " +" + (has.length - 2) : "") + "  ·  " + (l.count||0) + " films",
+                       obj:l});
       });
-      return out;
+      inside.sort(function(a,b){ return (a.obj.count||0) - (b.obj.count||0); });
+      return out.concat(inside);
     }
 
     function stars(v){
@@ -1081,7 +1091,7 @@
       var order = ["review","film","list"],
           label = {review:"Reviews", film:"Films", list:"Lists"};
       order.forEach(function(k){
-        var group = hits.filter(function(h){ return h.k === k; }).slice(0, 8);
+        var group = hits.filter(function(h){ return h.k === k; }).slice(0, k === "list" ? 12 : 8);
         if (!group.length) return;
         var head = document.createElement("div");
         head.className = "ds-group";
