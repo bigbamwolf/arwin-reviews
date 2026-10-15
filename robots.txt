@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /overwatch/
+Disallow: /outreach/
+Disallow: /autosync.py
+Disallow: /autosync_local.py
+Disallow: /data.js.pretruth_bak
 
 Sitemap: https://arwinreviews.com/sitemap.xml

@@ -13,7 +13,7 @@ cover for a new list backfill on the next full export rebuild (build_data.py).
 Runs on a schedule via launchd or a GitHub Action, so the site stays current
 without anyone exporting anything. Source is the RSS feed, backend plumbing only.
 """
-import os, re, json, html, urllib.request, xml.etree.ElementTree as ET, datetime
+import sys, os, re, json, html, urllib.request, xml.etree.ElementTree as ET, datetime
 
 SITE = os.path.dirname(os.path.abspath(__file__))
 HANDLE = "bigbamwolf"
@@ -407,6 +407,14 @@ def main():
         open(ip, "w", encoding="utf-8").write(idx)
     except Exception:
         pass
+    try:
+        import subprocess as _sp
+        _b = _sp.run([sys.executable, os.path.join(SITE, "tools", "build_review_pages.py")]
+                     + (["--indexnow"] if os.environ.get("GITHUB_ACTIONS") else []),
+                     cwd=SITE, capture_output=True, text=True, timeout=600)
+        print((_b.stdout or _b.stderr).strip()[-600:])
+    except Exception as e:
+        print("autosync: static page build skipped (%s)" % str(e)[:80])
     print("autosync: +%d films, +%d reviews, +%d lists, +%d posters. now %d films / %d reviews / %d lists."
           % (new_films, new_reviews, new_lists, new_posters, st["films"], st["reviews"], st["lists"]))
 
@@ -422,8 +430,9 @@ def main():
                    GIT_COMMITTER_NAME="bigbamwolf", GIT_COMMITTER_EMAIL="arwinbagaslao@gmail.com")
         msg = "autosync: +%dr +%df +%dl +%dp" % (new_reviews, new_films, new_lists, new_posters)
         try:
-            subprocess.run(["git", "-C", SITE, "add", "data.js", "reviews.js", "predictor.html",
-                            "index.html", "img/"], check=True, env=env, timeout=30)
+            subprocess.run(["git", "-C", SITE, "add", "-A", "data.js", "reviews.js", "predictor.html",
+                            "index.html", "img/", "r/", "lists/", "sitemap.xml", "film_meta.json"],
+                           check=True, env=env, timeout=60)
             r = subprocess.run(["git", "-C", SITE, "commit", "-q", "-m", msg],
                                env=env, timeout=30)
             if r.returncode == 0:
