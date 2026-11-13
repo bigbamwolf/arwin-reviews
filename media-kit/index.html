@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARWIN REVIEWS Media Kit</title>
+<meta name="description" content="Media kit for ARWIN REVIEWS, the independent Philippine film review desk of Arwin Edward Bagaslao. Letterboxd, Instagram, Facebook and arwinreviews.com.">
+<meta name="theme-color" content="#0a0c0e">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;900&display=swap">
+<style>
+:root{
+  --bg:#0a0c0e;--bg-2:#0e1216;--panel:#12171c;--panel-2:#161c22;
+  --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);
+  --ink:#ece9e2;--muted:#9aa1aa;--faint:#6b727b;
+  --gold:#e7b54a;--gold-soft:#f1cd7e;--gold-dim:rgba(231,181,74,.14);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:72px;--s7:112px;
+  --gut:clamp(20px,5vw,56px);--maxw:1160px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#1a1306}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+
+.eyebrow{display:block;font:600 .66rem/1 var(--sans);letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:var(--s2)}
+.h2{font:600 clamp(2.1rem,6.4vw,3.4rem)/1.02 var(--serif);letter-spacing:-.005em;text-wrap:balance}
+.lede{color:var(--muted);font-size:1rem;margin-top:var(--s2);max-width:56ch}
+section{padding:var(--s6) 0}
+.rule{height:1px;background:var(--line);border:0}
+
+/* TOP BAR */
+.bar{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:var(--s2);padding:var(--s3) var(--gut);max-width:var(--maxw);margin:0 auto}
+.brand{font:800 .82rem/1 var(--sans);letter-spacing:.16em;white-space:nowrap}
+.brand span{color:var(--gold);margin-left:.45em}
+.bar small{font:500 .62rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+
+/* HERO */
+.hero{position:relative;padding:var(--s4) 0 var(--s6);overflow:hidden}
+.hero-glow{position:absolute;inset:-10% -20% auto;height:120%;z-index:0;pointer-events:none;
+  background:radial-gradient(46% 38% at 30% 30%,rgba(231,181,74,.15),transparent 70%),radial-gradient(40% 40% at 85% 60%,rgba(231,181,74,.06),transparent 70%)}
+.hero-grid{display:grid;gap:var(--s5);align-items:center}
+.who{display:flex;align-items:center;gap:14px;margin-bottom:var(--s4)}
+.avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(231,181,74,.55);box-shadow:0 0 0 5px rgba(231,181,74,.07)}
+.who b{display:block;font:600 .92rem/1.25 var(--sans)}
+.who span{display:block;font:500 .62rem/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+.hero h1{font:900 clamp(2.9rem,13.4vw,6.4rem)/.92 var(--sans);letter-spacing:.01em}
+.hero h1 span{display:block;color:var(--gold)}
+.hero-line{font:italic 500 clamp(1.45rem,5.2vw,2.15rem)/1.22 var(--serif);color:var(--gold-soft);margin-top:var(--s3);max-width:26ch;text-wrap:balance}
+.hero-sub{color:var(--muted);margin-top:var(--s2);max-width:48ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:var(--s4)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;border-radius:40px;font:700 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;border:1px solid transparent;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s,border-color .25s,color .25s}
+.btn-gold{background:var(--gold);color:#1a1306}
+.btn-gold:hover{background:var(--gold-soft);transform:translateY(-2px)}
+.btn-ghost{border-color:var(--line-2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+.fan{position:relative;height:clamp(300px,86vw,440px);max-width:460px;width:100%;margin:0 auto}
+.fan img{position:absolute;top:50%;left:50%;width:44%;aspect-ratio:2/3;object-fit:cover;border-radius:6px;border:1px solid var(--line-2);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4)}
+.fan .p1{transform:translate(-112%,-46%) rotate(-8deg);opacity:.82}
+.fan .p3{transform:translate(12%,-46%) rotate(8deg);opacity:.82}
+.fan .p2{transform:translate(-50%,-52%);z-index:2}
+.fan figcaption{position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:3;white-space:nowrap;font:500 .6rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+
+/* NUMBERS */
+.asof{display:inline-flex;align-items:center;gap:10px;margin-top:var(--s3);padding:9px 14px;border:1px solid var(--line);border-radius:30px;font:500 .66rem/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.asof i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--gold-dim)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:var(--s5)}
+.stat{background:var(--panel);padding:var(--s3) 18px;min-height:132px;display:flex;flex-direction:column;justify-content:space-between;gap:var(--s2)}
+.stat .v{font:600 clamp(2.2rem,9vw,3.4rem)/1 var(--serif)}
+.stat .l{font:600 .6rem/1.45 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.stat .l em{display:block;font-style:normal;color:var(--muted);letter-spacing:.12em;margin-top:2px}
+.stat.feat{grid-column:1/-1;background:linear-gradient(135deg,rgba(231,181,74,.10),var(--panel) 60%)}
+.stat.feat .v{color:var(--gold)}
+.growth{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s3);flex-wrap:wrap}
+.growth svg{width:min(100%,300px);height:auto;overflow:visible}
+
+/* MOST LIKED */
+.liked{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:var(--s5)}
+.row{display:grid;grid-template-columns:30px 56px 1fr auto;align-items:center;gap:14px;padding:14px 16px;background:var(--panel);transition:background .25s}
+.row:hover{background:var(--panel-2)}
+.row:hover .ttl{color:var(--gold-soft)}
+.rk{font:600 1.15rem/1 var(--serif);color:var(--faint)}
+.row img{width:56px;aspect-ratio:2/3;object-fit:cover;border-radius:3px;border:1px solid var(--line)}
+.ttl{font:600 1.22rem/1.15 var(--serif);transition:color .25s}
+.ttl small{font:500 .74rem/1 var(--sans);color:var(--faint);margin-left:6px;letter-spacing:.02em}
+.stars{display:flex;gap:2px;margin-top:7px}
+.stars svg{width:12px;height:12px}
+.lk{text-align:right}
+.lk b{display:block;font:600 1.6rem/1 var(--serif);color:var(--gold)}
+.lk span{display:block;font:600 .54rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:5px}
+.row.top{padding:18px 16px}
+.row.top .rk{color:var(--gold)}
+.row.top img{width:64px}
+.foot-note{font-size:.84rem;color:var(--faint);margin-top:var(--s2);max-width:70ch}
+
+/* VOICE */
+.voice{display:grid;gap:var(--s3);margin-top:var(--s5)}
+.q{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:var(--s4) var(--s3) var(--s3);overflow:hidden}
+.q::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--gold),transparent)}
+.q blockquote{font:italic 500 clamp(1.3rem,4.6vw,1.55rem)/1.36 var(--serif);color:var(--ink);text-wrap:pretty}
+.q blockquote::before{content:"\201C";display:block;font:600 3.4rem/.6 var(--serif);color:var(--gold);margin-bottom:10px;font-style:normal}
+.q figcaption{display:flex;justify-content:space-between;align-items:center;gap:var(--s2);margin-top:var(--s3);padding-top:var(--s2);border-top:1px solid var(--line);font:600 .62rem/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.q figcaption a{color:var(--gold);white-space:nowrap}
+.q figcaption a:hover{color:var(--gold-soft)}
+
+/* OFFER */
+.offer{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:var(--s5)}
+.o{background:var(--panel);padding:var(--s3) 20px var(--s4)}
+.o .n{font:600 .66rem/1 var(--sans);letter-spacing:.24em;color:var(--gold)}
+.o h3{font:600 1.5rem/1.15 var(--serif);margin:var(--s2) 0 10px}
+.o p{color:var(--muted);font-size:.94rem;max-width:44ch}
+.o.lead{background:linear-gradient(160deg,rgba(231,181,74,.12),var(--panel) 55%)}
+.o.lead h3{font-size:clamp(1.8rem,6vw,2.3rem)}
+.o.lead h3 b{color:var(--gold);font-weight:600}
+
+/* SURFACES */
+.surf{display:grid;gap:var(--s2);margin-top:var(--s5)}
+.s{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 20px 22px;transition:border-color .3s,transform .3s cubic-bezier(.2,.8,.2,1)}
+.s:hover{border-color:rgba(231,181,74,.5);transform:translateY(-3px)}
+.s .k{font:600 .6rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.s .h{font:600 1.45rem/1.15 var(--serif);word-break:break-word}
+.s p{color:var(--muted);font-size:.9rem}
+.s .ar{position:absolute;top:18px;right:18px;color:var(--gold);transition:transform .3s}
+.s:hover .ar{transform:translate(3px,-3px)}
+
+/* CONTACT */
+.contact{position:relative;text-align:center;padding:var(--s7) 0 var(--s6);overflow:hidden}
+.contact::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 50% 40%,rgba(231,181,74,.12),transparent 70%);pointer-events:none}
+.contact .h2{max-width:16ch;margin:0 auto}
+.contact .lede{margin-left:auto;margin-right:auto}
+.mail{display:inline-block;margin-top:var(--s4);font:600 clamp(1.25rem,5.4vw,2rem)/1.2 var(--serif);color:var(--gold);border-bottom:1px solid rgba(231,181,74,.4);padding-bottom:4px;word-break:break-all;transition:color .25s,border-color .25s}
+.mail:hover{color:var(--gold-soft);border-color:var(--gold-soft)}
+.contact .cta{justify-content:center}
+
+footer{border-top:1px solid var(--line);padding:var(--s4) 0 var(--s5);text-align:center;font:500 .6rem/1.9 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+footer .brand{display:inline-flex;font-size:.72rem;color:var(--ink);margin-bottom:6px}
+
+body .num,body .rk,body .lk b,body .stat .v{font-feature-settings:"lnum" 1,"tnum" 1;font-variant-numeric:lining-nums tabular-nums}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+
+/* TABLET AND UP */
+@media (min-width:720px){
+  section{padding:var(--s7) 0}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat{padding:var(--s4) var(--s3);min-height:170px}
+  .stat.feat{grid-column:span 3}
+  .row{grid-template-columns:44px 64px 1fr auto;gap:var(--s3);padding:16px var(--s3)}
+  .row img{width:64px}
+  .row.top{padding:20px var(--s3)}
+  .row.top img{width:76px}
+  .ttl{font-size:1.45rem}
+  .voice{grid-template-columns:repeat(3,1fr)}
+  .q{display:flex;flex-direction:column;justify-content:space-between}
+  .offer{grid-template-columns:repeat(2,1fr)}
+  .o.lead{grid-column:1/-1}
+  .surf{grid-template-columns:repeat(2,1fr)}
+}
+@media (min-width:1024px){
+  .hero{padding:var(--s5) 0 var(--s7)}
+  .hero-grid{grid-template-columns:1.15fr .85fr;gap:var(--s6)}
+  .fan{height:500px;max-width:none}
+  .fan img{width:50%}
+  .stats{grid-template-columns:repeat(6,1fr)}
+  .stat{grid-column:span 2}
+  .stat.feat{grid-column:span 6}
+  .liked{grid-template-columns:1fr 1fr}
+  .row.top{grid-column:1/-1}
+  .offer{grid-template-columns:repeat(6,1fr)}
+  .offer .o{grid-column:span 2}
+  .offer .o:nth-child(5),.offer .o:nth-child(6){grid-column:span 3}
+  .o.lead{grid-column:1/-1!important;display:grid;grid-template-columns:1.5fr 1fr;column-gap:var(--s6);align-items:end;padding:var(--s4) var(--s4) var(--s5)}
+  .o.lead h3{margin-bottom:0}
+  .o.lead .n{grid-column:1/-1}
+  .o.lead p{max-width:52ch}
+  .surf{grid-template-columns:repeat(4,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  .btn,.s,.s .ar,.row,.ttl{transition:none}
+}
+@media print{
+  .grain,.hero-glow,.contact::before{display:none}
+  body{background:#0a0c0e;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="no-js">
+<div class="grain" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="st" viewBox="0 0 24 24"><path fill="#e7b54a" d="M12 2.2l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17.3 6 20.6l1.3-6.7-5-4.7 6.8-.8z"/></symbol>
+    <symbol id="sh" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.14)" d="M12 2.2l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17.3 6 20.6l1.3-6.7-5-4.7 6.8-.8z"/><path fill="#e7b54a" d="M12 2.2v15.1L6 20.6l1.3-6.7-5-4.7 6.8-.8z"/></symbol>
+    <symbol id="se" viewBox="0 0 24 24"><path fill="rgba(255,255,255,.14)" d="M12 2.2l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17.3 6 20.6l1.3-6.7-5-4.7 6.8-.8z"/></symbol>
+  </defs>
+</svg>
+
+<header class="bar">
+  <a class="brand" href="https://arwinreviews.com">ARWIN<span>REVIEWS</span></a>
+  <small>Media kit</small>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="rv">
+        <div class="who">
+          <img class="avatar" src="img/avatar.jpg" alt="Arwin Edward Bagaslao" width="56" height="56">
+          <div><b>Arwin Edward Bagaslao</b><span>Film critic, Metro Manila</span></div>
+        </div>
+        <h1>ARWIN<span>REVIEWS</span></h1>
+        <p class="hero-line">A cinephile who reviews every film he catches in Philippine cinemas and on streaming.</p>
+        <p class="hero-sub">An independent review desk publishing across Letterboxd, Instagram, Facebook and arwinreviews.com. Every screening becomes a written, rated review, not a reaction clip.</p>
+        <div class="cta">
+          <a class="btn btn-gold" href="mailto:arwinbagaslao@gmail.com?subject=Screening%20invite%20for%20ARWIN%20REVIEWS">Send a screening invite</a>
+          <a class="btn btn-ghost" href="https://letterboxd.com/bigbamwolf/">Read on Letterboxd</a>
+        </div>
+      </div>
+      <figure class="fan rv" aria-label="Posters of the three most liked reviews">
+        <img class="p1" src="img/digger-2026.jpg" alt="Digger (2026) poster" loading="eager">
+        <img class="p2" src="img/resident-evil-2026.jpg" alt="Resident Evil (2026) poster" loading="eager">
+        <img class="p3" src="img/the-odyssey-2026.jpg" alt="The Odyssey (2026) poster" loading="eager">
+        <figcaption>The three most liked reviews of 2026</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="numbers">
+    <div class="wrap">
+      <div class="rv">
+        <span class="eyebrow">The numbers</span>
+        <h2 class="h2">An audience that reads the review.</h2>
+        <span class="asof"><i></i>As of November 13, 2026, PHT</span>
+      </div>
+      <div class="stats rv">
+        <div class="stat feat">
+          <div class="growth">
+            <div>
+              <div class="v num">4,704</div>
+              <div class="l" style="margin-top:12px">Letterboxd followers<em>Up from 4,064 on October 28, 2026. 640 new followers in 16 days.</em></div>
+            </div>
+            <svg viewBox="0 0 300 92" role="img" aria-label="Letterboxd followers grew from 4,064 on October 28, 2026 to 4,704 on November 13, 2026">
+              <defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7b54a" stop-opacity=".28"/><stop offset="1" stop-color="#e7b54a" stop-opacity="0"/></linearGradient></defs>
+              <line x1="8" y1="70" x2="292" y2="70" stroke="rgba(255,255,255,.08)"/>
+              <path d="M8 58 L292 14 L292 70 L8 70 Z" fill="url(#gf)"/>
+              <path d="M8 58 L292 14" stroke="#e7b54a" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <circle cx="8" cy="58" r="4" fill="#0a0c0e" stroke="#9aa1aa" stroke-width="2"/>
+              <circle cx="292" cy="14" r="4.5" fill="#e7b54a"/>
+              <text x="8" y="88" fill="#6b727b" font-family="Inter,sans-serif" font-size="10" letter-spacing="1">OCT 28  4,064</text>
+              <text x="292" y="88" fill="#9aa1aa" font-family="Inter,sans-serif" font-size="10" letter-spacing="1" text-anchor="end">NOV 13  4,704</text>
+            </svg>
+          </div>
+        </div>
+        <div class="stat"><div class="v num">4,577</div><div class="l">Instagram followers<em>@bigbamwolf, November 11, 2026</em></div></div>
+        <div class="stat"><div class="v num">690</div><div class="l">Letterboxd reviews<em>Written and published</em></div></div>
+        <div class="stat"><div class="v num">6,752</div><div class="l">Likes on reviews<em>Across all 690 reviews</em></div></div>
+        <div class="stat"><div class="v num">1,667</div><div class="l">Films logged<em>In the Letterboxd diary</em></div></div>
+        <div class="stat"><div class="v num">4</div><div class="l">Publishing surfaces<em>Per screening covered</em></div></div>
+        <div class="stat"><div class="v num">48h</div><div class="l">Coverage window<em>From the screening</em></div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="liked">
+    <div class="wrap">
+      <div class="rv">
+        <span class="eyebrow">Most liked reviews</span>
+        <h2 class="h2">What the Letterboxd crowd rallied behind.</h2>
+        <p class="lede">Live like counts per review, pulled November 13, 2026. Five of the nine are 2026 releases.</p>
+      </div>
+      <div class="liked rv">
+        <a class="row top" href="https://letterboxd.com/bigbamwolf/film/resident-evil-2026/">
+          <span class="rk num">01</span><img src="img/resident-evil-2026.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Resident Evil<small>2026</small></div><div class="stars" aria-label="4.5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#sh"/></svg></div></div>
+          <div class="lk"><b class="num">150</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/digger-2026/">
+          <span class="rk num">02</span><img src="img/digger-2026.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Digger<small>2026</small></div><div class="stars" aria-label="4.5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#sh"/></svg></div></div>
+          <div class="lk"><b class="num">113</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/the-odyssey-2026/">
+          <span class="rk num">03</span><img src="img/the-odyssey-2026.jpg" alt="" loading="lazy">
+          <div><div class="ttl">The Odyssey<small>2026</small></div><div class="stars" aria-label="5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg></div></div>
+          <div class="lk"><b class="num">90</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/street-fighter-2026/">
+          <span class="rk num">04</span><img src="img/street-fighter-2026.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Street Fighter<small>2026</small></div><div class="stars" aria-label="4 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#se"/></svg></div></div>
+          <div class="lk"><b class="num">80</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/dune-part-two/1/">
+          <span class="rk num">05</span><img src="img/dune-part-two-2024.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Dune: Part Two<small>2024</small></div><div class="stars" aria-label="5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg></div></div>
+          <div class="lk"><b class="num">76</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/one-battle-after-another/">
+          <span class="rk num">06</span><img src="img/one-battle-after-another-2025.jpg" alt="" loading="lazy">
+          <div><div class="ttl">One Battle After Another<small>2025</small></div><div class="stars" aria-label="5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg></div></div>
+          <div class="lk"><b class="num">69</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/avengers-endgame/3/">
+          <span class="rk num">07</span><img src="img/avengers-endgame-2019.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Avengers: Endgame<small>2019</small></div><div class="stars" aria-label="5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg></div></div>
+          <div class="lk"><b class="num">65</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/django-unchained/">
+          <span class="rk num">08</span><img src="img/django-unchained-2012.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Django Unchained<small>2012</small></div><div class="stars" aria-label="5 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg></div></div>
+          <div class="lk"><b class="num">64</b><span>Likes</span></div>
+        </a>
+        <a class="row" href="https://letterboxd.com/bigbamwolf/film/primetime-2026/">
+          <span class="rk num">09</span><img src="img/primetime-2026.jpg" alt="" loading="lazy">
+          <div><div class="ttl">Primetime<small>2026</small></div><div class="stars" aria-label="3 stars"><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#st"/></svg><svg><use href="#se"/></svg><svg><use href="#se"/></svg></div></div>
+          <div class="lk"><b class="num">63</b><span>Likes</span></div>
+        </a>
+      </div>
+      <p class="foot-note rv">Primetime sits at three stars and still drew 63 likes. The audience follows the writing, not only the praise.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="voice">
+    <div class="wrap">
+      <div class="rv">
+        <span class="eyebrow">The voice</span>
+        <h2 class="h2">In his own words.</h2>
+        <p class="lede">Lifted straight from published Letterboxd reviews. Plain, specific, written by someone who sat in the seat.</p>
+      </div>
+      <div class="voice">
+        <figure class="q rv">
+          <blockquote>If Dunkirk (2017) wore Greek mythology as its armor, this would be the result.</blockquote>
+          <figcaption><span>The Odyssey, 2026</span><a href="https://letterboxd.com/bigbamwolf/film/the-odyssey-2026/">Read</a></figcaption>
+        </figure>
+        <figure class="q rv">
+          <blockquote>It really feels like I am actually playing a video game. Some shots even feel like when the cutscenes are done and the control is suddenly being handed back to me.</blockquote>
+          <figcaption><span>Resident Evil, 2026</span><a href="https://letterboxd.com/bigbamwolf/film/resident-evil-2026/">Read</a></figcaption>
+        </figure>
+        <figure class="q rv">
+          <blockquote>That &ldquo;Portals&rdquo; scene alone feels like pure emotion. I wish I could wipe my memory so I can experience that feeling again.</blockquote>
+          <figcaption><span>Avengers: Endgame, 2019</span><a href="https://letterboxd.com/bigbamwolf/film/avengers-endgame/3/">Read</a></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="offer">
+    <div class="wrap">
+      <div class="rv">
+        <span class="eyebrow">What a studio gets</span>
+        <h2 class="h2">One screening. Four surfaces. Two days.</h2>
+      </div>
+      <div class="offer rv">
+        <div class="o lead">
+          <span class="n">01</span>
+          <h3>Guaranteed coverage within <b>48 hours</b> of the screening.</h3>
+          <p>A full Letterboxd review, an Instagram review card on @bigbamwolf, a Facebook post and a permanent page on arwinreviews.com. Every one tags the studio or the distributor.</p>
+        </div>
+        <div class="o">
+          <span class="n">02</span>
+          <h3>Tagged on every post</h3>
+          <p>The studio or distributor handle rides on all four surfaces, so the coverage lands in your mentions, ready to reshare.</p>
+        </div>
+        <div class="o">
+          <span class="n">03</span>
+          <h3>A quotable pull line</h3>
+          <p>On request, one clean line written to be lifted for a poster, a social card or a press roundup.</p>
+        </div>
+        <div class="o">
+          <span class="n">04</span>
+          <h3>Post screening recap</h3>
+          <p>A short report after publishing with every live link and the reach each post earned.</p>
+        </div>
+        <div class="o">
+          <span class="n">05</span>
+          <h3>Embargo respected</h3>
+          <p>Nothing goes up before the lift time you set. The review is ready, it waits for your clock.</p>
+        </div>
+        <div class="o">
+          <span class="n">06</span>
+          <h3>An honest rating</h3>
+          <p>The same scale used on all 1,667 films logged. A strong score from this desk carries weight because it is earned.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="surfaces">
+    <div class="wrap">
+      <div class="rv">
+        <span class="eyebrow">Where the coverage lives</span>
+        <h2 class="h2">Four surfaces, every screening.</h2>
+      </div>
+      <div class="surf rv">
+        <a class="s" href="https://letterboxd.com/bigbamwolf/">
+          <svg class="ar" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5.5 4H12v6.5"/></svg>
+          <span class="k">Letterboxd</span><span class="h">bigbamwolf</span>
+          <p>The full written review. 4,704 followers, 690 reviews.</p>
+        </a>
+        <a class="s" href="https://www.instagram.com/bigbamwolf/">
+          <svg class="ar" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5.5 4H12v6.5"/></svg>
+          <span class="k">Instagram</span><span class="h">@bigbamwolf</span>
+          <p>A designed review card with the poster and rating. 4,577 followers.</p>
+        </a>
+        <a class="s" href="https://www.facebook.com/arwin.bagaslao">
+          <svg class="ar" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5.5 4H12v6.5"/></svg>
+          <span class="k">Facebook</span><span class="h">Arwin Bagaslao</span>
+          <p>The review posted to his profile, with the studio tagged.</p>
+        </a>
+        <a class="s" href="https://arwinreviews.com">
+          <svg class="ar" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5.5 4H12v6.5"/></svg>
+          <span class="k">The desk</span><span class="h">arwinreviews.com</span>
+          <p>A permanent page for the film that stays searchable after release week.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap rv">
+      <span class="eyebrow">Screenings and press</span>
+      <h2 class="h2">Put the desk on your screening list.</h2>
+      <p class="lede">Press screenings, premieres, junkets and screener links. Send the date and the embargo, the rest is handled.</p>
+      <a class="mail" href="mailto:arwinbagaslao@gmail.com?subject=Screening%20invite%20for%20ARWIN%20REVIEWS">arwinbagaslao@gmail.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="https://arwinreviews.com">ARWIN<span>REVIEWS</span></a>
+    <div>Figures as of November 13, 2026, PHT. Instagram as of November 11, 2026.</div>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
