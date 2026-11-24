@@ -865,11 +865,12 @@
       moviemode: ["#moviemode"],
       year:    ["#year"],
       lists:   ["#lists"],
+      invites: ["#invites"],
       join:    ["#weekwatch", "#join", "#partner", "#affiliates", "#support"],
       extras:  ["#extras"]
     };
-    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#weekwatch","#join","#partner","#affiliates","#support","#merch","#extras"];
-    var ALIAS = { vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", affiliates:"join", kit:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work", "crew-extras":"extras", crew:"extras", "directors-cut":"extras" };
+    var ALL = [".hero",".promo-wrap","#favorites","#reviews","#reviewsLanding","#numbers","#vault","#predictor","#moviemode","#year","#lists","#invites","#weekwatch","#join","#partner","#affiliates","#support","#merch","#extras"];
+    var ALIAS = { invitations:"invites", invite:"invites", screenings:"invites", premieres:"invites", events:"invites", vault:"films", numbers:"films", stats:"films", review:"reviews", archive:"reviews", avoid:"reviews", negatives:"reviews", honest:"reviews", predictor:"predict", mood:"moviemode", mode:"moviemode", "movie-mode":"moviemode", "my-year":"year", "myyear":"year", "2026":"year", "yir":"year", partner:"join", support:"join", affiliates:"join", kit:"join", weekwatch:"join", merch:"home", shop:"home", promote:"join", top:"home", "":"home", work:"work", "crew-extras":"extras", crew:"extras", "directors-cut":"extras" };
     var SEO = {
       home:    { t:"ARWIN REVIEWS · Film Reviews and Ratings", d:"Film reviews, ratings, and ranked lists by Philippine critic Arwin Bagaslao. Theatrical, festival, and opening week verdicts." },
       reviews: { t:"Every Review · ARWIN REVIEWS", d:"The full film review archive. Search and sort every verdict by Arwin Bagaslao, with ratings, stars, and the full take." },
@@ -877,6 +878,7 @@
       predict: { t:"What Arwin Might Think · ARWIN REVIEWS", d:"A film rating predictor trained on Arwin's reviews. Get a likely score for any film before you watch it." },
       moviemode:{ t:"Find Your Next Watch · ARWIN REVIEWS", d:"Tell me how you feel and how you want to land. I match you to the right film from Arwin, with a reason and a snippet from past you." },
       year:    { t:"My 2026, Curated · ARWIN REVIEWS", d:"Arwin's 2026 in film, near realtime. Every watch, every star, every word, refreshed every six hours." },
+      invites: { t:"Invitations · ARWIN REVIEWS", d:"Screenings and premiere nights Arwin Bagaslao was invited to, with photos and clips from each event." },
       lists:   { t:"Ranked Film Lists · ARWIN REVIEWS", d:"Films ranked by director, cinematographer, decade, studio, genre, and mood." },
       extras:  { t:"Crew Extras · ARWIN REVIEWS", d:"Members only director's cut notes, early looks, and rankings from Arwin Bagaslao." },
       join:    { t:"Join the Crew · ARWIN REVIEWS", d:"Back Arwin. Unlock the predictor, the weekly watchlist, early reviews, and a vote on what gets reviewed next." }
@@ -926,6 +928,69 @@
       }
     });
     route();
+  })();
+
+
+  /* === INVITATIONS, added 2026-11-24 ===
+     Screenings and premieres from invites.json, newest first, with a photo and
+     video lightbox. The review button lights up once /r/<slug>/ exists. */
+  (function initInvites(){
+    var host = $("#invList"); if (!host) return;
+    var lb = $("#invLb"), stage = $("#invLbStage"), cap = $("#invLbCap"), cur = null, idx = 0;
+    var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    function fdate(d){ var p = String(d||"").split("-"); return p.length===3 ? MON[+p[1]-1] + " " + (+p[2]) + ", " + p[0] : ""; }
+    function paras(t){ return esc(String(t||"")).split(/\n{2,}/).map(function(x){ return "<p>" + x.replace(/\n/g,"<br>") + "</p>"; }).join(""); }
+    function tile(m, i){
+      var inner = m.type === "video"
+        ? '<img src="' + esc(m.poster||"") + '" alt="' + esc(m.alt||"") + '" loading="lazy"><span class="inv-play" aria-hidden="true"></span>'
+        : '<img src="' + esc(m.src) + '" alt="' + esc(m.alt||"") + '" loading="lazy">';
+      return '<button class="inv-tile' + (m.type==="video"?" is-video":"") + '" data-i="' + i + '" aria-label="' + esc(m.alt||"Open") + '">' + inner + '</button>';
+    }
+    function show(){
+      var m = cur.media[idx];
+      stage.innerHTML = m.type === "video"
+        ? '<video src="' + esc(m.src) + '" poster="' + esc(m.poster||"") + '" controls autoplay playsinline></video>'
+        : '<img src="' + esc(m.src) + '" alt="' + esc(m.alt||"") + '">';
+      cap.textContent = (m.alt || "") + "  ·  " + (idx+1) + " / " + cur.media.length;
+    }
+    function open(inv, i){ cur = inv; idx = i; show(); lb.hidden = false; document.body.classList.add("inv-lb-open"); }
+    function close(){ lb.hidden = true; stage.innerHTML = ""; document.body.classList.remove("inv-lb-open"); }
+    function step(d){ if (!cur) return; idx = (idx + d + cur.media.length) % cur.media.length; show(); }
+    lb.addEventListener("click", function(e){
+      if (e.target === lb || e.target.closest("[data-inv-close]")) return close();
+      var s = e.target.closest("[data-inv-step]"); if (s) step(+s.getAttribute("data-inv-step"));
+    });
+    document.addEventListener("keydown", function(e){
+      if (lb.hidden) return;
+      if (e.key === "Escape") close(); else if (e.key === "ArrowRight") step(1); else if (e.key === "ArrowLeft") step(-1);
+    });
+    fetch("invites.json?cb=" + Date.now()).then(function(r){ return r.json(); }).then(function(items){
+      if (!items || !items.length) { host.innerHTML = '<p class="lede">No invitations yet.</p>'; return; }
+      items.sort(function(a,b){ return (a.date||"") < (b.date||"") ? 1 : -1; });
+      host.innerHTML = items.map(function(x, n){
+        var meta = [x.kind, fdate(x.date), x.venue].filter(Boolean).map(esc).join("  ·  ");
+        var hostLine = x.host ? 'Invited by ' + (x.hostUrl ? '<a href="' + esc(x.hostUrl) + '" target="_blank" rel="noopener">' + esc(x.host) + '</a>' : esc(x.host)) : "";
+        return '<article class="inv-card reveal in" data-n="' + n + '">' +
+          '<div class="inv-num">Invitation No. ' + (items.length - n) + '</div>' +
+          '<h3>' + esc(x.film) + (x.year ? ' <span>(' + esc(String(x.year)) + ')</span>' : '') + '</h3>' +
+          '<div class="inv-meta">' + meta + '</div>' +
+          (hostLine ? '<div class="inv-host">' + hostLine + '</div>' : '') +
+          '<div class="inv-grid">' + (x.media||[]).map(tile).join("") + '</div>' +
+          '<div class="inv-story"><p class="inv-head">' + esc(x.headline||"") + '</p>' + paras(x.story) + '</div>' +
+          '<div class="inv-actions">' +
+            '<a class="btn btn-primary inv-rev" data-slug="' + esc(x.reviewSlug||"") + '" href="/r/' + esc(x.reviewSlug||"") + '/" hidden>Read my review</a>' +
+            '<span class="inv-soon" hidden>Full review coming soon</span>' +
+            (x.ig ? '<a class="btn btn-ghost" href="' + esc(x.ig) + '" target="_blank" rel="noopener">See the post on Instagram</a>' : '') +
+          '</div></article>';
+      }).join("");
+      $$(".inv-card", host).forEach(function(card){
+        var inv = items[+card.getAttribute("data-n")];
+        $$(".inv-tile", card).forEach(function(t){ t.addEventListener("click", function(){ open(inv, +t.getAttribute("data-i")); }); });
+        var rev = $(".inv-rev", card), soon = $(".inv-soon", card), slug = rev.getAttribute("data-slug");
+        if (!slug) return;
+        fetch("/r/" + slug + "/", { method:"HEAD" }).then(function(r){ if (r.ok) rev.hidden = false; else soon.hidden = false; }).catch(function(){ soon.hidden = false; });
+      });
+    }).catch(function(){ host.innerHTML = '<p class="lede">Invitations could not load right now.</p>'; });
   })();
 
   /* === CREW EXTRAS, added 2026-09-27 ===

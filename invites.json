@@ -1,0 +1,44 @@
+[
+  {
+    "id": "laya-2026",
+    "film": "Laya",
+    "year": 2026,
+    "kind": "Premiere Night",
+    "date": "2026-11-23",
+    "venue": "SM Megamall, Cinema 2",
+    "host": "Lunchbox PH",
+    "hostUrl": "https://www.instagram.com/_lunchboxph/",
+    "ig": "https://www.instagram.com/p/DgFxHsdk8oY/",
+    "reviewSlug": "laya-2026",
+    "headline": "Second invitation unlocked!",
+    "story": "Just a few days after my first invitation to a movie screening, I got invited again! This time, for the premiere night of Laya at SM Megamall.\n\nAnd this one feels extra special because I got to experience an actual premiere night, complete with a blue carpet!\n\nI've always been just a regular moviegoer who loves watching films, appreciating the craft behind them, and writing about my experiences. I never really imagined that this hobby would eventually open doors to events like this.\n\nWhat I also love about these screenings is being surrounded by people who share the same passion and respect for cinema. It's a different experience from my usual solo movie trips.\n\nHuge thanks again to Lunchbox PH for inviting me! I genuinely appreciate the trust and opportunity to be part of another screening.\n\nAnd of course, my invitation doesn't influence my opinion of the film. You can always expect my honest thoughts, whether I loved it or not. 😂",
+    "media": [
+      { "type": "image", "src": "img/invites/laya-1.jpg", "alt": "Arwin seated in Cinema 2 before the Laya premiere" },
+      { "type": "image", "src": "img/invites/laya-2.jpg", "alt": "Laya premiere night ticket in front of the blue carpet backdrop" },
+      { "type": "image", "src": "img/invites/laya-3.jpg", "alt": "Laya ticket beside the reserved Lunchbox seat" },
+      { "type": "image", "src": "img/invites/laya-4.jpg", "alt": "Laya title card on the big screen" },
+      { "type": "video", "src": "img/invites/laya-5.mp4", "poster": "img/invites/laya-5.jpg", "alt": "Cast on stage at the Laya premiere" },
+      { "type": "video", "src": "img/invites/laya-6.mp4", "poster": "img/invites/laya-6.jpg", "alt": "Cast talking to the crowd at the Laya premiere" },
+      { "type": "video", "src": "img/invites/laya-7.mp4", "poster": "img/invites/laya-7.jpg", "alt": "Laya premiere stage moment" }
+    ]
+  },
+  {
+    "id": "club-kid-2026",
+    "film": "Club Kid",
+    "year": 2026,
+    "kind": "KOL Screening",
+    "date": "2026-11-18",
+    "venue": "",
+    "host": "Lunchbox PH",
+    "hostUrl": "https://www.instagram.com/_lunchboxph/",
+    "ig": "https://www.instagram.com/p/Df41VbanYK6/",
+    "reviewSlug": "club-kid-2026",
+    "headline": "For the first time, I got invited to a movie screening as a KOL!",
+    "story": "Honestly, I never imagined that simply watching movies, writing reviews, and sharing my love for cinema would eventually lead to something like this. I've always considered myself just an ordinary cinephile who happens to have a lot to say after the credits roll. 😂\n\nHuge thanks to Lunchbox PH for inviting me to the screening of Club Kid! I genuinely appreciate the opportunity and the recognition.\n\nAnd of course, invited or not, you can always expect my honest thoughts about the film!",
+    "media": [
+      { "type": "image", "src": "img/invites/club-kid-1.jpg", "alt": "Arwin wearing the Club Kid screening wristband" },
+      { "type": "image", "src": "img/invites/club-kid-2.jpg", "alt": "Club Kid screening registration table" },
+      { "type": "image", "src": "img/invites/club-kid-3.jpg", "alt": "Club Kid title card on the cinema screen" }
+    ]
+  }
+]
