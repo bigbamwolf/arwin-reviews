@@ -226,7 +226,7 @@
     if (pc.badge) $("#predBadge").textContent = pc.badge;
     if (pc.title) $("#predTitle").textContent = pc.title;
     if (pc.blurb) $("#predBlurb").textContent = pc.blurb;
-    $("#predIframe").src = (pc.file || "predictor.html") + "?v=59";
+    $("#predIframe").src = (pc.file || "predictor.html") + "?v=60";
   })();
 
   /* MOVIE MODE (member benefit, embedded tab) */
